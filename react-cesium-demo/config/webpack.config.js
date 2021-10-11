@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -26,6 +26,8 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -228,6 +230,11 @@ module.exports = function (webpackEnv) {
       // this defaults to 'window', but by setting it to 'this' then
       // module chunks which are built will work in web workers as well.
       globalObject: 'this',
+      sourcePrefix: '',
+    },
+    amd: {
+      // Enable webpack-friendly use of require in Cesium
+      toUrlUndefined: true,
     },
     optimization: {
       minimize: isEnvProduction,
@@ -325,6 +332,7 @@ module.exports = function (webpackEnv) {
         .map(ext => `.${ext}`)
         .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
+        cesium: path.resolve('node_modules/cesium/Build/Cesium'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
@@ -557,6 +565,17 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: 'node_modules/cesium/Build/Cesium/Workers', to: 'Workers' },
+          { from: 'node_modules/cesium/Build/Cesium/ThirdParty', to: 'ThirdParty' },
+          { from: 'node_modules/cesium/Build/Cesium/Assets', to: 'Assets' },
+          { from: 'node_modules/cesium/Build/Cesium/Widgets', to: 'Widgets' },
+        ]
+      }),
+      new webpack.DefinePlugin({
+        CESIUM_BASE_URL: JSON.stringify(''),
+      }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
