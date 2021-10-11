@@ -1,4 +1,4 @@
-# Earch
+# Earth
 
 ![地球预览](https://guolefeng.github.io/Earch/files/earth.png)
 
