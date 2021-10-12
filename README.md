@@ -1,5 +1,5 @@
-# Earch
+# Earth
 
-![地球预览](https://guolefeng.github.io/Earch/files/earth.png)
+![地球预览](https://guolefeng.github.io/Earth/files/earth.png)
 
-在线预览地址：https://guolefeng.github.io/Earch/react-cesium-demo/build/
+在线预览地址：https://guolefeng.github.io/Earth/react-cesium-demo/build/
