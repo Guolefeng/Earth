@@ -1,1 +1,0 @@
-"undefined"==typeof self&&(self={}),self.onmessage=function(e){var s=e.data.array;e=self.webkitPostMessage||self.postMessage;try{e({array:s},[s.buffer])}catch(s){e({})}};
