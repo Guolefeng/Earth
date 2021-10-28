@@ -16,6 +16,26 @@ const Earth = () => {
                 requestWaterMask: true,
             }),
         });
+        viewer.imageryLayers.addImageryProvider(
+            new Cesium.UrlTemplateImageryProvider({
+                url: 'https://t{s}.tianditu.gov.cn/DataServer?T=ibo_w&x={x}&y={y}&l={z}&tk=78c0c5a1844ab8a716f09bc9113d909d',
+                subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
+                layer: 'tdtIboLayer',
+                style: 'default',
+                format: 'image/png',
+                tileMatrixSetID: 'GoogleMapsCompatible'
+            })
+        )
+        viewer.imageryLayers.addImageryProvider(
+            new Cesium.UrlTemplateImageryProvider({
+                url: 'https://t{s}.tianditu.gov.cn/DataServer?T=cia_w&x={x}&y={y}&l={z}&tk=78c0c5a1844ab8a716f09bc9113d909d',
+                subdomains: ['0', '1', '2', '3', '4', '5', '6', '7'],
+                layer: 'tdtCiaLayer',
+                style: 'default',
+                format: 'image/png',
+                tileMatrixSetID: 'GoogleMapsCompatible'
+            })
+        )
         // viewer.scene.globe.enableLighting = true;
         viewer.camera.flyTo({
             destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 20000000.0),
