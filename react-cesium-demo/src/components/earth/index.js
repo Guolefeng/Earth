@@ -4,6 +4,7 @@ import * as Cesium  from "cesium/Cesium";
 import 'cesium/Widgets/widgets.css';
 
 Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1NGFkNmRmNC05NmFkLTRmMDktYTFkMS0yNTE0NjNmOWEwYjMiLCJpZCI6NjA1MDAsImlhdCI6MTYyNTEyMDcyNn0.S14rriO-ggk-vKvkUa3wONp0zSAOEUBBx8tZJRrPzqY';
+window.Cesium = Cesium;
 
 const Earth = () => {
     useEffect(() => {
@@ -15,7 +16,18 @@ const Earth = () => {
                 requestVertexNormals: true,
                 requestWaterMask: true,
             }),
+            // skyBox: new Cesium.SkyBox({
+            //     sources: {
+            //         positiveX: 'stars/TychoSkymapII.t3_08192x04096_80_px.jpg',
+            //         negativeX: 'stars/TychoSkymapII.t3_08192x04096_80_mx.jpg',
+            //         positiveY: 'stars/TychoSkymapII.t3_08192x04096_80_py.jpg',
+            //         negativeY: 'stars/TychoSkymapII.t3_08192x04096_80_my.jpg',
+            //         positiveZ: 'stars/TychoSkymapII.t3_08192x04096_80_pz.jpg',
+            //         negativeZ: 'stars/TychoSkymapII.t3_08192x04096_80_mz.jpg'
+            //     }
+            // })
         });
+        // 使用天地图影像
         viewer.imageryLayers.addImageryProvider(
             new Cesium.UrlTemplateImageryProvider({
                 url: 'https://t{s}.tianditu.gov.cn/DataServer?T=ibo_w&x={x}&y={y}&l={z}&tk=78c0c5a1844ab8a716f09bc9113d909d',
@@ -41,6 +53,18 @@ const Earth = () => {
             destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 20000000.0),
             // destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 15000.0), // 天安门广场
         })
+        // 显示帧速
+        viewer.scene.debugShowFramesPerSecond = true;
+
+        //Add basic drag and drop functionality
+        viewer.extend(Cesium.viewerDragDropMixin);
+        // Show a pop-up alert if we encounter an error when processing a dropped file
+        viewer.dropError.addEventListener((dropHandler, name, error) => {
+            console.log('Cesium viewer drop error: ', error);
+            window.alert(error);
+        })
+
+        window.viewer = viewer;
     }, [])
     return (
         <div id="earth" className="earth" />

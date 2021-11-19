@@ -1,11 +1,11 @@
 import './App.css';
 import Earth from './components/earth';
-
+import Layout from './layouts';
 function App() {
   return (
     <div className="App">
       <Earth />
-      ee
+      <Layout />
     </div>
   );
 }
