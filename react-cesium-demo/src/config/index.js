@@ -1,6 +1,7 @@
 import AddEntites from '../components/addEntities'
 import Add3DTiles from '../components/add3DTiles'
 import SetMaterial from '../components/setMaterial'
+import Camera from '../components/camera'
 
 export const MENU = {
     0: {
@@ -14,5 +15,9 @@ export const MENU = {
     2: {
         name: '设置材质',
         component: <SetMaterial />,
+    },
+    3: {
+        name: '设置相机',
+        component: <Camera />,
     }
 }
