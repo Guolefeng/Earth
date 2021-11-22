@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import './index.css'
 import { Button } from 'antd'
-import BuildPng from '../../assets/build.png'
+import BuildPng from '../../assets/imgs/build.png'
 
 const AddEntites = () => {
     const { viewer, Cesium } = window
