@@ -7,20 +7,8 @@ import Tileset from '../../assets/model/Tileset/tileset.json'
 
 const AddEntites = () => {
     const { viewer, Cesium } = window
+    let curEntity
     useEffect(() => {
-        // 通过Entity添加形状
-        // viewer.entities.add({
-        //     name: 'red box',
-        //     position: new Cesium.Cartesian3.fromDegrees(116.39, 39.91, 15000.0),
-        //     box: {
-        //         dimensions: new Cesium.Cartesian3(40000.0, 30000.0, 50000.0),
-        //         material: Cesium.Color.RED.withAlpha(0.5),
-        //         outline: true,
-        //         outlineColor: Cesium.Color.BLACK,
-        //     }
-        // })
-        // viewer.zoomTo(viewer.entities)
-
         // 通过CZML添加
         // var czml = [{
         //     "id" : "document",
@@ -57,11 +45,12 @@ const AddEntites = () => {
         //     viewer.flyTo(dataSource);
         // });
 
-        // return () => {
-        //     if (Cesium.defined(dataSource)) {
-        //         viewer.dataSources.remove(dataSource)
-        //     }
-        // }
+        return () => {
+            if (curEntity) {
+                viewer.entities.remove(curEntity)
+                curEntity = null
+            }
+        }
     }, [])
 
     const genEntity = (opt) => new Cesium.Entity(opt)
@@ -80,7 +69,6 @@ const AddEntites = () => {
         return positions;
     }
 
-    let curEntity
     const onBtnClick = (type) => {
         if (curEntity) {
             viewer.entities.remove(curEntity)
