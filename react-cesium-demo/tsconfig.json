@@ -1,0 +1,58 @@
+{
+    "compilerOptions": {
+        "types": [
+            "node",
+            "webpack-env"
+        ],
+        "target": "es5",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noFallthroughCasesInSwitch": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "sourceMap": true,
+        "jsx": "react",
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "pages/*": [
+                "src/pages/*"
+            ],
+            "components/*": [
+                "src/components/*"
+            ],
+            "routers/*": [
+                "src/routers/*"
+            ],
+            "utils/*": [
+                "src/utils/*"
+            ],
+        },
+        "downlevelIteration": true,
+    },
+    "include": [
+        "./src/**/*.tsx",
+        "./src/**/*.ts",
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "dist"
+    ]
+}

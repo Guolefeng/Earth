@@ -1,0 +1,63 @@
+@import '~markdown-navbar/dist/navbar.css';
+@import '~highlight.js/styles/monokai-sublime.css';
+.markdown {
+    position: relative;
+    height: 100%;
+    &-value {
+        padding: 16px 20px;
+        .webkit-scrollbar();
+        overflow: auto;
+        height: 100%;
+        width: 78%;
+        background-color: #fff;
+        box-shadow: 0 0 4px 0 rgba(136,146,180,0.50);
+        border-radius: 4px;
+        table {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #c1c3c9;
+            border-collapse: collapse;
+        }
+        table th {
+            border-width: 1px;
+           padding: 13px 0px;
+            border-style: solid;
+            border-color: #c1c3c9;
+            background-color: #DCDFE6;
+        }
+        table td {
+            width: 775px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #DCDFE6;
+            padding-left: 17px;
+            background: #FFFFFF;
+            line-height: 22px;
+        }
+    }
+    &-navbar {
+        .webkit-scrollbar();
+        overflow: auto;
+        position: absolute;
+        top: 0;
+        left: 80%;
+        width: 20%;
+        max-height: 60vh;
+        background-color: #fff;
+        box-shadow: 0 0 4px 0 rgba(136,146,180,0.50);
+        border-radius: 4px;
+    }
+    img {
+        max-width: 100%;
+    }
+    pre {
+        padding: 24px;
+        background-color: #353740;
+        font-size: 85%;
+        line-height: 1.45;
+        border-radius: 3px;
+        color: #fff;
+    }
+}

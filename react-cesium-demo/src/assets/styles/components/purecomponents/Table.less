@@ -1,0 +1,105 @@
+.app-table {
+    .app-actions {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        > button:not(:last-child) {
+            margin-right: 8px;
+        }
+        > ant-tooltip-disabled-compatible-wrapper > button:not(:last-child) {
+            margin-right: 8px;
+        } 
+    }
+    .ant-table .ant-table-container .ant-table-content table .ant-table-tbody tr td.operation,
+    .ant-table .ant-table-container >.ant-table-body table .ant-table-tbody tr td.operation {
+        .app-table-column-opr {
+            padding: 0 6px;
+            &:not(:last-child):after {
+                content: '';
+                border-left: 1px solid #e5e5e5;
+                position: relative;
+                left: 6px;
+            }
+        }
+    }
+    .operation-icon {
+        font-size: 16px;
+        color: @theme-color;
+        cursor: pointer;
+        &:not(:last-child) {
+            margin-right: 8px;
+        }
+        &.disabled {
+            color: #c5c5c5 !important;
+            cursor: not-allowed;
+        }
+        &.danger {
+            color: #F56C6C;
+        }
+    }
+    .ellipsis {
+        font-size: 16px;
+        color: @theme-color;
+        cursor: pointer;
+    }
+    &-dropdown-cont {
+        padding: 8px 0;
+        background-color: #fff;
+        border-radius: 4px 0 0 0 4px 4px 4px;
+        box-shadow: 0 2px 4px 3px rgba(0,0,0,0.07);
+    }
+    &-dropdown-item {
+        .fvc();
+        padding: 8px 16px;
+        color: rgba(31,31,31,0.80);
+        cursor: pointer;
+        &-icon {
+            margin-right: 16px;
+            font-size: 16px;
+            color: @theme-color;
+        }
+        &-name {
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+        }
+    }
+    &-dropdown-item:hover {
+        background: @theme-color;
+        color: #fff;
+    }
+    &-dropdown-item:hover &-dropdown-item-icon {
+        color: #fff;
+    }
+
+    .disabled &-dropdown-item-icon {
+        color: #c5c5c5 !important;
+    }
+
+    .ant-spin-container {
+        display: block !important;
+    }
+
+    .ant-table-thead > tr > th,
+    .ant-table-small .ant-table-thead > tr > th {
+        background-color: #E1E1EB;
+    }
+    
+    .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > th.ant-table-cell-ellipsis,
+    .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > th.ant-table-cell-ellipsis {
+        overflow: initial;
+        word-break: break-all;
+        white-space: normal;
+    }
+    
+    .ant-table-tbody {
+        .ant-empty-normal{
+            margin: 10px 0 !important;
+        }
+    }
+
+    .ant-table-row:hover,
+    .ant-table-cell-row-hover {
+        background-color: #E3F0FF !important;
+    }
+}

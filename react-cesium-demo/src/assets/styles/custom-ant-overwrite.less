@@ -1,0 +1,81 @@
+//覆盖antd样式
+
+.ant-layout.ant-layout-has-sider {
+    height: 100%;
+}
+
+.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+    font-family: SourceHanSansSC;
+    font-weight: 700;
+    font-size: 14px;
+    color: rgb(16, 16, 16);
+}
+
+.ant-select {
+    width: 100%;
+}
+
+// 弹窗样式
+.ant-modal-content {
+    border-radius: 4px!important;
+    .ant-modal-header {
+        border-radius: 4px 4px 0 0;
+        .ant-modal-title {
+            font-weight: 600;
+        }
+    }
+
+    .ant-modal-body {
+        max-height:600px;
+        overflow-y: auto;
+        .modal_description {
+            padding: 0 0 20px 10px;
+        }
+    }
+
+    .action-btns {
+        display: flex;
+        justify-content: center;
+
+        .ant-btn {
+            &:not(:last-child) {
+                margin-right: 30px;
+            }
+        }
+    }
+    .ant-modal-footer {
+        border-radius: 0 0 4px 4px;
+    }
+}
+
+.ant-modal-confirm{
+    .ant-modal-body{
+        min-height: inherit;
+    }
+}
+
+.ant-spin-container {
+    width: 100%;
+    height: 100%;
+}
+
+.ant-collapse-borderless>.ant-collapse-item>.ant-collapse-content {
+    padding-left: 22px;
+}
+
+.ant-layout-sider-children {
+    overflow: auto;
+}
+
+.ant-upload-picture-card-wrapper {
+    .ant-upload-list {
+        .ant-upload-text {
+            color: #919191;
+            font-size: 12px;
+        }
+
+    }
+}
+.ant-btn{
+    border-radius: 4px!important;
+}

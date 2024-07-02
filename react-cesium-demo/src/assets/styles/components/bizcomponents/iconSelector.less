@@ -1,0 +1,27 @@
+.iconSelector {
+    &-item {
+        .fc();
+        padding: 4px;
+        cursor: pointer;
+        transition: transform .3s;
+        border-radius: 4px;
+    }
+
+    &-icon {
+        font-size: 20px;
+        color: @theme-color;
+    }
+
+    &-item:hover &-icon {
+        color: @theme-color-active;
+    }
+
+    &-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    &-active {
+        box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.3);
+    }
+}

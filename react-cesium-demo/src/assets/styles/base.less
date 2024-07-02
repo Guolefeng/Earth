@@ -1,0 +1,148 @@
+html {
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+ul,
+li {
+    padding: 0;
+    margin: 0;
+    list-style: none
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-corner {
+    background: none;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: @theme-color;
+}
+
+.webkit-scrollbar {
+    &::-webkit-scrollbar-thumb {
+        background: none;
+        display: none;
+        transition: all .1s ease-in-out;
+    }
+
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            display: block;
+            background-color: @theme-color;
+        }
+    }
+}
+
+#root {
+    height: 100%;
+}
+
+/* 禁用 */
+.disabled {
+    color: #c5c5c5 !important;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* 链接 */
+.link {
+    font-weight: 400;
+    font-size: 14px;
+    color: @theme-color;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: @theme-color-hover;
+}
+
+.loading {
+    width: 100%;
+    height: 100%;
+}
+
+/* 共享标签 */
+.share-tag {
+    background-color: #54cc46;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 10px;
+    margin: 0 5px;
+    padding: 0 5px;
+    text-align: center;
+}
+
+// 一级标题
+.page_title {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 20px 10px;
+    border-bottom: 1px solid @border-color;
+    background-color: @background-color;
+}
+
+// 二级标题
+.details_title {
+    font-size: 16px;
+    font-weight: 550;
+    padding: 8px;
+}
+
+// 或者 创建一个XXX 的样式
+.create_item_container {
+    display: flex;
+    padding-top: 5px;
+
+    .create_item {
+        padding-left: 5px;
+        color: @theme-color;
+        cursor: pointer;
+    }
+}
+
+// 富文本编辑器
+.ql-editor {
+    min-height: 100px;
+    max-height: 200px;
+}
+
+// 下拉列表的样式
+.select_list {
+
+    // display: flex;
+    .option_title {
+        font-weight: 600;
+    }
+
+    .option_descrip {
+        font-size: small;
+    }
+}
+
+.css-1j0mc3w-ColorPicker input {
+    border: 1px solid @border-color;
+    border-radius: 4px;
+    outline: none;
+}
