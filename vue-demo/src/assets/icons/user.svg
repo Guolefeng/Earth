@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 2</title>
+    <defs>
+        <linearGradient x1="36.6025%" y1="100%" x2="63.3975%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#000000" stop-opacity="0.1" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <path d="M7.999984,0.571184 C12.102848,0.571184 15.428736,3.897168 15.428736,8 C15.428736,12.10272 12.102848,15.428704 7.999984,15.428704 C3.89728,15.428704 0.571232,12.10272 0.571232,8 C0.571232,3.897168 3.89728,0.571184 7.999984,0.571184 Z" id="path-2"></path>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-3">
+            <stop stop-color="#D7D7D7" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <path d="M5.518506,4.915071 C5.11698,4.408572 4.599138,4.146716 3.724146,4.062513 C3.566268,4.031818 3.447198,3.896837 3.447198,3.736404 C3.447198,3.619014 3.837654,3.26746 3.834846,3.264842 C4.237806,2.862643 4.453758,2.209186 4.453758,1.70681 C4.453758,0.926478 3.803028,0.292985 2.999982,0.292985 C2.19699,0.292985 1.546206,0.926478 1.546206,1.70681 C1.546206,2.21193 1.756656,2.869377 2.163744,3.271457 C2.163744,3.271457 2.552766,3.619014 2.552766,3.736404 C2.552766,3.906196 2.419884,4.047792 2.248128,4.067875 C1.391136,4.154829 0.878856,4.415313 0.481518,4.915071 C0.366576,5.059404 0.3042,5.34933 0.300132,5.504401 C0.301452,5.544448 0.300132,6.172446 0.300132,6.172446 C0.300132,6.467741 0.547962,6.706889 0.85392,6.706889 L5.146044,6.706889 C5.452062,6.706889 5.699892,6.467741 5.699892,6.172446 C5.699892,6.172446 5.698512,5.544448 5.699892,5.504401 C5.695764,5.34933 5.633448,5.059404 5.518506,4.915071 Z" id="path-4"></path>
+        <filter x="-66.7%" y="-28.6%" width="233.3%" height="214.3%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="文件管理" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="子级别页面" transform="translate(-1375.000000, -72.000000)">
+            <g id="编组-4" transform="translate(1355.000000, 0.000000)">
+                <g id="编组-8" transform="translate(20.000000, 38.000000)">
+                    <g id="编组-2" transform="translate(0.000000, 34.000000)">
+                        <g id="thumb">
+                            <use fill="#165dff" xlink:href="#path-2"></use>
+                            <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+                        </g>
+                        <g id="user-icon" transform="translate(5.000000, 4.000000)">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            <use fill="url(#linearGradient-3)" fill-rule="evenodd" xlink:href="#path-4"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

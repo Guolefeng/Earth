@@ -1,0 +1,14 @@
+.webkit-scrollbar {
+    &::-webkit-scrollbar-thumb {
+        background: none;
+        display: none;
+        transition: all .1s ease-in-out;
+    }
+
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            display: block;
+            background-color: rgba(217, 217, 217, 0.8);
+        }
+    }
+}
