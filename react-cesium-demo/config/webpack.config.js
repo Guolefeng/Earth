@@ -1,3 +1,5 @@
+/* eslint-disable radix */
+/* eslint-disable complexity */
 
 const fs = require('fs');
 const path = require('path');
