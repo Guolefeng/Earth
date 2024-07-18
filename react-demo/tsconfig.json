@@ -48,7 +48,7 @@
     },
     "include": [
         "./src/**/*.tsx",
-        "./src/**/*.ts",
+        "./src/**/*.ts", "src/components/giscomponents/Earth/material/wallDiffuseMaterialProperty.js",
     ],
     "exclude": [
         "node_modules",

@@ -4,19 +4,22 @@ import './index.less';
 import * as Cesium from 'cesium/Cesium'
 import 'cesium/Widgets/widgets.css'
 import { Button } from 'antd'
-
 import Polyline from './polyline.tsx';
 import DrawEntity from './drawEntity';
 import DataSource from './dataSource';
+import WallDiffuse from './wallDiffuse';
+
+window.Cesium = Cesium;
 
 const opMap = {
     0: <DrawEntity />,
     1: <DataSource />,
-    2: <Polyline />
+    2: <Polyline />,
+    3: <WallDiffuse />,
 }
 
 Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1NGFkNmRmNC05NmFkLTRmMDktYTFkMS0yNTE0NjNmOWEwYjMiLCJpZCI6NjA1MDAsImlhdCI6MTYyNTEyMDcyNn0.S14rriO-ggk-vKvkUa3wONp0zSAOEUBBx8tZJRrPzqY';
-window.Cesium = Cesium;
+
 
 const Earth = () => {
     const [type, setType] = useState(''); // point line polygon object
@@ -324,7 +327,8 @@ const Earth = () => {
                 <Button onClick={() => onClick('object')}>{type === 'object' ? '取消' : ''}绘制体</Button>
                 <Button onClick={() => onClick('0')}>{type === '0' ? '取消' : ''}绘制entity</Button>
                 <Button onClick={() => onClick('1')}>{type === '1' ? '取消' : ''}绘制 cn geojson</Button>
-                <Button onClick={() => onClick('2')}>{type === '1' ? '取消' : ''}绘制 polyline</Button>
+                <Button onClick={() => onClick('2')}>{type === '2' ? '取消' : ''}绘制 polyline</Button>
+                <Button onClick={() => onClick('3')}>{type === '3' ? '取消' : ''}绘制 wall</Button>
             </div>
             {entity
                 ? <div className="earth-right">right</div>

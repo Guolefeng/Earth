@@ -67,7 +67,7 @@ const DrawEntity = () => {
     }
 
     const clear = () => {
-        entity && viewer.scene.primitives.remove(entity);
+        entity && viewer.dataSources.remove(entity);
         // viewer.dataSources.removeAll();
     }
 

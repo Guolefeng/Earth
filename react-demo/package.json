@@ -206,6 +206,7 @@
     ]
   },
   "devDependencies": {
+    "@types/cesium": "^1.70.0",
     "@types/markdown-navbar": "^1.4.0",
     "@types/marked": "^4.0.3",
     "@types/react-syntax-highlighter": "^15.5.1",

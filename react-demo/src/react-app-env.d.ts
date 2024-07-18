@@ -70,24 +70,9 @@ declare module '*.module.sass' {
   export default classes;
 }
 
+
 interface Window {
     attachEvent: any;
     Cesium: any;
     viewer: any;
-}
-
-declare module "DGCTFramework" {
-    const DGCTFramework: any
-    export const bizcomponents: any
-    export const purecomponents: any
-    export const gisModule: any
-    export const store: any
-    export const dgctHooks: any
-    export namespace utillibs {
-      const util: any
-      const apiUtil: any
-      const authApi: any
-      const basisApi: any
-    }
-    export default DGCTFramework
 }
