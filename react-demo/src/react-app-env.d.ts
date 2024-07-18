@@ -72,6 +72,8 @@ declare module '*.module.sass' {
 
 interface Window {
     attachEvent: any;
+    Cesium: any;
+    viewer: any;
 }
 
 declare module "DGCTFramework" {

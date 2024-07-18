@@ -5,7 +5,16 @@ import * as Cesium from 'cesium/Cesium'
 import 'cesium/Widgets/widgets.css'
 import { Button } from 'antd'
 
-console.log('cechk', Cesium)
+import Polyline from './polyline.tsx';
+import DrawEntity from './drawEntity';
+import DataSource from './dataSource';
+
+const opMap = {
+    0: <DrawEntity />,
+    1: <DataSource />,
+    2: <Polyline />
+}
+
 Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1NGFkNmRmNC05NmFkLTRmMDktYTFkMS0yNTE0NjNmOWEwYjMiLCJpZCI6NjA1MDAsImlhdCI6MTYyNTEyMDcyNn0.S14rriO-ggk-vKvkUa3wONp0zSAOEUBBx8tZJRrPzqY';
 window.Cesium = Cesium;
 
@@ -21,9 +30,10 @@ const Earth = () => {
             timeline: false, // 是否显示时间线控件
             fullscreenButton: false, // 右下角全屏按钮
             terrainProvider: Cesium.createWorldTerrain({
-                requestVertexNormals: true,
+                // requestVertexNormals: true,
                 requestWaterMask: true,
             }),
+            // requestRenderMode: true, // 性能优化，在指定情况下进行渲染
             // skyBox: new Cesium.SkyBox({
             //     sources: {
             //         positiveX: 'stars/TychoSkymapII.t3_08192x04096_80_px.jpg',
@@ -140,7 +150,7 @@ const Earth = () => {
                     color: Cesium.Color.RED,
                     pixelSize: 50,
                     heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                    disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                    // disableDepthTestDistance: Number.POSITIVE_INFINITY,
                 },
             });
             return point;
@@ -301,13 +311,20 @@ const Earth = () => {
         setType(newVal);
         typeRef.current = newVal;
     }
+
+
+
     return (
         <div id="earth" className="earth">
+            {opMap[type]}
             <div className="earth-left">
                 <Button onClick={() => onClick('point')}>{type === 'point' ? '取消' : ''}绘制点</Button>
                 <Button onClick={() => onClick('line')}>{type === 'line' ? '取消' : ''}绘制线</Button>
                 <Button onClick={() => onClick('polygon')}>{type === 'polygon' ? '取消' : ''}绘制面</Button>
                 <Button onClick={() => onClick('object')}>{type === 'object' ? '取消' : ''}绘制体</Button>
+                <Button onClick={() => onClick('0')}>{type === '0' ? '取消' : ''}绘制entity</Button>
+                <Button onClick={() => onClick('1')}>{type === '1' ? '取消' : ''}绘制 cn geojson</Button>
+                <Button onClick={() => onClick('2')}>{type === '1' ? '取消' : ''}绘制 polyline</Button>
             </div>
             {entity
                 ? <div className="earth-right">right</div>
