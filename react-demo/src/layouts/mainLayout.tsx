@@ -1,5 +1,4 @@
 import { Layout } from "antd";
-import { Earth } from "@/components/giscomponents";
 
 const { Content } = Layout;
 
@@ -8,10 +7,7 @@ const MainLayout = (props: any) => {
 
     return (
         <Layout className="mainLayout">
-            <Content className="mainLayout-cont">
-                <Earth />
-                {children}
-            </Content>
+            <Content className="mainLayout-cont">{children}</Content>
         </Layout>
     );
 };

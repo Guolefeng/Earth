@@ -4,12 +4,18 @@ import MainLayout from "@/layouts/mainLayout";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Test from "@/pages/Test";
+import Earth from "@/pages/Earth";
 
 let normalRoutes = [
     {
         exact: true,
         path: "/login",
         element: Login,
+    },
+    {
+        exact: true,
+        path: "/earth",
+        element: Earth,
     },
 ];
 

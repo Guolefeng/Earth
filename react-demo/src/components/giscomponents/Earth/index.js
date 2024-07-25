@@ -3,7 +3,7 @@ import "./index.less";
 import * as Cesium from "cesium/Cesium";
 import "cesium/Widgets/widgets.css";
 import { Button } from "antd";
-import Polyline from "./polyline.tsx";
+import Polyline from "./polyline";
 import DrawEntity from "./drawEntity";
 import DataSource from "./dataSource";
 import WallDiffuse from "./wallDiffuse";
