@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 import "./index.less";
 import * as Cesium from "cesium/Cesium";
@@ -36,74 +35,8 @@ const Earth = () => {
                 // requestVertexNormals: true,
                 requestWaterMask: true,
             }),
-            // requestRenderMode: true, // 性能优化，在指定情况下进行渲染
-            // skyBox: new Cesium.SkyBox({
-            //     sources: {
-            //         positiveX: 'stars/TychoSkymapII.t3_08192x04096_80_px.jpg',
-            //         negativeX: 'stars/TychoSkymapII.t3_08192x04096_80_mx.jpg',
-            //         positiveY: 'stars/TychoSkymapII.t3_08192x04096_80_py.jpg',
-            //         negativeY: 'stars/TychoSkymapII.t3_08192x04096_80_my.jpg',
-            //         positiveZ: 'stars/TychoSkymapII.t3_08192x04096_80_pz.jpg',
-            //         negativeZ: 'stars/TychoSkymapII.t3_08192x04096_80_mz.jpg'
-            //     }
-            // }),
-            // 全球矢量地图服务 (不好使)
-            // imageryProvider : new Cesium.WebMapTileServiceImageryProvider({
-            //     url: "http://t0.tianditu.com/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles",
-            //     layer: "tdtVecBasicLayer",
-            //     style: "default",
-            //     format: "image/jpeg",
-            //     tileMatrixSetID: "GoogleMapsCompatible",
-            //     show: false
-            // }),
-            // 全球影像地图服务 (不好使)
-            // imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
-            //     url: "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles",
-            //     layer: "tdtBasicLayer",
-            //     style: "default",
-            //     format: "image/jpeg",
-            //     tileMatrixSetID: "GoogleMapsCompatible",
-            //     show: false
-            // }),
-            // 全球影像中文注记服务 (不好使)
-            // imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
-            //     url: "http://t0.tianditu.com/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg",
-            //     layer: "tdtAnnoLayer",
-            //     style: "default",
-            //     format: "image/jpeg",
-            //     tileMatrixSetID: "GoogleMapsCompatible",
-            //     show: false
-            // }),
-            // 全球矢量中文注记服务 (不好使)
-            // imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
-            //     url: "http://t0.tianditu.com/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg",
-            //     layer: "tdtAnnoLayer",
-            //     style: "default",
-            //     format: "image/jpeg",
-            //     tileMatrixSetID: "GoogleMapsCompatible"
-            // })
         });
-        // 使用天地图影像
-        viewer.imageryLayers.addImageryProvider(
-            new Cesium.UrlTemplateImageryProvider({
-                url: "https://t{s}.tianditu.gov.cn/DataServer?T=ibo_w&x={x}&y={y}&l={z}&tk=78c0c5a1844ab8a716f09bc9113d909d",
-                subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
-                layer: "tdtIboLayer",
-                style: "default",
-                format: "image/png",
-                tileMatrixSetID: "GoogleMapsCompatible",
-            })
-        );
-        // viewer.imageryLayers.addImageryProvider(
-        //     new Cesium.UrlTemplateImageryProvider({
-        //         url: "https://t{s}.tianditu.gov.cn/DataServer?T=cia_w&x={x}&y={y}&l={z}&tk=78c0c5a1844ab8a716f09bc9113d909d",
-        //         subdomains: ["0", "1", "2", "3", "4", "5", "6", "7"],
-        //         layer: "tdtCiaLayer",
-        //         style: "default",
-        //         format: "image/png",
-        //         tileMatrixSetID: "GoogleMapsCompatible",
-        //     })
-        // );
+
         // viewer.scene.globe.enableLighting = true;
         viewer.camera.flyTo({
             destination: Cesium.Cartesian3.fromDegrees(
@@ -148,9 +81,9 @@ const Earth = () => {
         // 添加OSM bulidings
         viewer.scene.primitives.add(Cesium.createOsmBuildings());
         // 添加瓦片坐标信息
-        viewer.imageryLayers.addImageryProvider(
-            new Cesium.TileCoordinatesImageryProvider()
-        );
+        // viewer.imageryLayers.addImageryProvider(
+        //     new Cesium.TileCoordinatesImageryProvider()
+        // );
         // 不显示底图
         // viewer.imageryLayers.get(0).show = false;
 

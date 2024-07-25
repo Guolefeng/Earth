@@ -1,58 +1,24 @@
 {
     "compilerOptions": {
-        "types": [
-            "node",
-            "webpack-env"
-        ],
         "target": "es5",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
+        "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
-        "suppressImplicitAnyIndexErrors": true,
         "noFallthroughCasesInSwitch": true,
         "module": "esnext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "sourceMap": true,
-        "jsx": "react",
+        "jsx": "react-jsx",
         "baseUrl": "./",
         "paths": {
-            "@/*": [
-                "src/*"
-            ],
-            "pages/*": [
-                "src/pages/*"
-            ],
-            "components/*": [
-                "src/components/*"
-            ],
-            "routers/*": [
-                "src/routers/*"
-            ],
-            "utils/*": [
-                "src/utils/*"
-            ],
-        },
-        "downlevelIteration": true,
+            "@/*": ["src/*"]
+        }
     },
-    "include": [
-        "./src/**/*.tsx",
-        "./src/**/*.ts", "src/components/giscomponents/Earth/material/wallDiffuseMaterialProperty.js",
-    ],
-    "exclude": [
-        "node_modules",
-        "build",
-        "dist"
-    ]
+    "include": ["src"]
 }

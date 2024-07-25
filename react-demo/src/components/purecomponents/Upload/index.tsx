@@ -1,13 +1,13 @@
-import React, { memo, useState, useEffect, ReactNode } from 'react'
-import { Upload, Button, message } from 'antd'
-import Icon from '@/components/purecomponents/Icon'
-import DraggableModal from '@/components/purecomponents/DraggableModal'
-import _ from 'lodash'
-import { getFileBase64, minioFileDownloadUrl } from '@/utils/util'
-import { baseApi } from '@/api'
-import axios from 'axios'
+import React, { memo, useState, useEffect, ReactNode } from "react";
+import { Upload, Button, message } from "antd";
+import Icon from "@/components/purecomponents/Icon";
+import DraggableModal from "@/components/purecomponents/DraggableModal";
+import _ from "lodash";
+import { getFileBase64, minioFileDownloadUrl } from "@/utils/util";
+import { baseApi } from "@/api";
+import axios from "axios";
 
-const CancelToken = axios.CancelToken
+const CancelToken = axios.CancelToken;
 
 interface IUploadFilesProps {
     /**
@@ -23,7 +23,7 @@ interface IUploadFilesProps {
      * 上传列表的内建样式，支持三种基本样式 text, picture 和 picture-card
      * @default picture-card
      */
-    listType?: 'text' | 'picture' | 'picture-card';
+    listType?: "text" | "picture" | "picture-card";
     /**
      * 上传图标
      */
@@ -45,7 +45,7 @@ interface IUploadFilesProps {
     /**
      * 文件类型  用于默认预览
      */
-    fileType?: 'video' | 'image';
+    fileType?: "video" | "image";
     /**
      * 限制上传数量。当为 1 时，始终用最新上传的文件代替当前文件
      * @default 0
@@ -78,49 +78,55 @@ interface IUploadFilesProps {
 // 初始值转换
 const getDefaultFileList = (info: any): any => {
     if (Array.isArray(info)) {
-        return _.reduce(info, (pre: any[], val: any, index: number) => {
-            if (val?.originFileObj && val.originFileObj instanceof File) {
-                pre.push(val)
-            } else {
-                const { fileId, fileName } = val || {}
-                if (fileId) {
-                    pre.push({
-                        fileId,
-                        fileName,
-                        uid: fileId,
-                        name: fileName,
-                        thumbUrl: minioFileDownloadUrl(fileId, fileName),
-                        url: minioFileDownloadUrl(fileId, fileName),
-                    })
+        return _.reduce(
+            info,
+            (pre: any[], val: any, index: number) => {
+                if (val?.originFileObj && val.originFileObj instanceof File) {
+                    pre.push(val);
+                } else {
+                    const { fileId, fileName } = val || {};
+                    if (fileId) {
+                        pre.push({
+                            fileId,
+                            fileName,
+                            uid: fileId,
+                            name: fileName,
+                            thumbUrl: minioFileDownloadUrl(fileId, fileName),
+                            url: minioFileDownloadUrl(fileId, fileName),
+                        });
+                    }
                 }
-            }
-            return pre
-        }, [])
-    } else if (typeof info === 'string') {
-        if (info === null || info === '' || info === undefined) {
-            return []
+                return pre;
+            },
+            []
+        );
+    } else if (typeof info === "string") {
+        if (info === null || info === "" || info === undefined) {
+            return [];
         }
         try {
-            let jsonObj = JSON.parse(info)
+            let jsonObj = JSON.parse(info);
             if (jsonObj) {
-                return getDefaultFileList(jsonObj)
+                return getDefaultFileList(jsonObj);
             }
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     } else if (info && info?.fileId) {
-        const { fileId, fileName } = info
-        return [{
-            fileId,
-            fileName,
-            uid: fileId,
-            name: fileName,
-            thumbUrl: minioFileDownloadUrl(fileId, fileName),
-            url: minioFileDownloadUrl(fileId, fileName),
-        }]
+        const { fileId, fileName } = info;
+        return [
+            {
+                fileId,
+                fileName,
+                uid: fileId,
+                name: fileName,
+                thumbUrl: minioFileDownloadUrl(fileId, fileName),
+                url: minioFileDownloadUrl(fileId, fileName),
+            },
+        ];
     }
-    return []
-}
+    return [];
+};
 
 const UploadFiles = (props: IUploadFilesProps) => {
     const {
@@ -138,188 +144,235 @@ const UploadFiles = (props: IUploadFilesProps) => {
         uploadLater = false, // 是否稍后上传，true = 稍后上传 false = 立即上传
         itemRender,
         ...otherProps
-    } = props || {}
+    } = props || {};
 
-    const [fileList, setFileList] = useState<any[]>([])
-    const [previewVisible, setPreviewVisible] = useState(false)
-    const [fileName, setFileName] = useState('')
-    const [fileUrl, setFileUrl] = useState('')
-    const [uploadCancel, setUploadCancel] = useState<any>({})
+    const [fileList, setFileList] = useState<any[]>([]);
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [fileName, setFileName] = useState("");
+    const [fileUrl, setFileUrl] = useState("");
+    const [uploadCancel, setUploadCancel] = useState<any>({});
 
     useEffect(() => {
-        setFileList(getDefaultFileList(value))
-    }, [value])
+        setFileList(getDefaultFileList(value));
+    }, [value]);
 
     const fileUploadAction = (file: any, newFileList: any[]) => {
-        let formData = new FormData()
-        formData.append('file', file)
-        baseApi.uploadFile(
-            formData,
-            null,
-            new CancelToken(function excutor(c) {
-                setUploadCancel({
-                    ...uploadCancel,
-                    [file?.uid || file?.name]: c,
+        let formData = new FormData();
+        formData.append("file", file);
+        baseApi
+            .uploadFile(
+                formData,
+                null,
+                new CancelToken(function excutor(c) {
+                    setUploadCancel({
+                        ...uploadCancel,
+                        [file?.uid || file?.name]: c,
+                    });
                 })
-            })
-        ).then((res: any) => {
-            const { fileId, fileName, uploadUrl } = res?.data || {}
-            delete uploadCancel[file?.uid || file?.name]
-            if (fileId && fileName) {
-                let list = [...newFileList, { fileId, fileName, uploadUrl }]
-                onChange?.(list)
-                setFileList([...newFileList, ...getDefaultFileList([{ fileId, fileName, uploadUrl }])])
-            }
-        })
-    }
+            )
+            .then((res: any) => {
+                const { fileId, fileName, uploadUrl } = res?.data || {};
+                delete uploadCancel[file?.uid || file?.name];
+                if (fileId && fileName) {
+                    let list = [
+                        ...newFileList,
+                        { fileId, fileName, uploadUrl },
+                    ];
+                    onChange?.(list);
+                    setFileList([
+                        ...newFileList,
+                        ...getDefaultFileList([
+                            { fileId, fileName, uploadUrl },
+                        ]),
+                    ]);
+                }
+            });
+    };
 
     const updateFileList = (list: any[]) => {
-        setFileList(list)
-        onChange?.(list)
-    }
+        setFileList(list);
+        onChange?.(list);
+    };
 
     const onUploadChange = (info: any) => {
-        if (info?.file?.status === 'removed') {
-            updateFileList(info?.fileList)
+        if (info?.file?.status === "removed") {
+            updateFileList(info?.fileList);
             // 中断请求
-            let cancel = uploadCancel[info?.file?.uid || info?.file?.name]
+            let cancel = uploadCancel[info?.file?.uid || info?.file?.name];
             if (cancel) {
-                cancel()
-                delete uploadCancel[info?.file?.uid || info?.file?.name]
+                cancel();
+                delete uploadCancel[info?.file?.uid || info?.file?.name];
             }
         } else {
             if (fileSizeLimit && info?.file?.size > fileSizeLimit) {
-                message.info(`请选择小于${fileSizeLimit / 1024 / 1024}M的文件`)
+                message.info(`请选择小于${fileSizeLimit / 1024 / 1024}M的文件`);
             } else if (accept) {
-                let newFileList = [...fileList]
+                let newFileList = [...fileList];
                 const fileTypeArr = _.reduce(
-                    accept.split(','),
+                    accept.split(","),
                     (pre: any, value: string, index: number) => {
                         if (value) {
-                            let val = value.trim()
-                            val && pre.push(val)
+                            let val = value.trim();
+                            val && pre.push(val);
                         }
-                        return pre
+                        return pre;
                     },
                     []
-                )
+                );
                 let fileType = _.find(fileTypeArr, (item, index) => {
-                    if (info?.file?.type === item || item === '*') {
-                        return true
+                    if (info?.file?.type === item || item === "*") {
+                        return true;
                     }
-                    if (item.endsWith('*')) {
-                        let list = item.split('*')
+                    if (item.endsWith("*")) {
+                        let list = item.split("*");
                         if (list.length) {
-                            return _.includes(info?.file?.type, list[0])
+                            return _.includes(info?.file?.type, list[0]);
                         }
                     }
-                    return info?.file?.name?.endsWith(item)
-                })
+                    return info?.file?.name?.endsWith(item);
+                });
                 if (!fileType) {
-                    message.error('只支持上传的文件格式为: ' + accept)
+                    message.error("只支持上传的文件格式为: " + accept);
                 } else {
-                    _.remove(newFileList, item => item.uid === info?.file?.uid)
-                    let file = _.find(info?.fileList, item => item.uid === info?.file?.uid)
+                    _.remove(
+                        newFileList,
+                        (item) => item.uid === info?.file?.uid
+                    );
+                    let file = _.find(
+                        info?.fileList,
+                        (item) => item.uid === info?.file?.uid
+                    );
                     if (file) {
                         // 立刻上传
                         if (!uploadLater) {
-                            fileUploadAction(file.originFileObj, newFileList)
-                            return
+                            fileUploadAction(file.originFileObj, newFileList);
+                            return;
                         } else {
-                            newFileList.push(file)
+                            newFileList.push(file);
                         }
                     }
-                    updateFileList(newFileList)
+                    updateFileList(newFileList);
                 }
             } else {
-                let list = [...fileList]
-                _.remove(list, item => item.uid === info?.file?.uid)
-                let file = _.find(info?.fileList, item => item.uid === info?.file?.uid)
+                let list = [...fileList];
+                _.remove(list, (item) => item.uid === info?.file?.uid);
+                let file = _.find(
+                    info?.fileList,
+                    (item) => item.uid === info?.file?.uid
+                );
                 if (file) {
                     if (!uploadLater) {
-                        fileUploadAction(file.originFileObj, list)
-                        return
+                        fileUploadAction(file.originFileObj, list);
+                        return;
                     } else {
-                        list.push(file)
+                        list.push(file);
                     }
                 }
-                updateFileList(list)
+                updateFileList(list);
             }
         }
-    }
+    };
 
     const onPreview = async (file: any) => {
-        setPreviewVisible(true)
-        setFileName(file?.name || file?.url?.substring(file?.url?.lastIndexOf('/') + 1))
+        setPreviewVisible(true);
+        setFileName(
+            file?.name || file?.url?.substring(file?.url?.lastIndexOf("/") + 1)
+        );
         if (!file.url && !file.preview) {
-            file.preview = await getFileBase64(file.originFileObj)
+            file.preview = await getFileBase64(file.originFileObj);
         }
-        setFileUrl(file?.url || file?.preview)
-    }
+        setFileUrl(file?.url || file?.preview);
+    };
 
     const handleCancel = () => {
-        setPreviewVisible(false)
-    }
+        setPreviewVisible(false);
+    };
 
     const removeFile = (file: any, fileList: any) => {
-        const listClone = _.cloneDeep(fileList)
-        const i = _.findIndex(listClone, (e: any) => e.fileId === file.fileId)
+        const listClone = _.cloneDeep(fileList);
+        const i = _.findIndex(listClone, (e: any) => e.fileId === file.fileId);
         if (i > -1) {
-            listClone.splice(i, 1)
-            setFileList(listClone)
-            onChange?.(listClone)
+            listClone.splice(i, 1);
+            setFileList(listClone);
+            onChange?.(listClone);
         }
-    }
+    };
 
     const customItemRender = (originNode: any, file: any, fileList: any) => (
         <div className="upload-custom-list-item">
-            <a target="_self" href={file.url} className="upload-custom-list-item-name">
-                <Icon type="PaperClipOutlined" />{file.name}
+            <a
+                target="_self"
+                href={file.url}
+                className="upload-custom-list-item-name"
+            >
+                <Icon type="PaperClipOutlined" />
+                {file.name}
             </a>
-            {disabled
-                ? null
-                : <Icon className="upload-custom-list-item-action" type="DeleteOutlined" onClick={() => removeFile(file, fileList)} />
-            }
+            {disabled ? null : (
+                <Icon
+                    className="upload-custom-list-item-action"
+                    type="DeleteOutlined"
+                    onClick={() => removeFile(file, fileList)}
+                />
+            )}
         </div>
-    )
+    );
 
     const _uploadProps = {
-        accept: accept || '',
-        listType: listType || 'picture-card',
+        accept: accept || "",
+        listType: listType || "picture-card",
         fileList: fileList,
         multiple: multiple || false,
         disabled: disabled,
         onChange: onUploadChange,
         beforeUpload: () => false,
-        onPreview: listType === 'text' ? props.onPreview : onPreview,
-        itemRender: itemRender ? itemRender : listType === 'text' ? customItemRender : undefined,
-    }
+        onPreview: listType === "text" ? props.onPreview : onPreview,
+        itemRender: itemRender
+            ? itemRender
+            : listType === "text"
+            ? customItemRender
+            : undefined,
+    };
 
-    const uploadButton = listType && listType === 'text'
-        ? <Button type="default">上传</Button>
-        : <React.Fragment>
-            <Icon type={iconType || 'PlusOutlined'} />
-            <div className="ant-upload-text"></div>
+    const uploadButton =
+        listType && listType === "text" ? (
+            <Button type="default">上传</Button>
+        ) : (
+            <React.Fragment>
+                <Icon type={iconType || "PlusOutlined"} />
+                <div className="ant-upload-text"></div>
+            </React.Fragment>
+        );
+
+    return (
+        <React.Fragment>
+            <Upload {..._uploadProps} {...otherProps}>
+                {fileList?.length >= maxCount || disabled ? null : uploadButton}
+            </Upload>
+            <div>{disabled ? null : uploadTitle}</div>
+            <DraggableModal
+                visible={previewVisible}
+                title={fileName}
+                footer={null}
+                onCancel={handleCancel}
+            >
+                {fileType === "video" ? (
+                    <video
+                        autoPlay
+                        controls={true}
+                        style={{ width: "100%" }}
+                        src={fileUrl}
+                    />
+                ) : (
+                    <img
+                        alt="example"
+                        style={{ width: "100%" }}
+                        src={fileUrl}
+                    />
+                )}
+            </DraggableModal>
         </React.Fragment>
+    );
+};
 
-    return <React.Fragment>
-        <Upload {..._uploadProps} {...otherProps}>
-            {(fileList?.length >= maxCount || disabled) ? null : uploadButton}
-        </Upload>
-        <div>{disabled ? null : uploadTitle}</div>
-        <DraggableModal
-            visible={previewVisible}
-            title={fileName}
-            footer={null}
-            onCancel={handleCancel}
-        >
-            {
-                fileType === 'video'
-                    ? <video autoPlay controls={true} style={{ width: '100%' }} src={fileUrl} />
-                    : <img alt="example" style={{ width: '100%' }} src={fileUrl} />
-            }
-        </DraggableModal>
-    </React.Fragment>
-}
-
-export default memo(UploadFiles)
+export default memo(UploadFiles);

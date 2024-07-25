@@ -1,16 +1,9 @@
-import React, { useEffect } from 'react'
-// import { Button } from 'antd'
+import { useEffect } from "react";
 
-const Home = (props:any) => {
+const Home = (props: any) => {
+    useEffect(() => {}, []);
 
-    useEffect(() => {
-    }, [])
+    return <div style={{ padding: "20px" }}>home</div>;
+};
 
-    return (
-        <div style={{ padding: '20px' }}>
-            {/* <Button>test</Button> */}
-        </div>
-    )
-}
-
-export default Home
+export default Home;

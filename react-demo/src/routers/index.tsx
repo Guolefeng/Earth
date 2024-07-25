@@ -1,18 +1,28 @@
-import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
-import routes from '@/config/routes'
-import RouteWidthLayout from './routeWithLayout'
-import NotFound from '@/pages/Error/404'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NotFound from "@/pages/Error/404";
+import config from "./config";
 
-const Roots = () => {
+const Routers = () => {
     return (
         <Router>
-            <Switch>
-                {routes.combineRoutes.map((props: any, i: number) => (<RouteWidthLayout key={i} {...props} />))}
-                <Route component={NotFound} />
-            </Switch>
+            <Routes>
+                {config.combineRoutes.map((props: any, i: number) => (
+                    <Route
+                        key={i}
+                        path={props.path}
+                        element={React.createElement(
+                            props.layout,
+                            { ...props },
+                            props.element &&
+                                React.createElement(props.element, props)
+                        )}
+                    />
+                ))}
+                <Route element={<NotFound />} />
+            </Routes>
         </Router>
-    )
-}
+    );
+};
 
-export default Roots
+export default Routers;
