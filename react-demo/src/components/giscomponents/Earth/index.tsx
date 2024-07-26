@@ -10,7 +10,7 @@ import WallDiffuse from "./wallDiffuse";
 
 window.Cesium = Cesium;
 
-const opMap = {
+const opMap: any = {
     0: <DrawEntity />,
     1: <DataSource />,
     2: <Polyline />,
@@ -52,14 +52,16 @@ const Earth = () => {
         // Add basic drag and drop functionality
         viewer.extend(Cesium.viewerDragDropMixin);
         // Show a pop-up alert if we encounter an error when processing a dropped file
-        viewer.dropError.addEventListener((dropHandler, name, error) => {
-            console.log("Cesium viewer drop error: ", error);
-            window.alert(error);
-        });
+        viewer.dropError.addEventListener(
+            (dropHandler: any, name: any, error: any) => {
+                console.log("Cesium viewer drop error: ", error);
+                window.alert(error);
+            }
+        );
 
         // 修改homeButton的默认返回位置
         viewer.homeButton.viewModel.command.beforeExecute.addEventListener(
-            function (commandInfo) {
+            function (commandInfo: any) {
                 // Fly to custom position
                 viewer.camera.flyTo({
                     destination: Cesium.Cartesian3.fromDegrees(
@@ -102,7 +104,7 @@ const Earth = () => {
     }, []);
 
     // 获取当前地图中心的经纬度
-    function getCenterPosition(viewer) {
+    function getCenterPosition(viewer: any) {
         let centerResult = viewer.camera.pickEllipsoid(
             new Cesium.Cartesian2(
                 viewer.canvas.clientWidth / 2,
@@ -120,7 +122,7 @@ const Earth = () => {
     }
 
     // 获取当前地图瓦片级别
-    function tileLevel(viewer) {
+    function tileLevel(viewer: any) {
         let tiles = new Set();
         let tilesToRender = viewer.scene.globe._surface._tilesToRender;
         if (Cesium.defined(tilesToRender)) {
@@ -137,7 +139,7 @@ const Earth = () => {
      * @param {*} _viewer
      * @return {*}
      */
-    function refreshViewRectangle(_viewer) {
+    function refreshViewRectangle(_viewer: any) {
         let rectangle = _viewer.camera.computeViewRectangle();
         console.log("当前可视范围矩形为：");
         console.log(rectangle);
@@ -148,7 +150,7 @@ const Earth = () => {
      * @param {*} _viewer
      * @return {*}
      */
-    function saveToImage(_viewer) {
+    function saveToImage(_viewer: any) {
         // 不写会导出为黑图
         _viewer.render();
 
@@ -165,7 +167,7 @@ const Earth = () => {
         link.click();
     }
 
-    function dataURLtoBlob(dataurl) {
+    function dataURLtoBlob(dataurl: any) {
         let arr = dataurl.split(",");
         let mime = arr[0].match(/:(.*?);/)[1];
         let bstr = atob(arr[1]);
@@ -185,7 +187,7 @@ const Earth = () => {
             Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
         );
 
-        function drawPoint(worldPosition) {
+        function drawPoint(worldPosition: any) {
             const point = viewer.entities.add({
                 position: worldPosition,
                 point: {
@@ -198,7 +200,7 @@ const Earth = () => {
             return point;
         }
 
-        function drawLine(positionData) {
+        function drawLine(positionData: any) {
             const shape = viewer.entities.add({
                 polyline: {
                     positions: positionData,
@@ -209,7 +211,7 @@ const Earth = () => {
             return shape;
         }
 
-        function drawPolygon(positionData) {
+        function drawPolygon(positionData: any) {
             const shape = viewer.entities.add({
                 polygon: {
                     hierarchy: positionData,
@@ -221,9 +223,9 @@ const Earth = () => {
             return shape;
         }
 
-        let activeShapePoints = [];
-        let activeShape;
-        let floatingPoint;
+        let activeShapePoints: any = [];
+        let activeShape: any;
+        let floatingPoint: any;
         function terminateShape() {
             activeShapePoints.pop();
             switch (typeRef.current) {
@@ -244,7 +246,7 @@ const Earth = () => {
         }
 
         const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-        handler.setInputAction(function (e) {
+        handler.setInputAction(function (e: any) {
             const scene = viewer.scene;
             const ellipsoid = scene.globe.ellipsoid;
             // 笛卡尔坐标
@@ -346,11 +348,11 @@ const Earth = () => {
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-        handler.setInputAction(function (event) {
+        handler.setInputAction(function (event: any) {
             terminateShape();
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
-        handler.setInputAction(function (event) {
+        handler.setInputAction(function (event: any) {
             if (Cesium.defined(floatingPoint)) {
                 const ray = viewer.camera.getPickRay(event.endPosition);
                 const newPosition = viewer.scene.globe.pick(ray, viewer.scene);
@@ -363,7 +365,7 @@ const Earth = () => {
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
     };
 
-    const onClick = (t) => {
+    const onClick = (t: any) => {
         const newVal = t === type ? "" : t;
         setType(newVal);
         typeRef.current = newVal;
