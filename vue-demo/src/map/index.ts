@@ -28,7 +28,7 @@ export default class CesiumMap {
      * 将map elem挂载到某个元素下
      * @param elem
      */
-    appendMapElemTo(elem: HTMLElement) {
+    appendMapElementTo(elem: HTMLElement) {
         elem.appendChild(this.viewer.container);
         // @ts-ignore
         this.viewer.container.style.position = "relative";

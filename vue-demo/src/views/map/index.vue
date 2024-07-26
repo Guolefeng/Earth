@@ -6,7 +6,7 @@ const map = ref();
 
 onMounted(() => {
     const m = new CesiumMap();
-    m.appendMapElemTo(map.value);
+    m.appendMapElementTo(map.value);
 });
 </script>
 
