@@ -17,7 +17,8 @@
         "jsx": "react-jsx",
         "baseUrl": "./",
         "paths": {
-            "@/*": ["src/*"]
+            "@/*": ["src/*"],
+            "cesium/*": ["src/cesium/Source/*"]
         }
     },
     "include": ["src"]

@@ -70,7 +70,7 @@ declare module "*.module.sass" {
     export default classes;
 }
 
-declare module "cesium/*";
+declare module "cesium/Cesium";
 
 interface Window {
     attachEvent: any;
