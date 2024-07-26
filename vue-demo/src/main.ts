@@ -1,19 +1,17 @@
-import './styles/base.less'
+import "cesium/Build/Cesium/Widgets/widgets.css";
+import "@arco-design/web-vue/dist/arco.css";
+import "./styles/base.less";
 
-import { createApp } from 'vue'
-import store from './stores'
+import { createApp } from "vue";
+import store from "./stores";
+import ArcoVue from "@arco-design/web-vue";
+import App from "./App.vue";
+import router from "./router";
 
-import ArcoVue from '@arco-design/web-vue'
-import '@arco-design/web-vue/dist/arco.css'
+const app = createApp(App);
 
-import App from './App.vue'
-import router from './router'
+app.use(ArcoVue);
+app.use(store);
+app.use(router);
 
-
-const app = createApp(App)
-
-app.use(ArcoVue)
-app.use(store)
-app.use(router)
-
-app.mount('#app')
+app.mount("#app");

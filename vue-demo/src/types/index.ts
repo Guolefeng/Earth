@@ -1,21 +1,24 @@
+interface typeProps {
+    [key: string]: string | number;
+}
 
 // 用户
 export interface IUser {
-    id?: number | string,
-    account?: string,
-    userName?: string,
-    userMobile: string,
-    userEmail?: string,
-    userImage?: string,
-    sex?: number | string,
-    workPhone?: string,
-    [propName: string]: any,
+    id?: number | string;
+    account?: string;
+    userName?: string;
+    userMobile: string;
+    userEmail?: string;
+    userImage?: string;
+    sex?: number | string;
+    workPhone?: string;
+    [propName: string]: any;
 }
 
 // 菜单
 export interface IMenu {
-    id?: string | number,
-    menuName?: string,
-    children?: IMenu[],
-    [propName: string]: any,
+    id?: string | number;
+    menuName?: string;
+    children?: IMenu[];
+    [propName: string]: any;
 }

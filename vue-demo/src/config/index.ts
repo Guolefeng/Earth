@@ -1,3 +1,4 @@
-interface typeProps {
-    [key: string]: string | number,
-}
+import { menu } from "./menu";
+import { regex } from "./regex";
+
+export { menu, regex };

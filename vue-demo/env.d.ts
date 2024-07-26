@@ -6,3 +6,9 @@ declare module "*.vue" {
     const component: DefineComponent<{}, {}, any>;
     export default component;
 }
+
+interface Window {
+    Cesium: any;
+    CesiumViewer: any;
+    CesiumMap: any;
+}

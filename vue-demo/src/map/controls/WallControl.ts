@@ -1,5 +1,5 @@
 import * as Cesium from "cesium";
-import { getMapInstance } from "../common/index";
+import { getMapInstance } from "../instance";
 import { Wall } from "./Wall";
 import type { WallParams } from "./Wall";
 
