@@ -67,12 +67,12 @@ export const viewerOption = {
     // selectedTerrainProviderViewModel: undefined, // 当前地形图层的显示模型，仅baseLayerPicker设为true有意义
     skyBox: new Cesium.SkyBox({
         sources: {
-            positiveX: "/skybox/00h+00.jpg",
-            negativeX: "/skybox/12h+00.jpg",
-            positiveY: "/skybox/06h+00.jpg",
-            negativeY: "/skybox/18h+00.jpg",
-            positiveZ: "/skybox/06h+90.jpg",
-            negativeZ: "/skybox/06h-90.jpg",
+            positiveX: "./skybox/00h+00.jpg",
+            negativeX: "./skybox/12h+00.jpg",
+            positiveY: "./skybox/06h+00.jpg",
+            negativeY: "./skybox/18h+00.jpg",
+            positiveZ: "./skybox/06h+90.jpg",
+            negativeZ: "./skybox/06h-90.jpg",
         },
     }), // 用于渲染星空的SkyBox对象
     skyAtmosphere: new Cesium.SkyAtmosphere(), //  围绕提供的椭球体边缘绘制的大气
