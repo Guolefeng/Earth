@@ -5,6 +5,7 @@ import { BlockSourcesControl } from "./controls/BlockSourcesControl";
 import { BlockControl } from "./controls/BlockControl";
 import { RippleControl } from "./controls/RippleControl";
 import { BillboardControl } from "./controls/BillboardControl";
+import { EllipsoidControl } from "./controls/EllipsoidControl";
 
 export default class CesiumMap {
     viewer: Viewer;
@@ -13,6 +14,7 @@ export default class CesiumMap {
     blockControl: BlockControl;
     rippleControl: RippleControl;
     billboardControl: BillboardControl;
+    ellipsoidControl: EllipsoidControl;
     tick: () => void;
 
     constructor() {
@@ -27,6 +29,7 @@ export default class CesiumMap {
         this.blockControl = new BlockControl();
         this.rippleControl = new RippleControl();
         this.billboardControl = new BillboardControl();
+        this.ellipsoidControl = new EllipsoidControl();
 
         this.viewer.scene.preRender.addEventListener(this.tick);
     }
@@ -63,5 +66,7 @@ export default class CesiumMap {
         this.rippleControl = null;
         this.billboardControl.destroy();
         this.billboardControl = null;
+        this.ellipsoidControl.destroy();
+        this.ellipsoidControl = null;
     }
 }
