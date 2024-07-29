@@ -62,22 +62,17 @@ export const viewerOption = {
     navigationInstructionsInitiallyVisible: true, // 是否显示导航说明
     scene3DOnly: false, // 如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源
     shouldAnimate: false, //  初始化是否开始动画
-    clockViewModel: new Cesium.ClockViewModel(new Cesium.Clock()), //  一个视图模型，它为用户界面提供 Clock
+    // clockViewModel: undefined, //  一个视图模型，它为用户界面提供 Clock
     // selectedImageryProviderViewModel: undefined, // 当前图像图层的显示模型，仅baseLayerPicker设为true有意义
-    // imageryProviderViewModels: Cesium.createDefaultImageryProviderViewModels(), // 图层选择器,可供BaseLayerPicker选择的图像图层ProviderViewModel数组
     // selectedTerrainProviderViewModel: undefined, // 当前地形图层的显示模型，仅baseLayerPicker设为true有意义
-    // terrainProviderViewModels: Cesium.createDefaultTerrainProviderViewModels(), // 地形选择器,可供BaseLayerPicker选择的地形图层ProviderViewModel数组
-    // baseLayer:
-    // terrain:
-    terrainProvider: new Cesium.EllipsoidTerrainProvider(), //地形图层提供者，仅baseLayerPicker设为false有意义
     skyBox: new Cesium.SkyBox({
         sources: {
-            positiveX: "/skybox/00h+00.jpg",
-            negativeX: "/skybox/12h+00.jpg",
-            positiveY: "/skybox/06h+00.jpg",
-            negativeY: "/skybox/18h+00.jpg",
-            positiveZ: "/skybox/06h+90.jpg",
-            negativeZ: "/skybox/06h-90.jpg",
+            positiveX: "./skybox/00h+00.jpg",
+            negativeX: "./skybox/12h+00.jpg",
+            positiveY: "./skybox/06h+00.jpg",
+            negativeY: "./skybox/18h+00.jpg",
+            positiveZ: "./skybox/06h+90.jpg",
+            negativeZ: "./skybox/06h-90.jpg",
         },
     }), // 用于渲染星空的SkyBox对象
     skyAtmosphere: new Cesium.SkyAtmosphere(), //  围绕提供的椭球体边缘绘制的大气
@@ -113,10 +108,13 @@ export const viewerOption = {
     shadows: true, // 是否显示阴影
     // projectionPicker: undefined, // ProjectionPicker 是用于在透视和正交投影之间切换的单按钮小部件。
     // terrainShadows: Cesium.ShadowMode.ENABLED, // 阴影模式
+    // imageryProviderViewModels: Cesium.createDefaultImageryProviderViewModels(), // 图层选择器,可供BaseLayerPicker选择的图像图层ProviderViewModel数组
+    // terrainProviderViewModels: Cesium.createDefaultTerrainProviderViewModels(), // 地形选择器,可供BaseLayerPicker选择的地形图层ProviderViewModel数组
     // imageryProvider: new Cesium.OpenStreetMapImageryProvider({
     //   credit: "",
     //   url: "Custom url",
     // }), // 图像图层提供者，仅baseLayerPicker设为false有意义
+    terrainProvider: new Cesium.EllipsoidTerrainProvider(), //地形图层提供者，仅baseLayerPicker设为false有意义
     // mapMode2D: Cesium.MapMode2D.INFINITE_SCROLL, // 2D地图模式
     // blurActiveElementOnCanvasFocus: true, // 失去焦点时模糊canvas
     // requestRenderMode: false, // 请求渲染模式
@@ -124,3 +122,4 @@ export const viewerOption = {
     // depthPlaneEllipsoidOffset: 0, // 深度平面椭球体偏移
     msaaSamples: 4, // 用于MSAA的样本数
 };
+
