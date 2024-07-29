@@ -1,12 +1,14 @@
-import * as Cesium from 'cesium';
-import {getMapInstance} from '@/scene/common/mapCesiumImpl/mapCesiumImpl';
-import {RippleParams, Ripple} from './Ripple';
+import * as Cesium from "cesium";
+import { getMapInstance } from "../instance";
+import { Ripple } from "./Ripple";
+import type { RippleParams } from "./Ripple";
 
 export class RippleControl {
     collection: Cesium.PrimitiveCollection;
     viewer: Cesium.Viewer;
-    ripples: {[key: string]: Ripple} = {};
+    ripples: { [key: string]: Ripple } = {};
     tick: () => void;
+
     constructor() {
         this.tick = this._tick.bind(this);
         this.collection = new Cesium.PrimitiveCollection();
@@ -14,11 +16,11 @@ export class RippleControl {
         this.viewer.scene.primitives.add(this.collection);
 
         this.addRipple({
-            id: 'rippletest', // 保证id唯一
+            id: "rippletest", // 保证id唯一
             lonlat: [116.397428, 35.90923],
-            color: '#ff0000',
+            color: "#ff0000",
             duration: 5000,
-            count: 3
+            count: 3,
         });
     }
 
@@ -28,6 +30,7 @@ export class RippleControl {
         this.ripples[rippleParams.id] = ripple;
         return ripple;
     }
+
     removeRipple(ripple: Ripple) {
         this.collection.remove(ripple.primitive);
         delete this.ripples[ripple.params.id];
@@ -41,9 +44,6 @@ export class RippleControl {
     }
 
     destroy() {
-        if (this.collection && !this.collection.isDestroyed()) {
-            this.collection.destroy();
-            this.collection = null;
-        }
+        this.viewer.scene.primitives.remove(this.collection);
     }
 }

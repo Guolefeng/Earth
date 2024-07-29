@@ -17,8 +17,8 @@ export class Wall {
     primitive: Cesium.Primitive;
     _time: number = new Date().getTime();
 
-    constructor(wallData: WallParams) {
-        this.params = wallData;
+    constructor(data: WallParams) {
+        this.params = data;
         this.primitive = this.createPrimitive();
     }
 

@@ -18,10 +18,10 @@ export class Block {
     primitiveOutline: Cesium.Primitive;
     smoothPositions: Cesium.Cartesian3[];
 
-    constructor(blockData: BlockParams) {
-        this.params = blockData;
+    constructor(data: BlockParams) {
+        this.params = data;
         if (this.params.isSmooth) {
-            this.smoothPositions = this.getSmoothPositions(blockData.positions);
+            this.smoothPositions = this.getSmoothPositions(data.positions);
         }
         this.primitive = this.createPrimitive(
             this.createGeometryInstance(this.params)

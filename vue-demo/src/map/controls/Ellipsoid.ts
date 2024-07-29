@@ -18,39 +18,13 @@ export class Block {
     }
 
     createGeometryInstance() {
-        const {
-            id,
-            positions = [],
-            color,
-            alpha = 1,
-            isSmooth,
-            extrudedHeight,
-        } = params;
-        return new Cesium.GeometryInstance({
-            id: id,
-            geometry: new Cesium.PolygonGeometry({
-                polygonHierarchy: new Cesium.PolygonHierarchy(
-                    isSmooth
-                        ? this.smoothPositions
-                        : Cesium.Cartesian3.fromDegreesArray(positions)
-                ),
-                extrudedHeight: extrudedHeight,
-            }),
-            attributes: {
-                color: color
-                    ? Cesium.ColorGeometryInstanceAttribute.fromColor(
-                          Cesium.Color.fromCssColorString(color).withAlpha(
-                              alpha
-                          )
-                      )
-                    : undefined,
-            },
-        });
+        const { id, positions = [], color } = this.params;
+        // return new Cesium.GeometryInstance();
     }
 
     createPrimitive() {
         return new Cesium.Primitive({
-            geometryInstances: this.createGeometryInstance(),
+            // geometryInstances: this.createGeometryInstance(),
             appearance: new Cesium.PerInstanceColorAppearance({
                 flat: true,
                 translucent: true,

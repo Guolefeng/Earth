@@ -1,48 +1,49 @@
-import * as Cesium from 'cesium';
-
-import {clock} from '@/util/clock';
+import * as Cesium from "cesium";
+import { clock } from "@/utils/clock";
 
 export interface RippleParams {
-    id: string; // 唯一id
+    id: string;
     lonlat: any[];
-    count: number; // 不超过10
-    duration: number;
-    color: string;
+    count?: number;
+    duration?: number;
+    color?: string;
+    semiMajorAxis?: number;
+    semiMinorAxis?: number;
+    gradient?: number;
 }
 
 export class Ripple {
     params: RippleParams;
-    primitive: Cesium.GroundPrimitive;
-    radius: number = 100000;
-    semiMajorAxis: number = 100000;
-    semiMinorAxis: number = 100000;
-    gradient: number = 1; // 透明度的幂次，越大越透明
+    primitive: Cesium.Primitive;
     _time: number = new Date().getTime();
-    constructor(rippleData: RippleParams) {
-        this.params = rippleData;
+
+    constructor(data: RippleParams) {
+        this.params = data;
         this.primitive = this.createPrimitive();
     }
+
     createGeometry() {
+        const { semiMajorAxis = 100000, semiMinorAxis = 100000 } = this.params;
         return new Cesium.EllipseGeometry({
             center: Cesium.Cartesian3.fromDegrees(
                 this.params.lonlat[0],
                 this.params.lonlat[1]
             ),
-            height: 100,
-            semiMajorAxis: this.semiMajorAxis,
-            semiMinorAxis: this.semiMinorAxis,
-            rotation: 0
+            semiMajorAxis,
+            semiMinorAxis,
         });
     }
+
     createMaterial() {
+        const { color, count, gradient = 1 } = this.params;
         return new Cesium.Material({
             fabric: {
-                type: 'Ripple',
+                type: "Ripple",
                 uniforms: {
-                    color: Cesium.Color.fromCssColorString(this.params.color),
+                    color: Cesium.Color.fromCssColorString(color),
                     time: 0,
-                    count: this.params.count,
-                    gradient: this.gradient
+                    count,
+                    gradient,
                 },
                 source: `
                     czm_material czm_getMaterial(czm_materialInput materialInput)
@@ -81,34 +82,33 @@ export class Ripple {
                         }
                         return material;
                     }
-                    `
+                `,
             },
             translucent: function (material) {
                 return true;
-            }
+            },
         });
     }
 
     createPrimitive() {
-        return new Cesium.GroundPrimitive({
+        return new Cesium.Primitive({
             geometryInstances: new Cesium.GeometryInstance({
                 id: this.params.id,
-                geometry: this.createGeometry()
+                geometry: this.createGeometry(),
             }),
             appearance: new Cesium.MaterialAppearance({
                 material:
                     // Cesium.Material.fromType('Color'),
-                    this.createMaterial()
+                    this.createMaterial(),
             }),
-            asynchronous: false
+            asynchronous: false,
         });
     }
 
     tick() {
+        const { duration = 1000 } = this.params;
         const uniforms = this.primitive.appearance.material.uniforms;
-        uniforms.time =
-            ((clock.millis - this._time) % this.params.duration) /
-            this.params.duration;
+        uniforms.time = ((clock.millis - this._time) % duration) / duration;
     }
 
     destrory() {}

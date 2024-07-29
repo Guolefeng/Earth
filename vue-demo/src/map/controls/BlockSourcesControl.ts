@@ -107,9 +107,6 @@ export class BlockSourcesControl {
     }
 
     destroy() {
-        if (this.collection && !this.collection.isDestroyed()) {
-            this.collection.destroy();
-            this.collection = null;
-        }
+        this.viewer.scene.primitives.remove(this.collection);
     }
 }

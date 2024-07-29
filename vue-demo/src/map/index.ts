@@ -3,17 +3,21 @@ import { getMapInstance } from "./instance";
 import { WallControl } from "./controls/WallControl";
 import { BlockSourcesControl } from "./controls/BlockSourcesControl";
 import { BlockControl } from "./controls/BlockControl";
+import { RippleControl } from "./controls/RippleControl";
+import { BillboardControl } from "./controls/BillboardControl";
 
 export default class CesiumMap {
     viewer: Viewer;
     wallControl: WallControl;
     blockSourcesControl: BlockSourcesControl;
     blockControl: BlockControl;
+    rippleControl: RippleControl;
+    billboardControl: BillboardControl;
     tick: () => void;
 
     constructor() {
         this.viewer = getMapInstance();
-        // 测试用
+
         window.CesiumMap = this;
 
         this.tick = this._tick.bind(this);
@@ -21,6 +25,9 @@ export default class CesiumMap {
         this.wallControl = new WallControl();
         this.blockSourcesControl = new BlockSourcesControl();
         this.blockControl = new BlockControl();
+        this.rippleControl = new RippleControl();
+        this.billboardControl = new BillboardControl();
+
         this.viewer.scene.preRender.addEventListener(this.tick);
     }
 
@@ -41,6 +48,7 @@ export default class CesiumMap {
      */
     _tick() {
         this.wallControl.tick();
+        this.rippleControl.tick();
     }
 
     destroy() {
@@ -51,5 +59,9 @@ export default class CesiumMap {
         this.blockSourcesControl = null;
         this.blockControl.destroy();
         this.blockControl = null;
+        this.rippleControl.destroy();
+        this.rippleControl = null;
+        this.billboardControl.destroy();
+        this.billboardControl = null;
     }
 }

@@ -24,7 +24,7 @@ export class WallControl {
             ],
             color: "#ffff00",
             maxHeight: 100000,
-            duration: 1000,
+            duration: 2000,
             direction: 1,
         });
     }
@@ -49,9 +49,6 @@ export class WallControl {
     }
 
     destroy() {
-        if (this.collection && !this.collection.isDestroyed()) {
-            this.collection.destroy();
-            // this.collection = null;
-        }
+        this.viewer.scene.primitives.remove(this.collection);
     }
 }

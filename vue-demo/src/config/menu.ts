@@ -14,4 +14,9 @@ export const menu = [
         key: "/test3",
         auth: {},
     },
+    {
+        name: "地图",
+        key: "/map",
+        auth: {},
+    },
 ];
