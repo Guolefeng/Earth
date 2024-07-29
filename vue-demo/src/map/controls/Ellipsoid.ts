@@ -6,6 +6,8 @@ export interface EllipsoidParams {
     radii: [number, number, number]; // x,y,z轴半径
     rotation?: [number, number, number]; // x,y,z轴旋转角度
     color?: string; // 颜色
+    alpha?: number; // 透明度
+    materialType?: "color" | "electronic" | "trail"; // 材质类型
 }
 
 export class Ellipsoid {
@@ -34,7 +36,8 @@ export class Ellipsoid {
         });
     }
 
-    createMaterial() {
+    // 创建半球电弧球材质
+    createElectronicMaterial() {
         const { color = "#ff0000" } = this.params;
         return new Cesium.Material({
             fabric: {
@@ -127,6 +130,84 @@ export class Ellipsoid {
         });
     }
 
+    // 创建半球轨迹球材质
+    createTrailMaterial() {
+        const { color = "#ff0000" } = this.params;
+        return new Cesium.Material({
+            fabric: {
+                type: "electronicEllipsoid",
+                uniforms: {
+                    color: Cesium.Color.fromCssColorString(color),
+                    speed: 5.0,
+                },
+                source: `
+                    uniform vec4 color;
+                    uniform float speed;
+                    czm_material czm_getMaterial(czm_materialInput materialInput) {
+                        czm_material material = czm_getDefaultMaterial(materialInput);
+                        vec2 st = materialInput.st;
+                        if (st.t < 0.5) {
+                            discard;
+                        }
+                        float time = fract(czm_frameNumber * speed / 1000.0);
+                        float alpha = abs(smoothstep(0.5, 1., fract(-st.t - time))) + .1;
+                        material.alpha = alpha;
+                        material.diffuse = color.rgb;
+                        return material;
+                    }
+                `,
+            },
+            translucent: function (material) {
+                return true;
+            },
+        });
+    }
+
+    // 创建半球颜色材质
+    createColorMaterial() {
+        const { color = "#ff0000", alpha = 1.0 } = this.params;
+        return new Cesium.Material({
+            fabric: {
+                type: "electronicEllipsoid",
+                uniforms: {
+                    color: Cesium.Color.fromCssColorString(color),
+                    alpha,
+                },
+                source: `
+                    czm_material czm_getMaterial(czm_materialInput materialInput) {
+                        czm_material material = czm_getDefaultMaterial(materialInput);
+                        vec2 st = materialInput.st;
+                        if (st.t < 0.5) {
+                            discard;
+                        }
+                        material.alpha = alpha;
+                        material.diffuse = color.rgb;
+                        return material;
+                    }
+                `,
+            },
+            translucent: function (material) {
+                return true;
+            },
+        });
+    }
+
+    createAppearance() {
+        const { materialType = "color" } = this.params;
+        const m = {
+            electronic: new Cesium.MaterialAppearance({
+                material: this.createElectronicMaterial(),
+            }),
+            trail: new Cesium.MaterialAppearance({
+                material: this.createTrailMaterial(),
+            }),
+            color: new Cesium.MaterialAppearance({
+                material: this.createColorMaterial(),
+            }),
+        };
+        return m[materialType];
+    }
+
     createPrimitive() {
         const { id, lonlat, rotation = [0, 0, 0] } = this.params;
         return new Cesium.Primitive({
@@ -151,12 +232,7 @@ export class Ellipsoid {
                     new Cesium.Matrix4()
                 ),
             }),
-            appearance: new Cesium.MaterialAppearance({
-                material: this.createMaterial(),
-            }),
-            // appearance: new Cesium.EllipsoidSurfaceAppearance({
-            //     material: Cesium.Material.fromType("Color"),
-            // }),
+            appearance: this.createAppearance(),
             asynchronous: false,
         });
     }
