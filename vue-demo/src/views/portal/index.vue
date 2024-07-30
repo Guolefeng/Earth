@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { IconSearch } from "@arco-design/web-vue/es/icon";
-import { Message } from "@arco-design/web-vue";
-import userComponent from "@/components/user.vue";
+import { ElMessage } from "element-plus";
+import userComponent from "@/components/userss.vue";
 import defaultImg from "@/assets/images/defaultImg.png";
 import hubuser from "@/assets/images/hubuser.png";
 import hubconfig from "@/assets/images/hubconfig.png";
@@ -13,8 +12,14 @@ const router = useRouter();
 const hasToken = ref(false);
 const menus = [
     {
-        name: "test1",
+        name: "home",
         img: hubdoc,
+        path: "/home",
+        description: "",
+    },
+    {
+        name: "test1",
+        img: hubconfig,
         path: "/test1",
         description: "",
     },
@@ -47,7 +52,7 @@ const onMenuClick = (item: any) => {
         if (item.path) {
             window.location.href = item.path;
         } else {
-            Message.warning("应用未配置跳转链接");
+            ElMessage.warning("应用未配置跳转链接");
         }
     } else {
         router.push({ path: "/login" });
@@ -59,15 +64,17 @@ const onMenuClick = (item: any) => {
     <div class="appcenter">
         <div class="appcenter-header"><userComponent /></div>
         <div class="appcenter-filter">
-            <a-input
+            <el-input
                 v-model="inputName"
                 placeholder="请输入应用名称"
                 class="appcenter-filter-input"
             >
-                <template #prefix>
-                    <IconSearch />
+                <template #prepend>
+                    <el-icon :size="20">
+                        <Search />
+                    </el-icon>
                 </template>
-            </a-input>
+            </el-input>
         </div>
         <div class="appcenter-cont">
             <div class="list">
@@ -87,7 +94,7 @@ const onMenuClick = (item: any) => {
                         {{ item.description }}
                     </div>
                 </div>
-                <a-empty v-if="!menus.length" />
+                <el-empty v-if="!menus.length" />
             </div>
         </div>
     </div>

@@ -1,19 +1,17 @@
 <script setup lang="ts">
-    import { sso } from './functions'
-    import { useRouter } from 'vue-router'
+import { sso } from "./functions";
+import { useRouter } from "vue-router";
 
-    const router = useRouter()
+const router = useRouter();
 </script>
 
 <template>
-    <a-spin dot>
-        <div class="box"></div>
-    </a-spin>
+    <div v-loading="true" class="box"></div>
 </template>
 
 <style lang="less" scoped>
-    .box {
-        width: 100vw;
-        height: 100vh;
-    }
+.box {
+    width: 100vw;
+    height: 100vh;
+}
 </style>

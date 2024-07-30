@@ -1,27 +1,34 @@
-import axios from 'axios'
-import { getCookie, deleteCookie, deleteLocalStorage } from './functions'
-import { debounce } from 'lodash'
-import { Modal } from '@arco-design/web-vue'
+import axios from "axios";
+import { getCookie, deleteCookie, deleteLocalStorage } from "./functions";
+import { debounce } from "lodash";
+import { ElMessageBox } from "element-plus";
 // import axios, { AxiosRequestConfig, Method } from 'axios'
 
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = "/api";
 
-const debounce401 = debounce(() => {
-    Modal.warning({
-        title: '登录超时，请重新登录',
-        content: '',
-        onOk: () => {
-            deleteLocalStorage('user')
-            deleteCookie('token')
-            window.location.href = '/login'
-        }
-    })
-}, 2000, { leading: true, trailing: false })
+const debounce401 = debounce(
+    () => {
+        ElMessageBox.confirm(
+            "你已被登出，可以取消继续留在该页面，或者重新登录",
+            "确定登出",
+            {
+                confirmButtonText: "重新登录",
+                cancelButtonText: "取消",
+            }
+        ).then(() => {
+            deleteLocalStorage("user");
+            deleteCookie("token");
+            window.location.href = "/login";
+        });
+    },
+    2000,
+    { leading: true, trailing: false }
+);
 
 // axios 实例
 const instance = axios.create({
-    responseType: 'json',
-})
+    responseType: "json",
+});
 
 // 移除重复请求
 // const removePending = (config: AxiosRequestConfig) => {
@@ -42,54 +49,53 @@ const instance = axios.create({
 instance.interceptors.request.use(
     (config: any) => {
         // 每次发送请求之前判断cookie中的token是否存在
-        const token = getCookie('token')
+        const token = getCookie("token");
         if (token) {
-            config.headers.Authorization = token
+            config.headers.Authorization = token;
         }
-        return config
+        return config;
     },
-    error => {
-        return Promise.reject(error)
+    (error) => {
+        return Promise.reject(error);
     }
-)
+);
 
 // 响应拦截器
 instance.interceptors.response.use(
-    response => {
+    (response) => {
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
         if (response.status === 200) {
-            return Promise.resolve(response)
+            return Promise.resolve(response);
         } else {
-            return Promise.reject(response)
+            return Promise.reject(response);
         }
     },
     // 服务器状态码不是2开头的的情况
     // 跟后台开发人员协商好统一的错误状态码 自行扩展
-    error => {
+    (error) => {
         if (error?.response?.status) {
             switch (error.response.status) {
                 // 401: 未登录
                 case 401:
                     // 未登录则跳转登录页面，并携带当前页面的路径
                     // 在登录成功后返回当前页面，这一步需要在登录页操作。
-                    debounce401()
-                    break
+                    debounce401();
+                    break;
                 // 403：无权限
                 case 403:
-                    break
+                    break;
                 // 404请求不存在
                 case 404:
-                    break
+                    break;
                 case 500:
-                    break
+                    break;
                 // 其他错误，直接抛出错误提示
                 default:
             }
-            return Promise.reject(error?.response)
+            return Promise.reject(error?.response);
         }
     }
-)
+);
 
-
-export default instance
+export default instance;

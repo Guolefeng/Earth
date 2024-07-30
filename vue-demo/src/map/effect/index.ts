@@ -28,6 +28,11 @@ export function updateLighting(viewer: Cesium.Viewer) {
     nightLayer.dayAlpha = 0.0;
 }
 
+/**
+ * 更新Cesium Viewer的底图着色器
+ *
+ * @param viewer Cesium Viewer对象
+ */
 export function updateBaseMap(viewer: Cesium.Viewer) {
     // 设置2个变量，用来判断是否进行颜色的翻转和过滤
     const invertColor = true;
