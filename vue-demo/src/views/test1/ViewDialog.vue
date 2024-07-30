@@ -30,16 +30,22 @@ const handleClose = () => {
                 {
                     label: '名称',
                     prop: 'name',
-                    config: {
-                        span: 24,
-                    },
+                },
+                {
+                    label: '年龄',
+                    prop: 'age',
+                },
+                {
+                    label: '性别',
+                    prop: 'gender',
+                },
+                {
+                    label: '地址',
+                    prop: 'address',
                 },
                 {
                     label: '描述',
                     prop: 'description',
-                    config: {
-                        span: 24,
-                    },
                 },
             ]"
         />

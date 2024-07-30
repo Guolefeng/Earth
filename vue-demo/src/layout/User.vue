@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useUserStore from "@/stores/modules/user";
+import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

@@ -9,8 +9,8 @@ interface IRowConfig {
     span?: number;
     width?: string | number;
     minWidth?: string | number;
-    align?: 'left' | 'center' | 'right';
-    labelAlign?: 'left' | 'center' | 'right';
+    align?: "left" | "center" | "right";
+    labelAlign?: "left" | "center" | "right";
     className?: string;
     labelClassName?: string;
 }
@@ -26,8 +26,8 @@ interface IConfig {
     // el-descriptions属性(可选，全部属性参考：https://element-plus.org/zh-CN/component/descriptions.html#descriptions-api)
     border?: boolean;
     column?: number;
-    direction?: 'horizontal' | 'vertical';
-    size?: '' | 'large' | 'default' | 'small';
+    direction?: "horizontal" | "vertical";
+    size?: "" | "large" | "default" | "small";
     title?: string;
     extra?: string;
 }
@@ -39,9 +39,9 @@ withDefaults(
         config?: IConfig; // 属性配置
     }>(),
     {
-        value: '',
+        value: "",
         list: () => [],
-        config: () => ({})
+        config: () => ({}),
     }
 );
 </script>
@@ -52,6 +52,7 @@ withDefaults(
             v-for="item in list"
             :key="item.prop"
             :label="item.label"
+            :span="24"
             v-bind="item.config"
         >
             <template v-if="item.slot">

@@ -3,7 +3,6 @@ import { RouterView, useRouter } from "vue-router";
 import userComponent from "./User.vue";
 import NavTab from "./NavTab.vue";
 import Aside from "./Aside.vue";
-
 const router = useRouter();
 
 const onBackHome = () => {

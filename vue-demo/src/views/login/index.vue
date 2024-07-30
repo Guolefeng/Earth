@@ -3,7 +3,7 @@ import { reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "@/api";
 import { setCookie, isURL } from "@/utils/functions";
-import useUserStore from "@/stores/modules/user";
+import useUserStore from "@/store/user";
 import { encrypt } from "@/utils/encrypt";
 import { ElMessage } from "element-plus";
 

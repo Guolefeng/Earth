@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, reactive } from "vue";
 import { useRouter } from "vue-router";
-import useNavTabStore from "@/stores/modules/nav";
+import useNavTabStore from "@/store/nav";
 
 const state = reactive({
     activeKey: "",

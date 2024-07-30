@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { reactive, onMounted, ref } from "vue";
+import { reactive, onMounted, ref, inject } from "vue";
 import { View, Edit, Delete } from "@element-plus/icons-vue";
 import { ElMessageBox } from "element-plus";
 import EditDialog from "./EditDialog.vue";
 import ViewDialog from "./ViewDialog.vue";
 
+const notify: any = inject("notify");
 const editViaible = ref(false);
 const viewViaible = ref(false);
 const tagData = reactive([
@@ -94,7 +95,9 @@ const operations = [
                 cancelButtonText: "取消",
                 type: "warning",
             })
-                .then(() => {})
+                .then(() => {
+                    notify.success("成功");
+                })
                 .catch(() => {});
         },
     },

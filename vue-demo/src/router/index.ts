@@ -84,4 +84,10 @@ const router = createRouter({
     ],
 });
 
+router.beforeEach((to, from, next) => {
+    console.log("路由守卫from：", from);
+    console.log("路由守卫to：", to);
+    next();
+});
+
 export default router;
