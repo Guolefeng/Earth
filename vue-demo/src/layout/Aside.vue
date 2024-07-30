@@ -2,7 +2,7 @@
 import { watch, ref } from "vue";
 import { useRoute } from "vue-router";
 import MenuItemVue from "./MenuItem.vue";
-import { menu } from "@/config/menu";
+import { menu } from "@/config";
 
 const route = useRoute();
 
