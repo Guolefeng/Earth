@@ -144,18 +144,18 @@ onMounted(() => {
             :total="page.total"
         >
         </lz-table>
+        <EditDialog
+            :visible="editViaible"
+            :data="selectedRow"
+            @ok="onEditOk"
+            @cancel="onEditCancel"
+        />
+        <ViewDialog
+            :visible="viewViaible"
+            :data="selectedRow"
+            @close="onViewClose"
+        />
     </div>
-    <EditDialog
-        :visible="editViaible"
-        :data="selectedRow"
-        @ok="onEditOk"
-        @cancel="onEditCancel"
-    />
-    <ViewDialog
-        :visible="viewViaible"
-        :data="selectedRow"
-        @close="onViewClose"
-    />
 </template>
 
 <style scoped>

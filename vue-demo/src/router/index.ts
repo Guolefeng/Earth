@@ -40,7 +40,7 @@ const router = createRouter({
             children: [
                 {
                     path: "home",
-                    name: "home",
+                    name: "首页",
                     component: () => import("@/views/home/index.vue"),
                     meta: {
                         viewtag: true,
@@ -48,7 +48,7 @@ const router = createRouter({
                 },
                 {
                     path: "test1",
-                    name: "test1",
+                    name: "测试1",
                     component: () => import("@/views/test1/index.vue"),
                     meta: {
                         viewtag: true,

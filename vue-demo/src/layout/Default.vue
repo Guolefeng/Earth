@@ -29,10 +29,10 @@ const onBackHome = () => {
                 <NavTab />
                 <el-card class="layout-main-content">
                     <router-view v-slot="{ Component }">
-                        <component :is="Component" />
-                        <!-- <transition name="fade-transform" mode="out-in">
+                        <!-- <component :is="Component" /> -->
+                        <transition name="fade-transform" mode="out-in">
                             <component :is="Component" />
-                        </transition> -->
+                        </transition>
                     </router-view>
                 </el-card>
             </el-main>
@@ -64,6 +64,7 @@ const onBackHome = () => {
     flex-shrink: 0;
     font-size: 20px;
     font-weight: 600;
+    cursor: pointer;
 }
 .logo {
     display: inline-block;
@@ -89,9 +90,9 @@ const onBackHome = () => {
 .layout-main {
     --el-main-padding: 20px;
 }
-.layout-main-content,
-.layout-main-content :deep(.el-card__body) {
+.layout-main-content {
     height: calc(100% - 40px);
     width: 100%;
+    overflow: auto;
 }
 </style>

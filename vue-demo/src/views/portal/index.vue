@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
-import userComponent from "@/components/userss.vue";
+import userComponent from "@/layout/User.vue";
 import defaultImg from "@/assets/images/defaultImg.png";
 import hubuser from "@/assets/images/hubuser.png";
 import hubconfig from "@/assets/images/hubconfig.png";
