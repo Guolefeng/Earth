@@ -16,12 +16,8 @@ const onBackHome = () => {
         <el-header class="header">
             <span class="header-item">
                 <span class="logo" />
-                <span class="title">测试中心</span>
-                <el-tooltip content="返回主页">
-                    <el-icon class="home" @click="onBackHome">
-                        <House />
-                    </el-icon>
-                </el-tooltip>
+                <span class="title" @click="onBackHome">测试中心</span>
+                <span class="ct"><lz-change-theme /></span>
             </span>
             <userComponent />
         </el-header>
@@ -33,9 +29,10 @@ const onBackHome = () => {
                 <NavTab />
                 <el-card class="layout-main-content">
                     <router-view v-slot="{ Component }">
-                        <transition name="fade-transform" mode="out-in">
+                        <component :is="Component" />
+                        <!-- <transition name="fade-transform" mode="out-in">
                             <component :is="Component" />
-                        </transition>
+                        </transition> -->
                     </router-view>
                 </el-card>
             </el-main>
@@ -77,19 +74,8 @@ const onBackHome = () => {
     background-image: url("@/assets/icons/logo.svg");
     background-size: cover;
 }
-.home {
-    padding: 4px;
-    margin-top: 2px;
+.ct {
     margin-left: 8px;
-    font-size: 30px;
-    cursor: pointer;
-    color: @theme-color;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    transition: all 0.3s;
-}
-.home:hover {
-    background: @background-color;
 }
 .layout-body {
     height: calc(100% - 60px);
