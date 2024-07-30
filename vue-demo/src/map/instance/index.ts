@@ -5,6 +5,7 @@ import {
     viewerOption,
 } from "./config";
 import { toCartographicDegrees } from "../common";
+import { updateBaseMap } from "../effect";
 
 let cesiumViewer: Cesium.Viewer;
 
@@ -36,7 +37,7 @@ function initMapInstance() {
     cesiumViewer.scene.debugShowFramesPerSecond = true;
     // 修改默认相机位置
     cesiumViewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 20000000.0),
+        destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 20000000.0), // 俯瞰中国地图
         // destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 15000.0), // 天安门广场
     });
     // 修改homeButton的默认返回位置
@@ -77,7 +78,8 @@ function initMapInstance() {
         }
     },
     Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
+    // 修改地图
+    updateBaseMap(cesiumViewer);
     // 测试用
     window.Cesium = Cesium;
     window.CesiumViewer = cesiumViewer;

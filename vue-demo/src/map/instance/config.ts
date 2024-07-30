@@ -105,7 +105,7 @@ export const viewerOption = {
     // creditContainer: document.createElement("div"), // 用于显示credit的DOM元素
     // creditViewport: document.createElement("div"), // 用于显示credit的DOM元素
     dataSources: new Cesium.DataSourceCollection(), // 需要进行可视化的数据源的集合
-    shadows: true, // 是否显示阴影
+    // shadows: true, // 是否显示阴影
     // projectionPicker: undefined, // ProjectionPicker 是用于在透视和正交投影之间切换的单按钮小部件。
     // terrainShadows: Cesium.ShadowMode.ENABLED, // 阴影模式
     // imageryProviderViewModels: Cesium.createDefaultImageryProviderViewModels(), // 图层选择器,可供BaseLayerPicker选择的图像图层ProviderViewModel数组
@@ -122,4 +122,3 @@ export const viewerOption = {
     // depthPlaneEllipsoidOffset: 0, // 深度平面椭球体偏移
     msaaSamples: 4, // 用于MSAA的样本数
 };
-
