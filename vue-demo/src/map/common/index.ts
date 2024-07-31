@@ -101,6 +101,7 @@ export function set3dtilesHeight(
     height: number = 0
 ) {
     const boundingSphere = tilesets.boundingSphere;
+    // 获取瓦片中心点坐标
     const cartographic = Cesium.Cartographic.fromCartesian(
         boundingSphere.center
     );
@@ -109,16 +110,19 @@ export function set3dtilesHeight(
         cartographic.latitude,
         0.0
     );
+    // 确定瓦片中心点移动前后的笛卡尔坐标（经纬度不变，只有高度值改变）
     const offset = Cesium.Cartesian3.fromRadians(
         cartographic.longitude,
         cartographic.latitude,
         height
     );
+    // 计算偏移量
     const translation = Cesium.Cartesian3.subtract(
         offset,
         surface,
         new Cesium.Cartesian3()
     );
+    // 建立转换矩阵
     tilesets.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
 }
 
@@ -159,11 +163,11 @@ export function update3dtilesMaxtrix(
         params.tz
     );
     const m = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-    //旋转、平移矩阵相乘
+    // 旋转、平移矩阵相乘
     Cesium.Matrix4.multiply(m, rotationX, m);
     Cesium.Matrix4.multiply(m, rotationY, m);
     Cesium.Matrix4.multiply(m, rotationZ, m);
-    //赋值给tileset
+    // 赋值给tileset
     // @ts-ignore
     tilesets._root.transform = m;
 }
