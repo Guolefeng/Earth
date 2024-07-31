@@ -4,6 +4,7 @@ import {
     toCartographicDegrees,
     getCameraPosition,
     getMapScale,
+    screenPositionToCameraPosition,
 } from "../common";
 
 export class IX {
@@ -45,7 +46,11 @@ export class IX {
         eventHandler.setInputAction(
             (e: Cesium.ScreenSpaceEventHandler.PositionedEvent) => {
                 const pick = viewer.scene.pick(e.position);
-                cb(e, pick);
+                const position = screenPositionToCameraPosition(
+                    viewer,
+                    e.position
+                );
+                cb(position, pick);
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK
         );
@@ -56,7 +61,11 @@ export class IX {
         eventHandler.setInputAction(
             (e: Cesium.ScreenSpaceEventHandler.PositionedEvent) => {
                 const pick = viewer.scene.pick(e.position);
-                cb(e, pick);
+                const position = screenPositionToCameraPosition(
+                    viewer,
+                    e.position
+                );
+                cb(position, pick);
             },
             Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
         );
@@ -67,7 +76,11 @@ export class IX {
         eventHandler.setInputAction(
             (e: Cesium.ScreenSpaceEventHandler.PositionedEvent) => {
                 const pick = viewer.scene.pick(e.position);
-                cb(e, pick);
+                const position = screenPositionToCameraPosition(
+                    viewer,
+                    e.position
+                );
+                cb(position, pick);
             },
             Cesium.ScreenSpaceEventType.RIGHT_CLICK
         );

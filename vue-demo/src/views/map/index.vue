@@ -18,6 +18,9 @@ onMounted(() => {
         cameraInfo.value = info;
         mapScale.value = scale;
     });
+    m.ix.listenLeftClick((info: any) => {
+        console.log("click info: ", info);
+    });
 });
 </script>
 

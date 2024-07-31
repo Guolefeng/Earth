@@ -40,19 +40,18 @@ export function screenPositionToCameraPosition(
     const cartesian = scene.pickPosition(position);
     if (cartesian) {
         const cartographic = ellipsoid.cartesianToCartographic(cartesian);
-        const lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(7);
-        const lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(7);
+        const lon = Cesium.Math.toDegrees(cartographic.longitude);
+        const lat = Cesium.Math.toDegrees(cartographic.latitude);
         // 地理高度
-        const height = (cartographic.height + 1).toFixed(2);
+        const height = cartographic.height + 1;
         // 相机高度
-        const cameraHeight =
-            viewer.camera.positionCartographic.height.toFixed(0);
+        const cameraHeight = viewer.camera.positionCartographic.height;
         // 方向 (围绕Z轴旋转)
-        const heading = Cesium.Math.toDegrees(viewer.camera.heading).toFixed(2);
+        const heading = Cesium.Math.toDegrees(viewer.camera.heading);
         // 倾斜角度 (围绕Y轴旋转)
-        const pitch = Cesium.Math.toDegrees(viewer.camera.pitch).toFixed(2);
+        const pitch = Cesium.Math.toDegrees(viewer.camera.pitch);
         // 围绕X轴旋转
-        const roll = Cesium.Math.toDegrees(viewer.camera.roll).toFixed(2);
+        const roll = Cesium.Math.toDegrees(viewer.camera.roll);
         return {
             longitude: lon,
             latitude: lat,
