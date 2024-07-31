@@ -4,7 +4,6 @@ import {
     // localCiaImageryLayer,
     viewerOption,
 } from "./config";
-import { toCartographicDegrees } from "../common";
 import { updateBaseMap } from "../effect";
 
 let cesiumViewer: Cesium.Viewer;
@@ -56,28 +55,15 @@ function initMapInstance() {
             commandInfo.cancel = true;
         }
     );
-    const cesiumScreenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(
-        cesiumViewer.canvas
-    );
-    cesiumScreenSpaceEventHandler.setInputAction(function (
-        event: Cesium.ScreenSpaceEventHandler.MotionEvent
-    ) {
-        if (event.endPosition) {
-            const ray: any = cesiumViewer.camera.getPickRay(event.endPosition);
-            const earthPosition = cesiumViewer.scene.globe.pick(
-                ray,
-                cesiumViewer.scene
-            );
-            if (earthPosition) {
-                const position = toCartographicDegrees(
-                    cesiumViewer,
-                    earthPosition
-                );
-                // console.log("click position: ", position);
-            }
-        }
-    },
-    Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+    // 关闭大气层显示
+    // cesiumViewer.scene.skyAtmosphere.show = false;
+
+    // 添加OSM bulidings
+    // cesiumViewer.scene.primitives.add(Cesium.createOsmBuildingsAsync());
+    // 添加瓦片坐标信息
+    // cesiumViewer.imageryLayers.addImageryProvider(
+    //     new Cesium.TileCoordinatesImageryProvider()
+    // );
     // 修改地图
     updateBaseMap(cesiumViewer);
     // 测试用

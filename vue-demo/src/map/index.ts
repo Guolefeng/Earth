@@ -1,5 +1,6 @@
 import { Viewer } from "cesium";
 import { getMapInstance } from "./instance";
+import { IX } from "./ix";
 import { WallControl } from "./controls/WallControl";
 import { BlockSourcesControl } from "./controls/BlockSourcesControl";
 import { BlockControl } from "./controls/BlockControl";
@@ -10,6 +11,7 @@ import { TilesControl } from "./controls/TilesControl";
 
 export default class CesiumMap {
     viewer: Viewer;
+    ix: IX;
     wallControl: WallControl;
     blockSourcesControl: BlockSourcesControl;
     blockControl: BlockControl;
@@ -26,6 +28,7 @@ export default class CesiumMap {
 
         this.tick = this._tick.bind(this);
 
+        this.ix = new IX();
         this.wallControl = new WallControl();
         this.blockSourcesControl = new BlockSourcesControl();
         this.blockControl = new BlockControl();
@@ -59,6 +62,7 @@ export default class CesiumMap {
 
     destroy() {
         this.viewer.scene.preRender.removeEventListener(this.tick);
+        this.ix.destory();
         this.wallControl.destroy();
         this.wallControl = null;
         this.blockSourcesControl.destroy();

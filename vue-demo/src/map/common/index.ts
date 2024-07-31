@@ -14,13 +14,57 @@ export function toCartographicDegrees(
     const ellipsoid = viewer.scene.globe.ellipsoid;
     const cartographic = ellipsoid.cartesianToCartographic(position);
     const lat = Cesium.Math.toDegrees(cartographic.latitude);
-    const lng = Cesium.Math.toDegrees(cartographic.longitude);
+    const lon = Cesium.Math.toDegrees(cartographic.longitude);
     const alt = cartographic.height;
     return {
+        lon,
         lat,
-        lng,
         alt,
     };
+}
+
+/**
+ * 将屏幕位置转换为相机位置信息
+ *
+ * @param viewer Cesium Viewer对象
+ * @param position 屏幕上的二维位置
+ * @returns 包含经纬度、高度、相机高度和相机方向的对象
+ */
+export function screenPositionToCameraPosition(
+    viewer: Cesium.Viewer,
+    position: Cesium.Cartesian2
+) {
+    const scene = viewer.scene;
+    const ellipsoid = scene.globe.ellipsoid;
+    // 笛卡尔坐标
+    const cartesian = scene.pickPosition(position);
+    if (cartesian) {
+        const cartographic = ellipsoid.cartesianToCartographic(cartesian);
+        const lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(7);
+        const lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(7);
+        // 地理高度
+        const height = (cartographic.height + 1).toFixed(2);
+        // 相机高度
+        const cameraHeight =
+            viewer.camera.positionCartographic.height.toFixed(0);
+        // 方向 (围绕Z轴旋转)
+        const heading = Cesium.Math.toDegrees(viewer.camera.heading).toFixed(2);
+        // 倾斜角度 (围绕Y轴旋转)
+        const pitch = Cesium.Math.toDegrees(viewer.camera.pitch).toFixed(2);
+        // 围绕X轴旋转
+        const roll = Cesium.Math.toDegrees(viewer.camera.roll).toFixed(2);
+        return {
+            longitude: lon,
+            latitude: lat,
+            height: height,
+            cameraHeight: cameraHeight,
+            orientation: {
+                heading,
+                pitch,
+                roll,
+            },
+        };
+    }
 }
 
 /**
@@ -123,4 +167,138 @@ export function update3dtilesMaxtrix(
     //赋值给tileset
     // @ts-ignore
     tilesets._root.transform = m;
+}
+
+/**
+ * 将DataURL转换为Blob对象
+ *
+ * @param dataurl DataURL字符串
+ * @returns 转换后的Blob对象
+ */
+export function dataURLtoBlob(dataurl: string) {
+    let arr = dataurl.split(",");
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let bstr = atob(arr[1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {
+        type: mime,
+    });
+}
+
+/**
+ * 将Cesium Viewer的渲染结果保存为图片
+ *
+ * @param viewer Cesium Viewer对象
+ * @param name string 图片名称，默认为scene.png
+ */
+export function saveToImage(viewer: Cesium.Viewer, name: string = "scene.png") {
+    // 不写会导出为黑图
+    viewer.render();
+
+    const canvas = viewer.scene.canvas;
+    const image = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+
+    const link = document.createElement("a");
+    const blob = dataURLtoBlob(image);
+    const objurl = URL.createObjectURL(blob);
+    link.download = name;
+    link.href = objurl;
+    link.click();
+}
+
+/**
+ * 获取Cesium Viewer的中心位置
+ *
+ * @param viewer Cesium Viewer对象
+ * @returns 返回经纬度对象，包含lon（经度）和lat（纬度）属性
+ */
+export function getCenterPosition(viewer: Cesium.Viewer) {
+    const center = viewer.camera.pickEllipsoid(
+        new Cesium.Cartesian2(
+            viewer.canvas.clientWidth / 2,
+            viewer.canvas.clientHeight / 2
+        )
+    );
+    const curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(center);
+    const lon = (curPosition.longitude * 180) / Math.PI;
+    const lat = (curPosition.latitude * 180) / Math.PI;
+    return { lon, lat };
+}
+
+/**
+ * 获取Cesium Viewer当前地图瓦片的级别
+ *
+ * @param viewer Cesium Viewer实例
+ * @returns 当前地图瓦片的级别集合
+ */
+export function tileLevel(viewer: Cesium.Viewer) {
+    const tiles = new Set();
+    // @ts-ignore
+    const tilesToRender = viewer.scene.globe._surface._tilesToRender;
+    if (Cesium.defined(tilesToRender)) {
+        for (let i = 0; i < tilesToRender.length; i++) {
+            tiles.add(tilesToRender[i].level);
+        }
+        console.log("当前地图瓦片级别为:");
+        console.log(tiles);
+    }
+    return tiles;
+}
+
+/**
+ * 获取相机位置信息
+ *
+ * @param viewer Cesium Viewer实例
+ * @returns 包含相机位置信息的对象，包括经度、纬度、高度和相机姿态信息
+ */
+export function getCameraPosition(viewer: Cesium.Viewer) {
+    // 获取 相机姿态信息
+    const head = viewer.scene.camera.heading;
+    const pitch = viewer.scene.camera.pitch;
+    const roll = viewer.scene.camera.roll;
+    const info = { head: head, pitch: pitch, roll: roll };
+    // 获取位置 wgs84的地心坐标系，x,y坐标值以弧度来表示
+    const position = viewer.scene.camera.positionCartographic;
+    // 弧度转经纬度
+    const longitude = Cesium.Math.toDegrees(position.longitude);
+    const latitude = Cesium.Math.toDegrees(position.latitude);
+    const height = position.height;
+    return { lon: longitude, lat: latitude, h: height, mat: info };
+}
+
+/**
+ * 获取Cesium地图的缩放级别
+ *
+ * @param viewer Cesium视图实例
+ * @returns 返回地图的缩放级别
+ */
+export function getMapScale(viewer: Cesium.Viewer) {
+    const geodesic = new Cesium.EllipsoidGeodesic();
+    const scene = viewer.scene;
+    const width = scene.canvas.clientWidth;
+    const height = scene.canvas.clientHeight;
+    const left = scene.camera.getPickRay(new Cesium.Cartesian2(0, height / 2));
+    const right = scene.camera.getPickRay(
+        new Cesium.Cartesian2(width, height / 2)
+    );
+    const globe = scene.globe;
+    const leftPosition = globe.pick(left, scene);
+    const rightPosition = globe.pick(right, scene);
+    if (!leftPosition) return;
+    const leftCartographic =
+        globe.ellipsoid.cartesianToCartographic(leftPosition);
+    const rightCartographic =
+        globe.ellipsoid.cartesianToCartographic(rightPosition);
+    geodesic.setEndPoints(leftCartographic, rightCartographic);
+    //根据屏幕左侧到右侧的距离测算resolution
+    const pixelDistance = geodesic.surfaceDistance;
+    const resolution = pixelDistance / width;
+    const scale = (resolution * 96) / 0.0254;
+    return scale;
 }

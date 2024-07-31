@@ -35,7 +35,7 @@ const router = createRouter({
         },
         {
             path: "/",
-            name: "首页",
+            name: "默认布局",
             component: () => import("@/layout/Default.vue"),
             children: [
                 {
@@ -70,11 +70,11 @@ const router = createRouter({
                         viewtag: true,
                     },
                 },
+                {
+                    path: "/",
+                    redirect: "/home",
+                },
             ],
-        },
-        {
-            path: "/",
-            redirect: "/home",
         },
         {
             path: "/:pathMatch(.*)*",
