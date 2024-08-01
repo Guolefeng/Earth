@@ -7,6 +7,12 @@ import {
     screenPositionToCameraPosition,
 } from "../common";
 
+// 高亮元素
+const hightLighted: any = {
+    feautre: undefined,
+    originalColor: new Cesium.Color(),
+};
+
 export class IX {
     viewer: Cesium.Viewer;
     eventHandler: Cesium.ScreenSpaceEventHandler;
@@ -51,6 +57,23 @@ export class IX {
                     e.position
                 );
                 cb(position, pick);
+
+                // 清除之前的高亮元素
+                if (Cesium.defined(hightLighted.feature)) {
+                    hightLighted.feature.color = hightLighted.originalColor;
+                    hightLighted.feature = undefined;
+                }
+
+                // 选择新要素
+                if (!Cesium.defined(pick)) {
+                    return;
+                }
+
+                // 存储选中要素的信息
+                hightLighted.feature = pick;
+                Cesium.Color.clone(pick.color, hightLighted.originalColor);
+                // 高亮选中元素
+                pick.color = Cesium.Color.YELLOW;
             },
             Cesium.ScreenSpaceEventType.LEFT_CLICK
         );
