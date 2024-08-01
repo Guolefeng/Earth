@@ -192,20 +192,13 @@ export class Ellipsoid {
         });
     }
 
-    createAppearance() {
+    createMaterial() {
         const { materialType = "color" } = this.params;
-        const m = {
-            electronic: new Cesium.MaterialAppearance({
-                material: this.createElectronicMaterial(),
-            }),
-            trail: new Cesium.MaterialAppearance({
-                material: this.createTrailMaterial(),
-            }),
-            color: new Cesium.MaterialAppearance({
-                material: this.createColorMaterial(),
-            }),
-        };
-        return m[materialType];
+        return {
+            electronic: this.createElectronicMaterial(),
+            trail: this.createTrailMaterial(),
+            color: this.createColorMaterial(),
+        }[materialType];
     }
 
     createPrimitive() {
@@ -232,7 +225,14 @@ export class Ellipsoid {
                     new Cesium.Matrix4()
                 ),
             }),
-            appearance: this.createAppearance(),
+            appearance: new Cesium.MaterialAppearance({
+                material: this.createMaterial(),
+                renderState: {
+                    depthTest: {
+                        enabled: true,
+                    },
+                },
+            }),
             asynchronous: false,
         });
     }

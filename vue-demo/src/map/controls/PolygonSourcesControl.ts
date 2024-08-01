@@ -1,9 +1,9 @@
 import * as Cesium from "cesium";
 import { getMapInstance } from "../instance";
-import { Block } from "./Block";
-import type { BlockParams } from "./Block";
+import { Polygon } from "./Polygon";
+import type { PolygonParams } from "./Polygon";
 
-interface IBlockParams extends BlockParams {
+interface IBlockParams extends PolygonParams {
     path: string;
 }
 
@@ -51,7 +51,7 @@ export class BlockSourcesControl {
                             .map((s: string) => Number(s));
                         const color = Cesium.Color.fromRandom();
                         instances.push(
-                            Block.prototype.createGeometryInstance({
+                            Polygon.prototype.createGeometryInstance({
                                 ...params,
                                 color: color.toCssHexString(),
                                 positions,
@@ -59,12 +59,14 @@ export class BlockSourcesControl {
                         );
                         if (outline) {
                             outlineInstances.push(
-                                Block.prototype.createOutlineGeometryInstance({
-                                    ...params,
-                                    // outlineColor: color.toCssHexString(),
-                                    outlineColor: "#ff0000",
-                                    positions,
-                                })
+                                Polygon.prototype.createOutlineGeometryInstance(
+                                    {
+                                        ...params,
+                                        // outlineColor: color.toCssHexString(),
+                                        outlineColor: "#ff0000",
+                                        positions,
+                                    }
+                                )
                             );
                         }
                     }

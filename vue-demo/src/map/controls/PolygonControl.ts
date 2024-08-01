@@ -1,12 +1,12 @@
 import * as Cesium from "cesium";
 import { getMapInstance } from "../instance";
-import { Block } from "./Block";
-import type { BlockParams } from "./Block";
+import { Polygon } from "./Polygon";
+import type { PolygonParams } from "./Polygon";
 
-export class BlockControl {
+export class PolygonControl {
     collection: Cesium.PrimitiveCollection;
     viewer: Cesium.Viewer;
-    blocks: { [key: string]: Block } = {};
+    polygons: { [key: string]: Polygon } = {};
 
     constructor() {
         this.collection = new Cesium.PrimitiveCollection();
@@ -48,19 +48,20 @@ export class BlockControl {
         });
     }
 
-    add(blockParams: BlockParams) {
-        const block = new Block(blockParams);
-        this.collection.add(block.primitive);
-        block.primitiveOutline && this.collection.add(block.primitiveOutline);
-        this.blocks[blockParams.id] = block;
-        return block;
+    add(polygonParams: PolygonParams) {
+        const polygon = new Polygon(polygonParams);
+        this.collection.add(polygon.primitive);
+        polygon.primitiveOutline &&
+            this.collection.add(polygon.primitiveOutline);
+        this.polygons[polygonParams.id] = polygon;
+        return polygon;
     }
 
-    remove(block: Block) {
-        this.collection.remove(block.primitive);
-        block.primitiveOutline &&
-            this.collection.remove(block.primitiveOutline);
-        delete this.blocks[block.params.id];
+    remove(polygon: Polygon) {
+        this.collection.remove(polygon.primitive);
+        polygon.primitiveOutline &&
+            this.collection.remove(polygon.primitiveOutline);
+        delete this.polygons[polygon.params.id];
     }
 
     _tick() {}

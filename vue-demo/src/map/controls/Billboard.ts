@@ -50,7 +50,7 @@ export class Billboard {
             alignedAxis: Cesium.Cartesian3.ZERO, // default
             scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.1),
             heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-            // disableDepthTestDistance: Number.POSITIVE_INFINITY
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
         });
     }
 

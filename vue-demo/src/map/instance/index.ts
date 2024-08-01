@@ -26,7 +26,7 @@ function initMapInstance() {
     // });
     cesiumViewer = new Cesium.Viewer(elem, viewerOption);
     // cesiumViewer.imageryLayers.add(localCiaImageryLayer);
-    // cesiumViewer.scene.globe.depthTestAgainstTerrain = true;
+    cesiumViewer.scene.globe.depthTestAgainstTerrain = true;
     // 去除版权信息
     // @ts-ignore
     // cesiumViewer.cesiumWidget.creditContainer.style.display = "none";

@@ -1,6 +1,6 @@
 import * as Cesium from "cesium";
 
-export interface BlockParams {
+export interface PolygonParams {
     id: string; // 唯一id
     positions?: number[]; // 经纬度数组
     color?: string; // 地块颜色
@@ -12,13 +12,14 @@ export interface BlockParams {
     interCount?: number; // 点与点之间插值次数, 默认10
 }
 
-export class Block {
-    params: BlockParams;
+let waterHeight = 0;
+export class Polygon {
+    params: PolygonParams;
     primitive: Cesium.Primitive;
     primitiveOutline: Cesium.Primitive;
     smoothPositions: Cesium.Cartesian3[];
 
-    constructor(data: BlockParams) {
+    constructor(data: PolygonParams) {
         this.params = data;
         if (this.params.isSmooth) {
             this.smoothPositions = this.getSmoothPositions(data.positions);
@@ -33,7 +34,7 @@ export class Block {
         }
     }
 
-    public createGeometryInstance(params: BlockParams) {
+    public createGeometryInstance(params: PolygonParams) {
         const {
             id,
             positions = [],
@@ -50,7 +51,16 @@ export class Block {
                         ? this.smoothPositions
                         : Cesium.Cartesian3.fromDegreesArray(positions)
                 ),
-                extrudedHeight: extrudedHeight,
+                extrudedHeight,
+                // 使用回调函数Callback，直接设置extrudedHeight会导致闪烁
+                // @ts-ignore
+                // extrudedHeight: Cesium.CallbackProperty(function () {
+                //     waterHeight += 0.2;
+                //     if (waterHeight > extrudedHeight) {
+                //         waterHeight = extrudedHeight;
+                //     }
+                //     return waterHeight;
+                // }, false),
             }),
             attributes: {
                 color: color
@@ -64,7 +74,7 @@ export class Block {
         });
     }
 
-    createOutlineGeometryInstance(params: BlockParams) {
+    createOutlineGeometryInstance(params: PolygonParams) {
         const {
             id,
             positions = [],
@@ -98,6 +108,11 @@ export class Block {
             appearance: new Cesium.PerInstanceColorAppearance({
                 flat: true,
                 translucent: true,
+                renderState: {
+                    depthTest: {
+                        enabled: false,
+                    },
+                },
             }),
             asynchronous: false,
         });

@@ -571,6 +571,11 @@ export class Ellipse {
             }),
             appearance: new Cesium.MaterialAppearance({
                 material: this.createMaterial(),
+                renderState: {
+                    depthTest: {
+                        enabled: false,
+                    },
+                },
             }),
             asynchronous: false,
         });
