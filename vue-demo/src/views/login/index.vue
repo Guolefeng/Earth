@@ -95,6 +95,7 @@ const onLogin = () => {
     width: 100%;
     height: 100%;
     background: url("@/assets/images/login-bj.png") no-repeat;
+    background-position: center;
     background-size: cover;
 }
 .form {
