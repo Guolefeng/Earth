@@ -1,12 +1,12 @@
 import * as Cesium from "cesium";
 import { getMapInstance } from "../instance";
-import { Ripple } from "./Ripple";
-import type { RippleParams } from "./Ripple";
+import { Ellipse } from "./Ellipse";
+import type { EllipseParams } from "./Ellipse";
 
-export class RippleControl {
+export class EllipseControl {
     collection: Cesium.PrimitiveCollection;
     viewer: Cesium.Viewer;
-    ripples: { [key: string]: Ripple } = {};
+    ellipses: { [key: string]: Ellipse } = {};
     tick: () => void;
 
     constructor() {
@@ -15,30 +15,32 @@ export class RippleControl {
         this.viewer = getMapInstance();
         this.viewer.scene.primitives.add(this.collection);
 
-        this.addRipple({
+        this.addEllipse({
             id: "rippletest", // 保证id唯一
-            lonlat: [116.397428, 35.90923],
+            lonlat: [117.24836695079108, 31.80350062543469],
             color: "#ff0000",
             duration: 5000,
             count: 3,
+            semiMajorAxis: 200,
+            semiMinorAxis: 200,
         });
     }
 
-    addRipple(rippleParams: RippleParams) {
-        const ripple = new Ripple(rippleParams);
+    addEllipse(rippleParams: EllipseParams) {
+        const ripple = new Ellipse(rippleParams);
         this.collection.add(ripple.primitive);
-        this.ripples[rippleParams.id] = ripple;
+        this.ellipses[rippleParams.id] = ripple;
         return ripple;
     }
 
-    removeRipple(ripple: Ripple) {
+    removeRipple(ripple: Ellipse) {
         this.collection.remove(ripple.primitive);
-        delete this.ripples[ripple.params.id];
+        delete this.ellipses[ripple.params.id];
     }
 
     _tick() {
-        for (const rippleId in this.ripples) {
-            const ripple = this.ripples[rippleId];
+        for (const rippleId in this.ellipses) {
+            const ripple = this.ellipses[rippleId];
             ripple.tick();
         }
     }

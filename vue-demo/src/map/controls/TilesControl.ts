@@ -5,54 +5,72 @@ import { set3dtilesHeight, update3dtilesMaxtrix } from "../common";
 export interface TilesParams {
     id: string;
     url: string;
-    rgb?: string;
-    lightShader?: boolean;
+    rgb?: string; // 修改模型颜色
+    lightShader?: boolean; // 是否使用高亮着色器
+    heightOffset?: number; // 高度偏移量
 }
 
 export class TilesControl {
     collection: Cesium.PrimitiveCollection;
     viewer: Cesium.Viewer;
-    tiles: { [key: string]: Cesium.Cesium3DTileset } = {};
+    tilesets: { [key: string]: Cesium.Cesium3DTileset } = {};
 
     constructor() {
+        this.collection = new Cesium.PrimitiveCollection();
         this.viewer = getMapInstance();
+        this.viewer.scene.primitives.add(this.collection);
+        // 添加3d tiles调试面板
+        // this.viewer.extend(Cesium.viewerCesium3DTilesInspectorMixin);
+
         this.add(
             {
                 id: "testtiles",
                 url: "http://data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
                 rgb: "rgb(51, 153, 255)",
-                lightShader: true,
+                lightShader: false,
+                heightOffset: -40,
             },
             (tilesets) => {
                 // 设置相机视角
                 this.viewer.flyTo(tilesets);
             }
         );
+
+        this.add(
+            {
+                id: "testtiles2",
+                url: "/3dtiles/offset_3dtiles/tileset.json",
+            },
+            (tilesets) => {
+                // 设置相机视角
+                // this.viewer.flyTo(tilesets);
+            }
+        );
     }
 
     add(params: TilesParams, cb?: (tilesets: Cesium.Cesium3DTileset) => void) {
-        const {
-            id,
-            url,
-            rgb = "rgb(51, 153, 255)",
-            lightShader = false,
-        } = params;
+        const { id, url, rgb, lightShader = false, heightOffset } = params;
         Cesium.Cesium3DTileset.fromUrl(url)
             .then((res) => {
                 // 加载建筑数据，赋给变量tilesets
-                const tilesets = this.viewer.scene.primitives.add(res);
-                tilesets.style = new Cesium.Cesium3DTileStyle({
-                    color: {
-                        conditions: [["true", `color('${rgb}',1)`]],
-                    },
-                });
+                const tilesets = this.collection.add(res);
+                tilesets.id = id;
+                this.tilesets[id] = tilesets;
+                if (rgb) {
+                    tilesets.style = new Cesium.Cesium3DTileStyle({
+                        color: {
+                            conditions: [["true", `color('${rgb}',1)`]],
+                        },
+                    });
+                }
                 if (lightShader) {
                     // 将定义好的着色器作用域建筑tilesets
                     tilesets.customShader = this.createLightShader();
                 }
                 // 修改模型高度
-                set3dtilesHeight(tilesets, -40);
-
+                if (heightOffset) {
+                    set3dtilesHeight(tilesets, heightOffset);
+                }
                 // 数据加载完成回调函数
                 cb?.(tilesets);
             })
@@ -83,5 +101,15 @@ export class TilesControl {
                 }
             `,
         });
+    }
+
+    remove(tileset: Cesium.Cesium3DTileset) {
+        this.collection.remove(tileset);
+        // @ts-ignore
+        delete this.tilesets[tileset.id];
+    }
+
+    destory() {
+        this.viewer.scene.primitives.remove(this.collection);
     }
 }

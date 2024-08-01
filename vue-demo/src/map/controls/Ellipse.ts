@@ -1,7 +1,7 @@
 import * as Cesium from "cesium";
 import { clock } from "@/utils/clock";
 
-export interface RippleParams {
+export interface EllipseParams {
     id: string;
     lonlat: any[];
     count?: number;
@@ -12,12 +12,12 @@ export interface RippleParams {
     gradient?: number;
 }
 
-export class Ripple {
-    params: RippleParams;
+export class Ellipse {
+    params: EllipseParams;
     primitive: Cesium.Primitive;
     _time: number = new Date().getTime();
 
-    constructor(data: RippleParams) {
+    constructor(data: EllipseParams) {
         this.params = data;
         this.primitive = this.createPrimitive();
     }

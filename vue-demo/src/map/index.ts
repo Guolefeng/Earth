@@ -4,7 +4,7 @@ import { IX } from "./ix";
 import { WallControl } from "./controls/WallControl";
 import { BlockSourcesControl } from "./controls/BlockSourcesControl";
 import { BlockControl } from "./controls/BlockControl";
-import { RippleControl } from "./controls/RippleControl";
+import { EllipseControl } from "./controls/EllipseControl";
 import { BillboardControl } from "./controls/BillboardControl";
 import { EllipsoidControl } from "./controls/EllipsoidControl";
 import { TilesControl } from "./controls/TilesControl";
@@ -15,7 +15,7 @@ export default class CesiumMap {
     wallControl: WallControl;
     blockSourcesControl: BlockSourcesControl;
     blockControl: BlockControl;
-    rippleControl: RippleControl;
+    ellipseControl: EllipseControl;
     billboardControl: BillboardControl;
     ellipsoidControl: EllipsoidControl;
     tilesControl: TilesControl;
@@ -32,7 +32,7 @@ export default class CesiumMap {
         this.wallControl = new WallControl();
         this.blockSourcesControl = new BlockSourcesControl();
         this.blockControl = new BlockControl();
-        this.rippleControl = new RippleControl();
+        this.ellipseControl = new EllipseControl();
         this.billboardControl = new BillboardControl();
         this.ellipsoidControl = new EllipsoidControl();
         this.tilesControl = new TilesControl();
@@ -57,7 +57,7 @@ export default class CesiumMap {
      */
     _tick() {
         this.wallControl.tick();
-        this.rippleControl.tick();
+        this.ellipseControl.tick();
     }
 
     destroy() {
@@ -69,8 +69,8 @@ export default class CesiumMap {
         this.blockSourcesControl = null;
         this.blockControl.destroy();
         this.blockControl = null;
-        this.rippleControl.destroy();
-        this.rippleControl = null;
+        this.ellipseControl.destroy();
+        this.ellipseControl = null;
         this.billboardControl.destroy();
         this.billboardControl = null;
         this.ellipsoidControl.destroy();

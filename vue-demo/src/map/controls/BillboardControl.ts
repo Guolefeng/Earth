@@ -27,7 +27,7 @@ export class BillboardControl {
                 "/effect/fire/7.png",
                 "/effect/fire/8.png",
             ],
-            lonlat: [110.397428, 32.90923],
+            lonlat: [117.23391167761571, 31.814477105838154],
             name: "test",
             data: {},
         });
@@ -53,7 +53,7 @@ export class BillboardControl {
                 "/effect/tornado/17.png",
                 "/effect/tornado/18.png",
             ],
-            lonlat: [116.397428, 32.90923],
+            lonlat: [117.25323004820078, 31.829032192322003],
             name: "test",
             data: {},
         });

@@ -17,16 +17,16 @@ export class EllipsoidControl {
 
         this.add({
             id: "eltest0",
-            lonlat: [112.397428, 35.90923],
-            radii: [100000.0, 100000.0, 100000.0],
+            lonlat: [117.23973085489449, 31.776951357266306],
+            radii: [300.0, 100.0, 100.0],
             // rotation: [30, 60, 120],
             color: "#00ff00",
             alpha: 0.5,
         });
         this.add({
             id: "eltest1",
-            lonlat: [112.397428, 32.90923],
-            radii: [100000.0, 100000.0, 100000.0],
+            lonlat: [117.2389720639443, 31.76888877073932],
+            radii: [500.0, 500.0, 500.0],
             // rotation: [30, 60, 120],
             color: "#00ff00",
             alpha: 0.5,
@@ -34,8 +34,8 @@ export class EllipsoidControl {
         });
         this.add({
             id: "eltest2",
-            lonlat: [112.397428, 29.90923],
-            radii: [100000.0, 100000.0, 100000.0],
+            lonlat: [117.24122365059718, 31.759571518656205],
+            radii: [200.0, 200.0, 200.0],
             // rotation: [30, 60, 120],
             color: "#00ff00",
             alpha: 0.5,
