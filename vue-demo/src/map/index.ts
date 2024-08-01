@@ -8,6 +8,7 @@ import { EllipseControl } from "./controls/EllipseControl";
 import { BillboardControl } from "./controls/BillboardControl";
 import { EllipsoidControl } from "./controls/EllipsoidControl";
 import { TilesControl } from "./controls/TilesControl";
+import { RoamControl } from "./controls/RoamControl";
 
 export default class CesiumMap {
     viewer: Viewer;
@@ -19,6 +20,7 @@ export default class CesiumMap {
     billboardControl: BillboardControl;
     ellipsoidControl: EllipsoidControl;
     tilesControl: TilesControl;
+    roamControl: RoamControl;
     tick: () => void;
 
     constructor() {
@@ -36,6 +38,7 @@ export default class CesiumMap {
         this.billboardControl = new BillboardControl();
         this.ellipsoidControl = new EllipsoidControl();
         this.tilesControl = new TilesControl();
+        this.roamControl = new RoamControl();
 
         this.viewer.scene.preRender.addEventListener(this.tick);
     }
@@ -75,5 +78,7 @@ export default class CesiumMap {
         this.billboardControl = null;
         this.ellipsoidControl.destroy();
         this.ellipsoidControl = null;
+        this.roamControl.destroy();
+        this.roamControl = null;
     }
 }
