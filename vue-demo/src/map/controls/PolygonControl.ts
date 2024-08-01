@@ -7,8 +7,10 @@ export class PolygonControl {
     collection: Cesium.PrimitiveCollection;
     viewer: Cesium.Viewer;
     polygons: { [key: string]: Polygon } = {};
+    tick: () => void;
 
     constructor() {
+        this.tick = this._tick.bind(this);
         this.collection = new Cesium.PrimitiveCollection();
         this.viewer = getMapInstance();
         this.viewer.scene.primitives.add(this.collection);
@@ -42,7 +44,7 @@ export class PolygonControl {
                 outline: false,
                 outlineColor: "#00ff00",
                 alpha: 0.5,
-                extrudedHeight: 0,
+                extrudedHeight: 100,
                 isSmooth: true,
             });
         });
@@ -64,7 +66,12 @@ export class PolygonControl {
         delete this.polygons[polygon.params.id];
     }
 
-    _tick() {}
+    _tick() {
+        for (const id in this.polygons) {
+            const p = this.polygons[id];
+            p.tick();
+        }
+    }
 
     destroy() {
         this.viewer.scene.primitives.remove(this.collection);

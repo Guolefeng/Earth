@@ -26,7 +26,7 @@ export class BlockSourcesControl {
             id: "test",
             path: "./geojson/650000_full.json",
             alpha: 0.5,
-            extrudedHeight: 10000,
+            extrudedHeight: 50000.0,
         });
     }
 
@@ -96,6 +96,11 @@ export class BlockSourcesControl {
             appearance: new Cesium.PerInstanceColorAppearance({
                 flat: true,
                 translucent: true,
+                // renderState: {
+                //     depthTest: {
+                //         enabled: true,
+                //     },
+                // },
             }),
             asynchronous: false,
         });

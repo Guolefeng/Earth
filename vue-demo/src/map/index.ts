@@ -61,6 +61,7 @@ export default class CesiumMap {
     _tick() {
         this.wallControl.tick();
         this.ellipseControl.tick();
+        this.polygonControl.tick();
     }
 
     destroy() {

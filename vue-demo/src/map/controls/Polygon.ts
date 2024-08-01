@@ -12,12 +12,13 @@ export interface PolygonParams {
     interCount?: number; // 点与点之间插值次数, 默认10
 }
 
-let waterHeight = 0;
 export class Polygon {
     params: PolygonParams;
     primitive: Cesium.Primitive;
     primitiveOutline: Cesium.Primitive;
     smoothPositions: Cesium.Cartesian3[];
+    // 递增高度, 用于动态变化高度
+    increaseHeight: number = 0;
 
     constructor(data: PolygonParams) {
         this.params = data;
@@ -34,7 +35,7 @@ export class Polygon {
         }
     }
 
-    public createGeometryInstance(params: PolygonParams) {
+    createGeometryInstance(params: PolygonParams) {
         const {
             id,
             positions = [],
@@ -52,15 +53,6 @@ export class Polygon {
                         : Cesium.Cartesian3.fromDegreesArray(positions)
                 ),
                 extrudedHeight,
-                // 使用回调函数Callback，直接设置extrudedHeight会导致闪烁
-                // @ts-ignore
-                // extrudedHeight: Cesium.CallbackProperty(function () {
-                //     waterHeight += 0.2;
-                //     if (waterHeight > extrudedHeight) {
-                //         waterHeight = extrudedHeight;
-                //     }
-                //     return waterHeight;
-                // }, false),
             }),
             attributes: {
                 color: color
