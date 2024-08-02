@@ -63,7 +63,6 @@ app.on("window-all-closed", () => {
 // 监听全局鼠标事件，并执行javascript脚本
 const listenerKeyboardEvent = (win) => {
     uIOhook.on("keydown", (e) => {
-        console.log("=====eee", e, e.keycode);
         // 按下
         const type = 1;
         const js = `if(window.onGlobalKeyBoard){window.onGlobalKeyBoard(${type},${e.keycode})}`;

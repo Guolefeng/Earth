@@ -30,6 +30,8 @@ imgElement.addEventListener("mousedown", (ev) => {
 });
 
 window.onGlobalKeyBoard = (type, value) => {
+    const ele = document.querySelector(`li[code='${value}']`);
+
     if (1 === type) {
         // 按下
         const imgElement = document.getElementById("imgAvatar");
@@ -44,6 +46,8 @@ window.onGlobalKeyBoard = (type, value) => {
                 new Flower(`flower_${number + 1}.png`).img
             );
         }
+
+        ele && ele.classList.add("active");
     }
 
     if (2 === type) {
@@ -52,5 +56,6 @@ window.onGlobalKeyBoard = (type, value) => {
         if (imgElement.src.concat("张嘴")) {
             imgElement.src = closeSrc;
         }
+        ele && ele.classList.remove("active");
     }
 };

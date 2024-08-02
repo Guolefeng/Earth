@@ -42,6 +42,13 @@
             box-shadow:0 0 4px 0 rgba(0, 0, 0,0.15);
             color: rgb(12, 164, 190);
             text-shadow:  0 0 15px #57c1f1;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        li.active {
+            box-shadow:0 0 4px 0 rgba(0, 0, 0,0.15);
+            color: rgb(12, 164, 190);
+            text-shadow:  0 0 15px #57c1f1;
+            background: rgba(0, 0, 0, 0.5);
         }
         .one {
             color:#eb3f33;
@@ -87,7 +94,7 @@
         .alt,
         .fn,
         .menu {
-            width: 4em;
+            width: 4.7em;
         }
         .space {
             width: 18em;
@@ -187,10 +194,9 @@
     </div>
 
 	<script>
-        document.addEventListener('keyup', (e) => {
-            console.log('keyup', e.code, e.keyCode, e)
-            e.preventDefault();
-        })
+        const code = '3675'
+        const ele = document.querySelector(`li[code='${code}']`)
+        ele.classList.add('active')
 	</script>
 </body>
 </html>
