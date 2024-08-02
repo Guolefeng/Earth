@@ -47,7 +47,15 @@ window.onGlobalKeyBoard = (type, value) => {
             );
         }
 
-        ele && ele.classList.add("active");
+        if (ele) {
+            ele.classList.add("active");
+            const sp = getStartPoint(ele);
+            p.attr({
+                shape: {
+                    points: getPoints(sp, endPosition),
+                },
+            });
+        }
     }
 
     if (2 === type) {
@@ -56,6 +64,13 @@ window.onGlobalKeyBoard = (type, value) => {
         if (imgElement.src.concat("open")) {
             imgElement.src = closeSrc;
         }
-        ele && ele.classList.remove("active");
+        if (ele) {
+            ele.classList.remove("active");
+            p.attr({
+                shape: {
+                    points: defaultPoints,
+                },
+            });
+        }
     }
 };

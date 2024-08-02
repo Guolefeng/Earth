@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>键盘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             margin: 0;
@@ -99,13 +100,12 @@
         .space {
             width: 18em;
         }
-        .claw {
+        .zr {
             position: absolute;
-            right: 0px;
-            bottom: 0px;
-            width: 100px;
-            height: 20px;
-            background: url('./foot/1.png') no-repeat;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
         }
     </style>
 </head>
@@ -200,12 +200,121 @@
             </ul>
         </div>
     </div>
-    <div class="claw"></div>
+    <div id="zr" class="zr"></div>
+    <script>
+        document.addEventListener('resize', () => {
+            console.log('resize');
+            // zr.resize();
+            // startPosition = {
+            //     x: dom.clientWidth - w - dis,
+            //     y: dom.clientHeight - h - dis,
+            // }
+            // endPosition = {
+            //     x: dom.clientWidth - dis,
+            //     y: dom.clientHeight - dis,
+            // }
+            // p.attr({
+            //     shape: {
+            //         points: getPoints(startPosition, endPosition),
+            //     }
+            // });
+        });
+    </script>
+    <script src="./zrender.js"></script>
+    <!-- <script>
+        const getPoints = (sp, ep, gap = 3) => {
+            return [
+                [sp.x - gap, sp.y + gap],
+                [sp.x - gap, sp.y - gap],
+                [sp.x + gap, sp.y - gap],
+                [ep.x + gap, ep.y - gap],
+                [ep.x - gap, ep.y + gap],
+            ];
+        }
 
-	<script>
-        const code = '3675'
-        const ele = document.querySelector(`li[code='${code}']`)
-        ele.classList.add('active')
-	</script>
+        const getStartPoint = (e) => {
+            return {
+                x: e.offsetLeft + e.clientWidth / 2,
+                y: e.offsetTop + e.clientHeight / 2,
+            }
+        }
+
+        // 爪子宽、高
+        const w = 30;
+        const h = 20;
+        const dis = 20;
+        const dom = document.getElementById('zr');
+        let startPosition = {
+            x: dom.clientWidth - w - dis,
+            y: dom.clientHeight - h - dis,
+        }
+        let endPosition = {
+            x: dom.clientWidth - dis,
+            y: dom.clientHeight - dis,
+        }
+        const defaultPoints = getPoints(startPosition, endPosition);
+        var zr = zrender.init(dom);
+        var p = new zrender.Polygon({
+            shape: {
+                points: defaultPoints,
+                smooth: 0.5,
+            },
+            style: {
+                fill: '#fff',
+                lineWidth: 2,
+                // stroke: 'red#ff',
+            },
+        });
+        zr.add(p);
+
+        document.addEventListener('keydown', (e) => {
+            console.log(e);
+            if (e.keyCode === 27) { // code 1
+                const code = 1;
+                const ele = document.querySelector(`li[code='${code}']`);
+                const sp = getStartPoint(ele)
+                p.attr({
+                    shape: {
+                        points: getPoints(sp, endPosition)
+                    }
+                })
+            } else if (e.keyCode === 49) { // code 59
+                const code = 2;
+                const ele = document.querySelector(`li[code='${code}']`);
+                const sp = getStartPoint(ele)
+                p.attr({
+                    shape: {
+                        points: getPoints(sp, endPosition)
+                    }
+                })
+            }
+        })
+
+        document.addEventListener('keyup', () => {
+            p.attr({
+                shape: {
+                    points: defaultPoints
+                }
+            })
+        })
+
+        document.addEventListener('resize', () => {
+            console.log('resize');
+            // zr.resize();
+            // startPosition = {
+            //     x: dom.clientWidth - w - dis,
+            //     y: dom.clientHeight - h - dis,
+            // }
+            // endPosition = {
+            //     x: dom.clientWidth - dis,
+            //     y: dom.clientHeight - dis,
+            // }
+            // p.attr({
+            //     shape: {
+            //         points: getPoints(startPosition, endPosition),
+            //     }
+            // });
+        });
+    </script> -->
 </body>
 </html>
