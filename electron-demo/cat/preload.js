@@ -30,7 +30,6 @@ window.addEventListener("mouseup", () => {
 });
 // 设置拖拽功能
 window.addEventListener("mousemove", (e) => {
-    console.log(dragging);
     if (dragging) {
         const { pageX, pageY } = e;
         const pos = win.getPosition();

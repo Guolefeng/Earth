@@ -106,6 +106,7 @@
             top: 0;
             width: 100vw;
             height: 100vh;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -201,27 +202,8 @@
         </div>
     </div>
     <div id="zr" class="zr"></div>
-    <script>
-        document.addEventListener('resize', () => {
-            console.log('resize');
-            // zr.resize();
-            // startPosition = {
-            //     x: dom.clientWidth - w - dis,
-            //     y: dom.clientHeight - h - dis,
-            // }
-            // endPosition = {
-            //     x: dom.clientWidth - dis,
-            //     y: dom.clientHeight - dis,
-            // }
-            // p.attr({
-            //     shape: {
-            //         points: getPoints(startPosition, endPosition),
-            //     }
-            // });
-        });
-    </script>
     <script src="./zrender.js"></script>
-    <!-- <script>
+    <script>
         const getPoints = (sp, ep, gap = 3) => {
             return [
                 [sp.x - gap, sp.y + gap],
@@ -298,23 +280,22 @@
             })
         })
 
-        document.addEventListener('resize', () => {
-            console.log('resize');
-            // zr.resize();
-            // startPosition = {
-            //     x: dom.clientWidth - w - dis,
-            //     y: dom.clientHeight - h - dis,
-            // }
-            // endPosition = {
-            //     x: dom.clientWidth - dis,
-            //     y: dom.clientHeight - dis,
-            // }
-            // p.attr({
-            //     shape: {
-            //         points: getPoints(startPosition, endPosition),
-            //     }
-            // });
+        window.addEventListener('resize', () => {
+            zr.resize();
+            startPosition = {
+                x: dom.clientWidth - w - dis,
+                y: dom.clientHeight - h - dis,
+            }
+            endPosition = {
+                x: dom.clientWidth - dis,
+                y: dom.clientHeight - dis,
+            }
+            p.attr({
+                shape: {
+                    points: getPoints(startPosition, endPosition),
+                }
+            });
         });
-    </script> -->
+    </script>
 </body>
 </html>

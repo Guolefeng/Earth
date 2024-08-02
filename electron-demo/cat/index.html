@@ -257,6 +257,22 @@
             },
         });
         zr.add(p);
+        window.addEventListener('resize', () => {
+            zr.resize();
+            startPosition = {
+                x: container.clientWidth - w - disX,
+                y: container.clientHeight - h - disY,
+            }
+            endPosition = {
+                x: container.clientWidth - disX,
+                y: container.clientHeight - disY,
+            }
+            p.attr({
+                shape: {
+                    points: getPoints(startPosition, endPosition),
+                }
+            });
+        });
     </script>
     <script src="./renderer.js"></script>
 </html>
