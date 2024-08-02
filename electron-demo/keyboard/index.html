@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+    <title>键盘</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            padding: 0;
+        }
+        #box1 {
+            background-color:#f1f1f7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .keyboard {
+            user-select: none;
+            cursor: pointer;
+        }
+        .keys {
+            display: flex;
+            list-style: none;
+            margin: 0 0;
+        }
+        li {
+            box-shadow: 0 -6px 10px rgb(255, 255, 255),0 4px 15px rgba(0, 0, 0,0.3);
+            width: 3em;
+            font-size: 10px;
+            margin: 0.2em;
+            background-color: #f2f2f2;
+            border-radius: 15px;
+            text-align: center;
+            line-height: 3em;
+            transition: all 0.25s;
+        }
+        li:active {
+            box-shadow:0 0 4px 0 rgba(0, 0, 0,0.15);
+            color: rgb(12, 164, 190);
+            text-shadow:  0 0 15px #57c1f1;
+        }
+        .one {
+            color:#eb3f33;
+        }
+        .one li {
+            width: 3.4em;
+        }
+        .two {
+            color: #df960e;
+        }
+        .three {
+            color:#2b46df;
+        }
+        .four {
+            color:rgb(57,194,75);
+        }
+        .five {
+            color:#8919ca;
+        }
+        .six {
+            color: #e73d09;
+        }
+        .esc {
+            width: 3.5em;
+        }
+        .back {
+            width: 4.7em;
+        }
+        .tab {
+            width: 4.7em;
+        }
+        .caps {
+            width: 6.3em;
+        }
+        .enter {
+            width: 4.7em;
+        }
+        .shift {
+            width: 7.2em;
+        }
+        .ctrl,
+        .win,
+        .alt,
+        .fn,
+        .menu {
+            width: 4em;
+        }
+        .space {
+            width: 18em;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="box1">
+        <div class="keyboard">
+            <ul class="keys one">
+                <li code="27" class="esc">Esc</li>
+                <li code="112">F1</li>
+                <li code="113">F2</li>
+                <li code="114">F3</li>
+                <li code="115">F4</li>
+                <li code="116">F5</li>
+                <li code="117">F6</li>
+                <li code="118">F7</li>
+                <li code="119">F8</li>
+                <li code="120">F9</li>
+                <li code="121">F10</li>
+                <li code="122">F11</li>
+                <li code="123">F12</li>
+            </ul>
+            <ul class="keys two">
+                <li code="192">`</li>
+                <li code="97">1</li>
+                <li code="98">2</li>
+                <li code="99">3</li>
+                <li code="100">4</li>
+                <li code="101">5</li>
+                <li code="102">6</li>
+                <li code="103">7</li>
+                <li code="104">8</li>
+                <li code="105">9</li>
+                <li code="96">0</li>
+                <li code="189">-</li>
+                <li code="187">=</li>
+                <li code="8" class="back"><-</li>
+            </ul>
+            <ul class="keys three">
+                <li code="9" class="tab">Tab</li>
+                <li code="81">Q</li>
+                <li code="87">W</li>
+                <li code="69">E</li>
+                <li code="82">R</li>
+                <li code="84">T</li>
+                <li code="89">Y</li>
+                <li code="85">U</li>
+                <li code="73">I</li>
+                <li code="79">O</li>
+                <li code="80">P</li>
+                <li code="219">[</li>
+                <li code="221">]</li>
+                <li code="220">\</li>
+            </ul>
+            <ul class="keys four">
+                <li code="20" class="caps">Caps</li>
+                <li code="65">A</li>
+                <li code="63">S</li>
+                <li code="68">D</li>
+                <li code="70">F</li>
+                <li code="71">G</li>
+                <li code="72">H</li>
+                <li code="74">J</li>
+                <li code="75">K</li>
+                <li code="76">L</li>
+                <li code="186">;</li>
+                <li code="222">'</li>
+                <li code="13" class="enter">Enter</li>
+            </ul>
+            <ul class="keys five">
+                <li code="16" class="shift">Shift</li>
+                <li code="90">Z</li>
+                <li code="88">X</li>
+                <li code="67">C</li>
+                <li code="86">V</li>
+                <li code="66">B</li>
+                <li code="78">N</li>
+                <li code="77">M</li>
+                <li code="188">,</li>
+                <li code="190">.</li>
+                <li code="191">/</li>
+                <li code="16" class="shift">Shift</li>
+            </ul>
+            <ul class="keys six">
+                <li name="ControlLeft" code="17" class="ctrl">Ctrl</li>
+                <li code="" class="fn">Fn</li>
+                <li code="" class="win">Win</li>
+                <li name="AltLeft" code="18" class="alt">Alt</li>
+                <li code="32" class="space">Space</li>
+                <li name="AltRight" code="18" class="alt">Alt</li>
+                <li code="" class="menu">Menu</li>
+                <li name="ControlRight" code="17" class="ctrl">Ctrl</li>
+            </ul>
+        </div>
+    </div>
+
+	<script>
+        document.addEventListener('keyup', (e) => {
+            console.log('keyup', e.code, e.keyCode, e)
+            e.preventDefault();
+        })
+	</script>
+</body>
+</html>
