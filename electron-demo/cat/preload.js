@@ -28,24 +28,20 @@ window.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("mouseup", () => {
     dragging = false;
 });
-// 设置拖拽功能
-window.addEventListener("mousemove", (e) => {
-    console.log(dragging);
-    if (dragging) {
-        const { pageX, pageY } = e;
-        const pos = win.getPosition();
-        pos[0] = pos[0] + pageX - mouseX;
-        pos[1] = pos[1] + pageY - mouseY;
-        win.setPosition(pos[0], pos[1], true);
-    }
-});
-// 设置指定区域的鼠标点击不穿透
+// 设置指定区域的鼠标点击不穿透, 拖拽功能
 window.addEventListener("mousemove", (event) => {
     const el = document.getElementById("imgAvatar");
     let flag = event.target === el;
-    if (!flag) {
-        win.setIgnoreMouseEvents(true, { forward: true });
-    } else {
+    if (flag) {
         win.setIgnoreMouseEvents(false);
+        if (dragging) {
+            const { pageX, pageY } = e;
+            const pos = win.getPosition();
+            pos[0] = pos[0] + pageX - mouseX;
+            pos[1] = pos[1] + pageY - mouseY;
+            win.setPosition(pos[0], pos[1], true);
+        }
+    } else {
+        win.setIgnoreMouseEvents(true, { forward: true });
     }
 });
