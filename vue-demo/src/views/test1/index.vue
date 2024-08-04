@@ -1,88 +1,171 @@
 <script setup lang="ts">
-    import { ref, watch } from 'vue'
-    import { RouterView } from 'vue-router'
-    import { useRouter } from 'vue-router'
-    import { IconUserGroup, IconMenuFold, IconMenuUnfold } from '@arco-design/web-vue/es/icon'
-    import viewTag from './components/viewTag.vue'
+import { reactive, onMounted, ref, inject } from "vue";
+import { View, Edit, Delete } from "@element-plus/icons-vue";
+import { ElMessageBox } from "element-plus";
+import EditDialog from "./EditDialog.vue";
+import ViewDialog from "./ViewDialog.vue";
 
-    const menus = [{
-        name: 'f1管理',
-        key: '/test1/test1-1/f1',
-        icon: IconUserGroup,
-    }, {
-        name: 'f2管理',
-        key: '/test1/test1-1/f2',
-        icon: IconUserGroup,
-    }]
+const notify: any = inject("notify");
+const editViaible = ref(false);
+const viewViaible = ref(false);
+const tagData = reactive([
+    {
+        name: "test1",
+        description: "这个人不好说",
+        age: 10,
+        gender: "男",
+        address: "测试地址",
+    },
+    {
+        name: "test1",
+        description: "这个人不好说",
+        age: 10,
+        gender: "男",
+        address: "测试地址",
+    },
+    {
+        name: "test1",
+        description: "这个人不好说",
+        age: 10,
+        gender: "男",
+        address: "测试地址",
+    },
+    {
+        name: "test1",
+        description: "这个人不好说",
+        age: 10,
+        gender: "男",
+        address: "测试地址",
+    },
+    {
+        name: "test1",
+        description: "这个人不好说",
+        age: 10,
+        gender: "男",
+        address: "测试地址",
+    },
+]);
+const selectedRow = ref(null);
 
-    const selectedMenuKeys = ref<string[]>([])
-    const router = useRouter()
-    const collapsed = ref(false)
-
-    const onClickMenuItem = (key: string) => {
-        selectedMenuKeys.value = [key]
-        router.push(key)
-    }
-
-    watch(
-        () => router.currentRoute.value,
-        (newVal: any) => {
-            selectedMenuKeys.value = newVal.matched.map((r: any) => r.path)
+const tagConfig = [
+    {
+        label: "名称",
+        prop: "name",
+    },
+    {
+        label: "年龄",
+        prop: "age",
+    },
+    {
+        label: "性别",
+        prop: "gender",
+    },
+    {
+        label: "地址",
+        prop: "address",
+    },
+    {
+        label: "描述",
+        prop: "description",
+    },
+];
+const operations = [
+    {
+        label: "查看",
+        config: { icon: View, link: true, type: "primary" },
+        click: (row: any) => {
+            selectedRow.value = row;
+            viewViaible.value = true;
         },
-        { immediate: true }
-    )
+    },
+    {
+        label: "编辑",
+        config: { icon: Edit, link: true, type: "primary" },
+        click: (row: any) => {
+            selectedRow.value = row;
+            editViaible.value = true;
+        },
+    },
+    {
+        label: "删除",
+        config: { icon: Delete, link: true, type: "danger" },
+        click: (row: any) => {
+            ElMessageBox.confirm(`确认删除${row.name}`, "提示", {
+                confirmButtonText: "确认",
+                cancelButtonText: "取消",
+                type: "warning",
+            })
+                .then(() => {
+                    notify.success("成功");
+                })
+                .catch(() => {});
+        },
+    },
+];
+const page = reactive({
+    size: 10,
+    index: 1,
+    total: 1000,
+});
+
+const onEditOk = (data: any) => {
+    console.log("===", data);
+    onEditCancel();
+};
+
+const onEditCancel = () => {
+    editViaible.value = false;
+    selectedRow.value = null;
+};
+
+const onViewClose = () => {
+    viewViaible.value = false;
+    selectedRow.value = null;
+};
+
+onMounted(() => {
+    // tagApi.getTree().then((res: any) => {
+    //     console.log('===', res);
+    // });
+});
 </script>
 
 <template>
-    <a-layout class="layout">
-        <a-layout-sider
-            collapsible
-            :collapsed="collapsed"
-            @collapse="(e: boolean) => collapsed = e"
-        >
-            <template #trigger="{ collapsed }">
-                <IconMenuUnfold v-if="collapsed" />
-                <IconMenuFold v-else />
-            </template>
-            <a-menu
-                :selected-keys="selectedMenuKeys"
-                @menuItemClick="onClickMenuItem"
+    <div class="bqmodule tag">
+        <div class="tag-header">
+            <el-button type="primary" @click="editViaible = true"
+                >新增</el-button
             >
-                <a-menu-item v-for="m in menus" :key="m.key">
-                    <template #icon>
-                        <component :is="m.icon"></component>
-                    </template>
-                    {{ m.name }}
-                </a-menu-item>
-            </a-menu>
-        </a-layout-sider>
-        <a-layout-content>
-            <view-tag />
-            <div class="layout-cont">
-                <router-view v-slot="{ Component, route: routeInner }">
-                    <transition name="fade" mode="out-in" appear>
-                        <component :is="Component" :key="routeInner.fullPath" />
-                    </transition>
-                </router-view>
-            </div>
-        </a-layout-content>
-    </a-layout>
+        </div>
+        <lz-table
+            :data="tagData"
+            :list="tagConfig"
+            :operations="operations"
+            paginationVisible
+            :pageSize="page.size"
+            :pageIndex="page.index"
+            :total="page.total"
+        >
+        </lz-table>
+        <EditDialog
+            :visible="editViaible"
+            :data="selectedRow"
+            @ok="onEditOk"
+            @cancel="onEditCancel"
+        />
+        <ViewDialog
+            :visible="viewViaible"
+            :data="selectedRow"
+            @close="onViewClose"
+        />
+    </div>
 </template>
 
-<style scoped lang="less">
-    .layout {
-        height: 100%;
-        &-cont {
-            position: relative;
-            margin: 0 16px 16px;
-            height: calc(100% - 64px);
-            .webkit-scrollbar();
-            overflow: auto;
-            background: #fff;
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
-            border: 1px solid #e5e6eb;
-            border-top: none;
-        }
-    }
+<style scoped>
+.tag-header {
+    display: flex;
+    align-items: center;
+    /* justify-content: end; */
+    margin-bottom: 20px;
+}
 </style>

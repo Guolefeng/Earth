@@ -4,7 +4,7 @@ import {
     // localCiaImageryLayer,
     viewerOption,
 } from "./config";
-import { toCartographicDegrees } from "../common";
+import { updateBaseMap } from "../effect";
 
 let cesiumViewer: Cesium.Viewer;
 
@@ -36,7 +36,7 @@ function initMapInstance() {
     cesiumViewer.scene.debugShowFramesPerSecond = true;
     // 修改默认相机位置
     cesiumViewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 20000000.0),
+        destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 20000000.0), // 俯瞰中国地图
         // destination: Cesium.Cartesian3.fromDegrees(116.39, 39.91, 15000.0), // 天安门广场
     });
     // 修改homeButton的默认返回位置
@@ -55,29 +55,17 @@ function initMapInstance() {
             commandInfo.cancel = true;
         }
     );
-    const cesiumScreenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(
-        cesiumViewer.canvas
-    );
-    cesiumScreenSpaceEventHandler.setInputAction(function (
-        event: Cesium.ScreenSpaceEventHandler.MotionEvent
-    ) {
-        if (event.endPosition) {
-            const ray: any = cesiumViewer.camera.getPickRay(event.endPosition);
-            const earthPosition = cesiumViewer.scene.globe.pick(
-                ray,
-                cesiumViewer.scene
-            );
-            if (earthPosition) {
-                const position = toCartographicDegrees(
-                    cesiumViewer,
-                    earthPosition
-                );
-                // console.log("click position: ", position);
-            }
-        }
-    },
-    Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+    // 关闭大气层显示
+    // cesiumViewer.scene.skyAtmosphere.show = false;
 
+    // 添加OSM bulidings
+    // cesiumViewer.scene.primitives.add(Cesium.createOsmBuildingsAsync());
+    // 添加瓦片坐标信息
+    // cesiumViewer.imageryLayers.addImageryProvider(
+    //     new Cesium.TileCoordinatesImageryProvider()
+    // );
+    // 修改地图
+    updateBaseMap(cesiumViewer);
     // 测试用
     window.Cesium = Cesium;
     window.CesiumViewer = cesiumViewer;

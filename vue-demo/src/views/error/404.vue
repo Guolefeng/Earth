@@ -1,21 +1,23 @@
 <script lang="ts" setup>
-    import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 
-    const router = useRouter()
-    const back = () => {
-        router.push('/portal')
-    }
+const router = useRouter();
+const back = () => {
+    router.push("/portal");
+};
 </script>
 
 <template>
     <div class="content">
-        <a-result class="result" status="404" subtitle="对不起，您正在寻找的页面不存在。">
+        <el-result
+            icon="error"
+            title="404"
+            sub-title="对不起，您正在寻找的页面不存在。"
+        >
             <template #extra>
-                <a-space>
-                    <a-button key="back" type="primary" @click="back">返回</a-button>
-                </a-space>
+                <el-button type="primary" @click="back">返回</el-button>
             </template>
-        </a-result>
+        </el-result>
     </div>
 </template>
 

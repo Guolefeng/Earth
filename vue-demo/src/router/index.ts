@@ -34,79 +34,47 @@ const router = createRouter({
             meta: {},
         },
         {
-            path: "/home",
-            name: "首页",
-            component: () => import("@/layout/defaultLayout.vue"),
+            path: "/",
+            name: "默认布局",
+            component: () => import("@/layout/Default.vue"),
             children: [
+                {
+                    path: "home",
+                    name: "首页",
+                    component: () => import("@/views/home/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
                 {
                     path: "test1",
-                    name: "test1",
+                    name: "测试1",
                     component: () => import("@/views/test1/index.vue"),
-                    meta: {},
-                    children: [
-                        {
-                            path: "first1",
-                            name: "first-1",
-                            component: () =>
-                                import("@/views/test1/list/index.vue"),
-                            meta: {
-                                viewtag: true,
-                            },
-                        },
-                    ],
+                    meta: {
+                        viewtag: true,
+                    },
                 },
-            ],
-        },
-        {
-            path: "/test1",
-            name: "测试1",
-            component: () => import("@/layout/defaultLayout.vue"),
-            children: [
                 {
-                    path: "test1-1",
-                    name: "test1-1",
-                    component: () => import("@/views/test1/index.vue"),
-                    meta: {},
-                    children: [
-                        {
-                            path: "f1",
-                            name: "f1",
-                            component: () =>
-                                import("@/views/test1/f1/index.vue"),
-                            meta: {
-                                viewtag: true,
-                            },
-                        },
-                        {
-                            path: "f2",
-                            name: "f2",
-                            component: () =>
-                                import("@/views/test1/f2/index.vue"),
-                            meta: {
-                                viewtag: true,
-                            },
-                        },
-                        {
-                            path: "/test1/test1-1",
-                            redirect: "/test1/test1-1/f1",
-                        },
-                    ],
+                    path: "/test2",
+                    name: "测试2",
+                    component: () => import("@/views/test2/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
+                {
+                    path: "/test3",
+                    name: "测试3",
+                    component: () => import("@/views/test3/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
+                {
+                    path: "/",
+                    redirect: "/home",
                 },
             ],
-        },
-        {
-            path: "/test2",
-            name: "测试2",
-            component: () => import("@/views/test2/index.vue"),
-        },
-        {
-            path: "/test3",
-            name: "测试3",
-            component: () => import("@/views/test3/index.vue"),
-        },
-        {
-            path: "/",
-            redirect: "/home/test1",
         },
         {
             path: "/:pathMatch(.*)*",
@@ -114,6 +82,12 @@ const router = createRouter({
             component: () => import("@/views/error/404.vue"),
         },
     ],
+});
+
+router.beforeEach((to, from, next) => {
+    console.log("路由守卫from：", from);
+    console.log("路由守卫to：", to);
+    next();
 });
 
 export default router;

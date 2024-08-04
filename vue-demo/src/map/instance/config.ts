@@ -50,13 +50,13 @@ const baseUrl = "";
 export const viewerOption = {
     animation: false, // 是否创建动画小器件，左下角仪表
     baseLayerPicker: true, // 是否显示图层选择器
-    fullscreenButton: true, // 是否显示全屏按钮
-    vrButton: true, //  用于切换 VR 模式的单个按钮小部件。
+    fullscreenButton: false, // 是否显示全屏按钮
+    vrButton: false, //  用于切换 VR 模式的单个按钮小部件。
     geocoder: true, //  // 是否显示geocoder小器件，右上角查询按钮
     homeButton: true, // 是否显示Home按钮
-    infoBox: true, // 是否显示信息框
+    infoBox: false, // 是否显示信息框
     sceneModePicker: true, // 是否显示3D/2D选择器
-    selectionIndicator: true, // 是否显示选取指示器组件
+    selectionIndicator: false, // 是否显示选取指示器组件
     timeline: false, // 是否显示时间轴
     navigationHelpButton: true, // 是否显示右上角的帮助按钮
     navigationInstructionsInitiallyVisible: true, // 是否显示导航说明
@@ -105,7 +105,7 @@ export const viewerOption = {
     // creditContainer: document.createElement("div"), // 用于显示credit的DOM元素
     // creditViewport: document.createElement("div"), // 用于显示credit的DOM元素
     dataSources: new Cesium.DataSourceCollection(), // 需要进行可视化的数据源的集合
-    shadows: true, // 是否显示阴影
+    // shadows: true, // 是否显示阴影
     // projectionPicker: undefined, // ProjectionPicker 是用于在透视和正交投影之间切换的单按钮小部件。
     // terrainShadows: Cesium.ShadowMode.ENABLED, // 阴影模式
     // imageryProviderViewModels: Cesium.createDefaultImageryProviderViewModels(), // 图层选择器,可供BaseLayerPicker选择的图像图层ProviderViewModel数组

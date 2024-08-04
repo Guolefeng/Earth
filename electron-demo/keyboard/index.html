@@ -1,0 +1,320 @@
+<!doctype html>
+<html>
+<head>
+    <title>键盘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            padding: 0;
+        }
+        #box1 {
+            background-color:#f1f1f7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .keyboard {
+            user-select: none;
+            cursor: pointer;
+        }
+        .keys {
+            display: flex;
+            list-style: none;
+            margin: 0 0;
+        }
+        li {
+            box-shadow: 0 -6px 10px rgb(255, 255, 255),0 4px 15px rgba(0, 0, 0,0.3);
+            width: 3em;
+            font-size: 10px;
+            margin: 0.2em;
+            background-color: #f2f2f2;
+            border-radius: 15px;
+            text-align: center;
+            line-height: 3em;
+            transition: all 0.25s;
+        }
+        li:active {
+            box-shadow:0 0 4px 0 rgba(0, 0, 0,0.15);
+            color: rgb(12, 164, 190);
+            text-shadow:  0 0 15px #57c1f1;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        li.active {
+            box-shadow:0 0 4px 0 rgba(0, 0, 0,0.15);
+            color: rgb(12, 164, 190);
+            text-shadow:  0 0 15px #57c1f1;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .one {
+            color:#eb3f33;
+        }
+        .one li {
+            width: 3.4em;
+        }
+        .two {
+            color: #df960e;
+        }
+        .three {
+            color:#2b46df;
+        }
+        .four {
+            color:rgb(57,194,75);
+        }
+        .five {
+            color:#8919ca;
+        }
+        .six {
+            color: #e73d09;
+        }
+        .esc {
+            width: 3.5em;
+        }
+        .back {
+            width: 4.7em;
+        }
+        .tab {
+            width: 4.7em;
+        }
+        .caps {
+            width: 6.3em;
+        }
+        .enter {
+            width: 4.7em;
+        }
+        .shift {
+            width: 7.2em;
+        }
+        .ctrl,
+        .win,
+        .alt,
+        .fn,
+        .menu {
+            width: 4.7em;
+        }
+        .space {
+            width: 18em;
+        }
+        .zr {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="box1">
+        <div class="keyboard">
+            <ul class="keys one">
+                <li code="1" class="esc">Esc</li>
+                <li code="59">F1</li>
+                <li code="60">F2</li>
+                <li code="61">F3</li>
+                <li code="62">F4</li>
+                <li code="63">F5</li>
+                <li code="64">F6</li>
+                <li code="65">F7</li>
+                <li code="66">F8</li>
+                <li code="67">F9</li>
+                <li code="68">F10</li>
+                <li code="87">F11</li>
+                <li code="88">F12</li>
+            </ul>
+            <ul class="keys two">
+                <li code="41">`</li>
+                <li code="2">1</li>
+                <li code="3">2</li>
+                <li code="4">3</li>
+                <li code="5">4</li>
+                <li code="6">5</li>
+                <li code="7">6</li>
+                <li code="8">7</li>
+                <li code="9">8</li>
+                <li code="10">9</li>
+                <li code="11">0</li>
+                <li code="12">-</li>
+                <li code="13">=</li>
+                <li code="14" class="back"><-</li>
+            </ul>
+            <ul class="keys three">
+                <li code="15" class="tab">Tab</li>
+                <li code="16">Q</li>
+                <li code="17">W</li>
+                <li code="18">E</li>
+                <li code="19">R</li>
+                <li code="20">T</li>
+                <li code="21">Y</li>
+                <li code="22">U</li>
+                <li code="23">I</li>
+                <li code="24">O</li>
+                <li code="25">P</li>
+                <li code="26">[</li>
+                <li code="27">]</li>
+                <li code="43">\</li>
+            </ul>
+            <ul class="keys four">
+                <li code="58" class="caps">Caps</li>
+                <li code="30">A</li>
+                <li code="31">S</li>
+                <li code="32">D</li>
+                <li code="33">F</li>
+                <li code="34">G</li>
+                <li code="35">H</li>
+                <li code="36">J</li>
+                <li code="37">K</li>
+                <li code="38">L</li>
+                <li code="39">;</li>
+                <li code="40">'</li>
+                <li code="28" class="enter">Enter</li>
+            </ul>
+            <ul class="keys five">
+                <li code="42" class="shift">Shift</li>
+                <li code="44">Z</li>
+                <li code="45">X</li>
+                <li code="46">C</li>
+                <li code="47">V</li>
+                <li code="48">B</li>
+                <li code="49">N</li>
+                <li code="50">M</li>
+                <li code="51">,</li>
+                <li code="52">.</li>
+                <li code="53">/</li>
+                <li code="54" class="shift">Shift</li>
+            </ul>
+            <ul class="keys six">
+                <li code="29" class="ctrl">Ctrl</li>
+                <li code="3675" class="fn">Fn</li>
+                <li code="56" class="alt">Alt</li>
+                <li code="57" class="space">Space</li>
+                <li code="3640" class="alt">Alt</li>
+                <li code="3676" class="menu">Menu</li>
+                <li code="3613" class="ctrl">Ctrl</li>
+            </ul>
+        </div>
+    </div>
+    <div id="zr" class="zr"></div>
+    <script>
+        document.addEventListener('resize', () => {
+            console.log('resize');
+            // zr.resize();
+            // startPosition = {
+            //     x: dom.clientWidth - w - dis,
+            //     y: dom.clientHeight - h - dis,
+            // }
+            // endPosition = {
+            //     x: dom.clientWidth - dis,
+            //     y: dom.clientHeight - dis,
+            // }
+            // p.attr({
+            //     shape: {
+            //         points: getPoints(startPosition, endPosition),
+            //     }
+            // });
+        });
+    </script>
+    <script src="./zrender.js"></script>
+    <!-- <script>
+        const getPoints = (sp, ep, gap = 3) => {
+            return [
+                [sp.x - gap, sp.y + gap],
+                [sp.x - gap, sp.y - gap],
+                [sp.x + gap, sp.y - gap],
+                [ep.x + gap, ep.y - gap],
+                [ep.x - gap, ep.y + gap],
+            ];
+        }
+
+        const getStartPoint = (e) => {
+            return {
+                x: e.offsetLeft + e.clientWidth / 2,
+                y: e.offsetTop + e.clientHeight / 2,
+            }
+        }
+
+        // 爪子宽、高
+        const w = 30;
+        const h = 20;
+        const dis = 20;
+        const dom = document.getElementById('zr');
+        let startPosition = {
+            x: dom.clientWidth - w - dis,
+            y: dom.clientHeight - h - dis,
+        }
+        let endPosition = {
+            x: dom.clientWidth - dis,
+            y: dom.clientHeight - dis,
+        }
+        const defaultPoints = getPoints(startPosition, endPosition);
+        var zr = zrender.init(dom);
+        var p = new zrender.Polygon({
+            shape: {
+                points: defaultPoints,
+                smooth: 0.5,
+            },
+            style: {
+                fill: '#fff',
+                lineWidth: 2,
+                // stroke: 'red#ff',
+            },
+        });
+        zr.add(p);
+
+        document.addEventListener('keydown', (e) => {
+            console.log(e);
+            if (e.keyCode === 27) { // code 1
+                const code = 1;
+                const ele = document.querySelector(`li[code='${code}']`);
+                const sp = getStartPoint(ele)
+                p.attr({
+                    shape: {
+                        points: getPoints(sp, endPosition)
+                    }
+                })
+            } else if (e.keyCode === 49) { // code 59
+                const code = 2;
+                const ele = document.querySelector(`li[code='${code}']`);
+                const sp = getStartPoint(ele)
+                p.attr({
+                    shape: {
+                        points: getPoints(sp, endPosition)
+                    }
+                })
+            }
+        })
+
+        document.addEventListener('keyup', () => {
+            p.attr({
+                shape: {
+                    points: defaultPoints
+                }
+            })
+        })
+
+        document.addEventListener('resize', () => {
+            console.log('resize');
+            // zr.resize();
+            // startPosition = {
+            //     x: dom.clientWidth - w - dis,
+            //     y: dom.clientHeight - h - dis,
+            // }
+            // endPosition = {
+            //     x: dom.clientWidth - dis,
+            //     y: dom.clientHeight - dis,
+            // }
+            // p.attr({
+            //     shape: {
+            //         points: getPoints(startPosition, endPosition),
+            //     }
+            // });
+        });
+    </script> -->
+</body>
+</html>

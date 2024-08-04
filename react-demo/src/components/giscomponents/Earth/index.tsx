@@ -81,7 +81,7 @@ const Earth = () => {
         // viewer.scene.skyAtmosphere.show = false;
 
         // 添加OSM bulidings
-        viewer.scene.primitives.add(Cesium.createOsmBuildings());
+        viewer.scene.primitives.add(Cesium.createOsmBuildingsAsync());
         // 添加瓦片坐标信息
         // viewer.imageryLayers.addImageryProvider(
         //     new Cesium.TileCoordinatesImageryProvider()
