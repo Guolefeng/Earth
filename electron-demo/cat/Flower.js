@@ -6,8 +6,8 @@ class Flower {
         this._img = document.createElement("img");
         this._img.src = `img/flower/${url}`;
         this._img.width = Math.random() * 40 + 5;
-        this.x = 100;
-        this.y = 80;
+        this.x = 87;
+        this.y = 145;
         this.rotaion = 0;
         this.speedX = Math.random() * 6 + 5;
         this.speedY = Math.random() * 6 + 9;
@@ -48,4 +48,3 @@ class Flower {
 }
 
 module.exports = Flower;
-

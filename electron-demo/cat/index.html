@@ -5,6 +5,7 @@
         <title>cat</title>
         <style>
             html, body {
+                position: relative;
                 margin: 0;
                 padding: 0;
                 width: 100%;
@@ -23,7 +24,8 @@
                 padding: 0;
             }
             .keyboard {
-                margin-right: 130px;
+                right: 0;
+                bottom: 0;
                 user-select: none;
                 cursor: pointer;
                 background-color: transparent;
@@ -114,14 +116,64 @@
                 pointer-events: none;
             }
         </style>
+        <style>
+            .cat {
+                position: absolute;
+                bottom: 90px;
+                right: 30px;
+                width: 100px;
+                height: 100px;
+                font-size: 20px;
+                cursor: pointer;
+            }
+            .cat-body {
+                width: 5em;
+                height: 5em;
+                pointer-events: none;
+            }
+            .cat-eyeleft {
+                left: 0.9em;
+                top: 1em;
+                width: 0.5em;
+                height: 0.3em;
+                pointer-events: none;
+                transform-origin: 50% 50%;
+                animation: 10s linear 10s infinite alternate blink_eye;
+            }
+            .cat-eyeright {
+                left: 1.8em;
+                top: 1em;
+                width: 0.5em;
+                height: 0.3em;
+                pointer-events: none;
+                animation: 10s linear 10s infinite alternate blink_eye;
+            }
+            .cat-legleft {
+                top: 4.5em;
+                left: -0.1em;
+                width: 1em;
+                height: 1em;
+                pointer-events: none;
+            }
+            .cat-legright {
+                left: 2.8em;
+                top: 4.4em;
+                width: 1em;
+                height: 1em;
+                pointer-events: none;
+            }
+
+            @keyframes blink_eye {
+                98% {
+                    transform: scaleY(1);
+                }
+                100% {
+                    transform: scaleY(0);
+                }
+            }
+        </style>
     </head>
     <body>
-        <img
-            draggable="false"
-            style="width: 150px; height: 150px; cursor: pointer;"
-            id="imgAvatar"
-            src="img/skin/close1.png"
-        />
         <div class="keyboard">
             <ul class="keys one">
                 <li code="1" class="esc">Esc</li>
@@ -209,6 +261,13 @@
                 <li code="3613" class="ctrl">Ctrl</li>
             </ul>
         </div>
+        <div id="imgAvatar" class="cat">
+            <img id="catbody" class="cat-body" src="img/cat/body_shut1.png" />
+            <img class="cat-eyeleft" src="img/cat/eye_left1.png" />
+            <img class="cat-eyeright" src="img/cat/eye_right1.png" />
+            <img class="cat-legleft" src="img/cat/leg_left1.png" />
+            <img class="cat-legright" src="img/cat/leg_right1.png" />
+        </div>
         <div id="zr" class="zr"></div>
     </body>
     <script src="./zrender.js"></script>
@@ -233,18 +292,18 @@
         // 爪子宽、高
         const w = 30;
         const h = 20;
-        const disX = 75;
-        const disY = 50;
+        const disX = 87;
+        const disY = 90;
         const container = document.getElementById('zr');
-        const startPosition = {
+        let startPosition = {
             x: container.clientWidth - w - disX,
             y: container.clientHeight - h - disY,
         }
-        const endPosition = {
+        let endPosition = {
             x: container.clientWidth - disX,
             y: container.clientHeight - disY,
         }
-        const defaultPoints = getPoints(startPosition, endPosition);
+        let defaultPoints = getPoints(startPosition, endPosition);
         var zr = zrender.init(container);
         var p = new zrender.Polygon({
             shape: {
@@ -252,7 +311,7 @@
                 smooth: 0.5,
             },
             style: {
-                fill: '#fff',
+                fill: '#000',
             },
         });
         zr.add(p);
@@ -266,9 +325,10 @@
                 x: container.clientWidth - disX,
                 y: container.clientHeight - disY,
             }
+            let defaultPoints = getPoints(startPosition, endPosition);
             p.attr({
                 shape: {
-                    points: getPoints(startPosition, endPosition),
+                    points: defaultPoints,
                 }
             });
         });

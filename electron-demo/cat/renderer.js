@@ -1,45 +1,20 @@
 const Flower = require("./Flower");
-const { getDirFileNum } = require("./util");
 
-let openSrc = `img/skin/open1.png`;
-let closeSrc = `img/skin/close1.png`;
-
-const imgElement = document.getElementById("imgAvatar");
-
-imgElement.addEventListener("mousedown", (ev) => {
-    if (ev.button === 2) {
-        const string = imgElement.src
-            .substring(imgElement.src.length - 5, imgElement.src.length)
-            .split(".")[0];
-        let index = parseInt(string);
-        if (index) {
-            getDirFileNum(`${__dirname}/img/skin`).then((res) => {
-                console.log(res);
-                if (index < res / 2) {
-                    index++;
-                    openSrc = `img/skin/open${index}.png`;
-                    closeSrc = `img/skin/close${index}.png`;
-                } else {
-                    openSrc = "img/skin/open1.png";
-                    closeSrc = "img/skin/close1.png";
-                }
-                imgElement.src = closeSrc;
-            });
-        }
-    }
-});
+let openSrc = "img/cat/body_open1.png";
+let closeSrc = "img/cat/body_shut1.png";
+const catbody = document.getElementById("catbody");
 
 window.onGlobalKeyBoard = (type, value) => {
     const ele = document.querySelector(`li[code='${value}']`);
 
+    // 键盘键按下
     if (1 === type) {
-        // 按下
-        const imgElement = document.getElementById("imgAvatar");
-        if (imgElement.src.concat("close")) {
-            imgElement.src = openSrc;
-            imgElement.offsetTop;
-            imgElement.offsetLeft;
+        // 张嘴
+        if (catbody.src.concat("shut")) {
+            catbody.src = openSrc;
         }
+
+        // 随机生成花
         for (let i = 0; i < 2; i++) {
             const number = parseInt(Math.random() * 6 + "");
             document.body.appendChild(
@@ -47,6 +22,7 @@ window.onGlobalKeyBoard = (type, value) => {
             );
         }
 
+        // 键盘按键同步 按下状态
         if (ele) {
             ele.classList.add("active");
             const sp = getStartPoint(ele);
@@ -58,12 +34,13 @@ window.onGlobalKeyBoard = (type, value) => {
         }
     }
 
+    // 键盘键抬起
     if (2 === type) {
-        // 抬起
-        const imgElement = document.getElementById("imgAvatar");
-        if (imgElement.src.concat("open")) {
-            imgElement.src = closeSrc;
+        // 闭嘴
+        if (catbody.src.concat("open")) {
+            catbody.src = closeSrc;
         }
+        // 键盘按钮同步 恢复默认状态
         if (ele) {
             ele.classList.remove("active");
             p.attr({
