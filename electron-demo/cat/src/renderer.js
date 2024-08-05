@@ -8,9 +8,9 @@ const zr = zrender.init(container);
 // 爪子宽、高、左右腿距离猫身x/y间距
 const w = 5;
 const h = 15;
-const leftDisX = 120;
+const leftDisX = 130;
 const leftDisY = 100;
-const rightDisX = 70;
+const rightDisX = 80;
 const rightDisY = 100;
 // 绘制猫爪
 const getLeftPoints = (sp, ep, gap = 3) => {

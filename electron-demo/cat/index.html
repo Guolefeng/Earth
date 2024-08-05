@@ -19,6 +19,8 @@
             img {
                 display: block;
                 position: absolute;
+                pointer-events: none;
+                user-select: none;
             }
 
             ul {
@@ -122,7 +124,7 @@
             .cat {
                 position: absolute;
                 bottom: 90px;
-                right: 30px;
+                right: 40px;
                 width: 100px;
                 height: 100px;
                 font-size: 20px;
@@ -131,14 +133,12 @@
             .cat-body {
                 width: 5em;
                 height: 5em;
-                pointer-events: none;
             }
             .cat-eyeleft {
                 left: 0.9em;
                 top: 1em;
                 width: 0.5em;
                 height: 0.3em;
-                pointer-events: none;
                 transform-origin: 50% 50%;
                 animation: 10s linear 10s infinite alternate blink_eye;
             }
@@ -147,7 +147,6 @@
                 top: 1em;
                 width: 0.5em;
                 height: 0.3em;
-                pointer-events: none;
                 animation: 10s linear 10s infinite alternate blink_eye;
             }
             .cat-legleft {
@@ -155,14 +154,12 @@
                 left: -0.1em;
                 width: 1em;
                 height: 1em;
-                pointer-events: none;
             }
             .cat-legright {
                 left: 2.8em;
                 top: 4.4em;
                 width: 1em;
                 height: 1em;
-                pointer-events: none;
             }
 
             @keyframes blink_eye {
