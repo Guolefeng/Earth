@@ -25,18 +25,21 @@ const createWindow = () => {
         transparent: true, // 透明度
         alwaysOnTop: true, // 窗口置顶
         resizable: false, // 是否可以改变大小
-        movable: true,
+        movable: true, // 是否可以移动
         webPreferences: {
             preload: path.join(__dirname, "src/preload.js"),
             nodeIntegration: true, // 是否使用nodejs 的特性
-            contextIsolation: false,
+            contextIsolation: false, // 上下文隔离
         },
         // 禁用窗口阴影，否则在mac系统选中时会有图片的阴影
         hasShadow: false,
     });
     // 允许窗口的 webcontents 访问
     remote.enable(win.webContents);
-    // win.setIgnoreMouseEvents(true) // 设置鼠标忽略事件
+
+    // 设置鼠标忽略事件
+    // win.setIgnoreMouseEvents(true);
+
     // 处理mac系统下，在全屏模式下，应用无法置顶的问题。
     if (process.platform === "darwin") {
         app.dock.show();
