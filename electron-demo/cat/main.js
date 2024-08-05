@@ -25,6 +25,7 @@ const createWindow = () => {
         transparent: true, // 透明度
         alwaysOnTop: true, // 窗口置顶
         resizable: false, // 是否可以改变大小
+        movable: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             nodeIntegration: true, // 是否使用nodejs 的特性
@@ -45,7 +46,6 @@ const createWindow = () => {
     }
     // win.openDevTools();
     win.loadFile("index.html");
-
     listenerKeyboardEvent(win);
 };
 
@@ -68,7 +68,6 @@ const listenerKeyboardEvent = (win) => {
         const js = `if(window.onGlobalKeyBoard){window.onGlobalKeyBoard(${type},${e.keycode})}`;
         win.webContents.executeJavaScript(js);
     });
-
     uIOhook.on("keyup", (e) => {
         // 抬起
         const type = 2;

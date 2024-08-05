@@ -41,7 +41,7 @@ window.onGlobalKeyBoard = (type, value) => {
             imgElement.offsetLeft;
         }
         for (let i = 0; i < 2; i++) {
-            const number = parseInt(Math.random() * 21 + "");
+            const number = parseInt(Math.random() * 6 + "");
             document.body.appendChild(
                 new Flower(`flower_${number + 1}.png`).img
             );
