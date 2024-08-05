@@ -1,7 +1,7 @@
 {
     "name": "cat",
     "version": "1.0.0",
-    "main": "main.js",
+    "main": "index.js",
     "scripts": {
         "start": "electron-forge start",
         "package": "electron-forge package",
