@@ -33,11 +33,11 @@ window.addEventListener("mousemove", (e) => {
     if (dragging) {
         const { pageX, pageY } = e;
         const pos = win.getPosition();
-        pos[0] = pos[0] + pageX - startX;
-        pos[1] = pos[1] + pageY - startY;
+        const offsetX = pageX - startX;
+        const offsetY = pageY - startY;
         win.setBounds({
-            x: pos[0],
-            y: pos[1],
+            x: pos[0] + offsetX,
+            y: pos[1] + offsetY,
             width,
             height,
         });
@@ -45,7 +45,7 @@ window.addEventListener("mousemove", (e) => {
 });
 // 设置指定区域的鼠标点击不穿透
 window.addEventListener("mousemove", (e) => {
-    const el = document.getElementById("imgAvatar");
+    const el = document.getElementById("cat");
     let flag = e.target === el;
     if (!flag) {
         win.setIgnoreMouseEvents(true, { forward: true });

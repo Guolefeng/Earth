@@ -1,54 +1,54 @@
 {
-  "name": "cat",
-  "version": "1.0.0",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
-  },
-  "author": "lezi",
-  "license": "ISC",
-  "description": "打字彩虹屁",
-  "dependencies": {
-    "@electron/remote": "^2.1.2",
-    "child_process": "^1.0.2",
-    "electron-squirrel-startup": "^1.0.1",
-    "uiohook-napi": "^1.5.4"
-  },
-  "devDependencies": {
-    "@electron-forge/cli": "^7.4.0",
-    "@electron-forge/maker-deb": "^7.4.0",
-    "@electron-forge/maker-rpm": "^7.4.0",
-    "@electron-forge/maker-squirrel": "^7.4.0",
-    "@electron-forge/maker-zip": "^7.4.0",
-    "electron": "^31.3.1"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "electron_app"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
+    "name": "cat",
+    "version": "1.0.0",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron-forge start",
+        "package": "electron-forge package",
+        "make": "electron-forge make"
+    },
+    "author": "lezi",
+    "license": "ISC",
+    "description": "喵咪打字跟随、彩虹屁",
+    "dependencies": {
+        "@electron/remote": "^2.1.2",
+        "child_process": "^1.0.2",
+        "electron-squirrel-startup": "^1.0.1",
+        "uiohook-napi": "^1.5.4"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "^7.4.0",
+        "@electron-forge/maker-deb": "^7.4.0",
+        "@electron-forge/maker-rpm": "^7.4.0",
+        "@electron-forge/maker-squirrel": "^7.4.0",
+        "@electron-forge/maker-zip": "^7.4.0",
+        "electron": "^31.3.1"
+    },
+    "config": {
+        "forge": {
+            "packagerConfig": {},
+            "makers": [
+                {
+                    "name": "@electron-forge/maker-squirrel",
+                    "config": {
+                        "name": "electron_app"
+                    }
+                },
+                {
+                    "name": "@electron-forge/maker-zip",
+                    "platforms": [
+                        "darwin"
+                    ]
+                },
+                {
+                    "name": "@electron-forge/maker-deb",
+                    "config": {}
+                },
+                {
+                    "name": "@electron-forge/maker-rpm",
+                    "config": {}
+                }
+            ]
         }
-      ]
     }
-  }
 }

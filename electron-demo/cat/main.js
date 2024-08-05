@@ -27,7 +27,7 @@ const createWindow = () => {
         resizable: false, // 是否可以改变大小
         movable: true,
         webPreferences: {
-            preload: path.join(__dirname, "preload.js"),
+            preload: path.join(__dirname, "src/preload.js"),
             nodeIntegration: true, // 是否使用nodejs 的特性
             contextIsolation: false,
         },
@@ -44,9 +44,30 @@ const createWindow = () => {
         win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
         win.setFullScreenable(false);
     }
-    // win.openDevTools();
+
     win.loadFile("index.html");
-    listenerKeyboardEvent(win);
+
+    // 监听系统键盘事件
+    uIOhook.on("keydown", (e) => {
+        // 按下
+        win.webContents.executeJavaScript(`
+            if (window.onGlobalKeyBoard) {
+                window.onGlobalKeyBoard(1, ${e.keycode})
+            }
+        `);
+    });
+    uIOhook.on("keyup", (e) => {
+        // 抬起
+        win.webContents.executeJavaScript(`
+            if (window.onGlobalKeyBoard) {
+                window.onGlobalKeyBoard(2, ${e.keycode})
+            }
+        `);
+    });
+    uIOhook.start();
+
+    // 打开开发者工具
+    // win.openDevTools();
 };
 
 app.whenReady().then(() => {
@@ -59,21 +80,3 @@ app.whenReady().then(() => {
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
 });
-
-// 监听全局鼠标事件，并执行javascript脚本
-const listenerKeyboardEvent = (win) => {
-    uIOhook.on("keydown", (e) => {
-        // 按下
-        const type = 1;
-        const js = `if(window.onGlobalKeyBoard){window.onGlobalKeyBoard(${type},${e.keycode})}`;
-        win.webContents.executeJavaScript(js);
-    });
-    uIOhook.on("keyup", (e) => {
-        // 抬起
-        const type = 2;
-        win.webContents.executeJavaScript(
-            `if(window.onGlobalKeyBoard){window.onGlobalKeyBoard(${type}, ${e.keycode})}`
-        );
-    });
-    uIOhook.start();
-};

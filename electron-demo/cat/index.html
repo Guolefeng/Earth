@@ -13,6 +13,7 @@
                 display: flex;
                 justify-content: end;
                 align-items: end;
+                /* overflow: hidden; */
             }
 
             img {
@@ -23,12 +24,13 @@
             ul {
                 padding: 0;
             }
+
             .keyboard {
                 right: 0;
                 bottom: 0;
-                user-select: none;
                 cursor: pointer;
                 background-color: transparent;
+                user-select: none;
             }
             .keys {
                 display: flex;
@@ -261,77 +263,15 @@
                 <li code="3613" class="ctrl">Ctrl</li>
             </ul>
         </div>
-        <div id="imgAvatar" class="cat">
-            <img id="catbody" class="cat-body" src="img/cat/body_shut1.png" />
-            <img class="cat-eyeleft" src="img/cat/eye_left1.png" />
-            <img class="cat-eyeright" src="img/cat/eye_right1.png" />
-            <img class="cat-legleft" src="img/cat/leg_left1.png" />
-            <img class="cat-legright" src="img/cat/leg_right1.png" />
+        <div id="cat" class="cat">
+            <img id="catbody" class="cat-body" src="img/cat/body_shut.png" />
+            <img class="cat-eyeleft" src="img/cat/eye_left.png" />
+            <img class="cat-eyeright" src="img/cat/eye_right.png" />
+            <img class="cat-legleft" src="img/cat/leg_left.png" />
+            <img class="cat-legright" src="img/cat/leg_right.png" />
         </div>
         <div id="zr" class="zr"></div>
     </body>
-    <script src="./zrender.js"></script>
-    <script>
-        const getPoints = (sp, ep, gap = 3) => {
-            return [
-                [sp.x - gap, sp.y + gap],
-                [sp.x - gap, sp.y - gap],
-                [sp.x + gap, sp.y - gap],
-                [ep.x + gap, ep.y - gap],
-                [ep.x - gap, ep.y + gap],
-            ];
-        }
-
-        const getStartPoint = (e) => {
-            return {
-                x: e.offsetLeft + e.clientWidth / 2,
-                y: e.offsetTop + e.clientHeight / 2,
-            };
-        }
-
-        // 爪子宽、高
-        const w = 30;
-        const h = 20;
-        const disX = 87;
-        const disY = 90;
-        const container = document.getElementById('zr');
-        let startPosition = {
-            x: container.clientWidth - w - disX,
-            y: container.clientHeight - h - disY,
-        }
-        let endPosition = {
-            x: container.clientWidth - disX,
-            y: container.clientHeight - disY,
-        }
-        let defaultPoints = getPoints(startPosition, endPosition);
-        var zr = zrender.init(container);
-        var p = new zrender.Polygon({
-            shape: {
-                points: defaultPoints,
-                smooth: 0.5,
-            },
-            style: {
-                fill: '#000',
-            },
-        });
-        zr.add(p);
-        window.addEventListener('resize', () => {
-            zr.resize();
-            startPosition = {
-                x: container.clientWidth - w - disX,
-                y: container.clientHeight - h - disY,
-            }
-            endPosition = {
-                x: container.clientWidth - disX,
-                y: container.clientHeight - disY,
-            }
-            let defaultPoints = getPoints(startPosition, endPosition);
-            p.attr({
-                shape: {
-                    points: defaultPoints,
-                }
-            });
-        });
-    </script>
-    <script src="./renderer.js"></script>
+    <script src="./src/zrender.js"></script>
+    <script src="./src/renderer.js"></script>
 </html>

@@ -2,10 +2,13 @@ const electron = require("@electron/remote");
 const workAreaSize = electron.screen.getPrimaryDisplay().workAreaSize;
 
 class Flower {
+    img;
+    requestId;
+
     constructor(url) {
-        this._img = document.createElement("img");
-        this._img.src = `img/flower/${url}`;
-        this._img.width = Math.random() * 40 + 5;
+        this.img = document.createElement("img");
+        this.img.src = `img/flower/${url}`;
+        this.img.width = Math.random() * 40 + 5;
         this.x = 87;
         this.y = 145;
         this.rotaion = 0;
@@ -14,10 +17,6 @@ class Flower {
         this.speedRotation =
             (Math.random() + 1) * (Math.random() > 0.5 ? 1 : -1);
         this.move();
-    }
-
-    get img() {
-        return this._img;
     }
 
     move() {
@@ -35,15 +34,15 @@ class Flower {
             Math.abs(this.x + 50) >= workAreaSize.width * 0.5 ||
             Math.abs(this.y + 50) >= workAreaSize.height * 0.5
         ) {
-            if (this._img.parentNode) {
-                this._img.parentNode.removeChild(this._img);
-            }
+            this.destory();
         } else {
-            // 以屏幕刷新频率执行
-            requestAnimationFrame(() => {
-                this.move();
-            });
+            this.requestId = requestAnimationFrame(this.move.bind(this));
         }
+    }
+
+    destory() {
+        this.img.parentNode.removeChild(this.img);
+        this.requestId && cancelAnimationFrame(this.requestId);
     }
 }
 
