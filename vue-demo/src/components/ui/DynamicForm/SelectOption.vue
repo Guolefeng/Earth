@@ -1,9 +1,9 @@
 <script setup lang="ts">
-    import { IOption, IConfig } from './type';
-    defineProps<{
-        options: IOption[],
-        config: IConfig,
-    }>()
+import type { IOption, IConfig } from "./type";
+defineProps<{
+    options: IOption[];
+    config: IConfig;
+}>();
 </script>
 
 <template>
