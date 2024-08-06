@@ -25,7 +25,7 @@ export class TilesControl {
         this.add(
             {
                 id: "testtiles",
-                url: "http://data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
+                url: "https://data.mars3d.cn/3dtiles/jzw-hefei/tileset.json",
                 rgb: "rgb(51, 153, 255)",
                 lightShader: false,
                 heightOffset: -40,
