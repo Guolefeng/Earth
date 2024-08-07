@@ -14,11 +14,3 @@ export interface IUser {
     workPhone?: string;
     [propName: string]: any;
 }
-
-// 菜单
-export interface IMenu {
-    id?: string | number;
-    menuName?: string;
-    children?: IMenu[];
-    [propName: string]: any;
-}

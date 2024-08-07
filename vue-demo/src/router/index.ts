@@ -72,9 +72,25 @@ const router = createRouter({
                     },
                 },
                 {
+                    path: "/shader",
+                    name: "shader",
+                    component: () => import("@/views/shader/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
+                {
                     path: "curd",
                     name: "增删改查",
                     component: () => import("@/views/curd/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
+                {
+                    path: "form",
+                    name: "动态表单",
+                    component: () => import("@/views/form/index.vue"),
                     meta: {
                         viewtag: true,
                     },

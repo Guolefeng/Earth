@@ -4,43 +4,11 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import userComponent from "@/layout/User.vue";
 import defaultImg from "@/assets/images/defaultImg.png";
-import hubuser from "@/assets/images/hubuser.png";
-import hubconfig from "@/assets/images/hubconfig.png";
-import hubdoc from "@/assets/images/hubdoc.png";
+import { isURL } from "@/utils/functions";
+import { globalConfig } from "@/config";
 
 const router = useRouter();
 const hasToken = ref(false);
-const menus = [
-    {
-        name: "home",
-        img: hubdoc,
-        path: "/home",
-        description: "",
-    },
-    {
-        name: "test1",
-        img: hubconfig,
-        path: "/test1",
-        description: "",
-    },
-    {
-        name: "test2",
-        img: hubconfig,
-        path: "/test2",
-        description: "",
-    },
-    {
-        name: "test3",
-        img: hubuser,
-        path: "/test3",
-        description: "",
-    },
-    {
-        name: "map",
-        path: "/map",
-        description: "",
-    },
-];
 
 const inputName = ref("");
 
@@ -50,7 +18,11 @@ const onMenuClick = (item: any) => {
     }
     if (hasToken) {
         if (item.path) {
-            window.location.href = item.path;
+            if (isURL(item.path)) {
+                window.open(item.path, "__blank");
+            } else {
+                window.location.href = item.path;
+            }
         } else {
             ElMessage.warning("应用未配置跳转链接");
         }
@@ -79,7 +51,7 @@ const onMenuClick = (item: any) => {
         <div class="appcenter-cont">
             <div class="list">
                 <div
-                    v-for="item in menus.filter((m: any) => m.name?.includes(inputName))"
+                    v-for="item in globalConfig.portalApps.filter((m: any) => m.name?.includes(inputName))"
                     class="appcenter-item"
                     @click="() => onMenuClick(item)"
                 >
@@ -94,7 +66,7 @@ const onMenuClick = (item: any) => {
                         {{ item.description }}
                     </div>
                 </div>
-                <el-empty v-if="!menus.length" />
+                <el-empty v-if="!globalConfig.portalApps.length" />
             </div>
         </div>
     </div>
@@ -176,9 +148,9 @@ const onMenuClick = (item: any) => {
         &-img {
             margin: 16px 16px 0;
             width: calc(100% - 32px);
-            height: 150px;
+            height: 200px;
             border-radius: 8px;
-            object-fit: contain;
+            object-fit: fill;
         }
         &-name {
             position: relative;
