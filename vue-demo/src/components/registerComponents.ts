@@ -1,5 +1,6 @@
 import type { App } from "vue";
 import * as UIComponent from "./ui";
+import * as BizComponent from "./biz";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
 /**
@@ -7,14 +8,15 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
  * @param app
  */
 export function registerUIComponents(app: App) {
-    app.component("lz-dynamic-form", UIComponent.DynamicForm);
-    app.component("lz-change-theme", UIComponent.ChangeTheme);
-    app.component("lz-collapse-item", UIComponent.CollapseItem);
-    app.component("lz-descriptions", UIComponent.Descriptions);
-    app.component("lz-menu", UIComponent.Menu);
-    app.component("lz-search-input", UIComponent.SearchInput);
-    app.component("lz-table", UIComponent.Table);
-    app.component("lz-tag", UIComponent.Tag);
+    app.component("ui-dynamic-form", UIComponent.DynamicForm);
+    app.component("ui-change-theme", UIComponent.ChangeTheme);
+    app.component("ui-collapse-item", UIComponent.CollapseItem);
+    app.component("ui-descriptions", UIComponent.Descriptions);
+    app.component("ui-menu", UIComponent.Menu);
+    app.component("ui-search-input", UIComponent.SearchInput);
+    app.component("ui-table", UIComponent.Table);
+    app.component("ui-tag", UIComponent.Tag);
+    app.component("biz-crudpage", BizComponent.CRUDPage);
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
         app.component(key, component);
     }

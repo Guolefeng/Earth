@@ -2,7 +2,7 @@
 import { watch, ref } from "vue";
 import { useRoute } from "vue-router";
 import MenuItemVue from "./MenuItem.vue";
-import { menu } from "@/config";
+import globalConfig from "@/config/website";
 
 const route = useRoute();
 
@@ -26,7 +26,7 @@ watch(
         <el-scrollbar>
             <el-menu :default-active="activeIndex" router @select="onSelect">
                 <menu-item-vue
-                    v-for="(item, index) in menu"
+                    v-for="(item, index) in globalConfig.menuList"
                     :item-data="item"
                     :key="index"
                 ></menu-item-vue>

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { reactive, onMounted, watch } from "vue";
+import type { IFormItem } from "@/components/ui/DynamicForm/type";
 
 const props = withDefaults(
     defineProps<{
         visible?: boolean;
         data?: any;
+        list?: IFormItem[];
     }>(),
     {
         visible: false,
@@ -18,27 +20,6 @@ const emit = defineEmits<{
 const state = reactive({
     formData: {},
 });
-
-const list = [
-    {
-        label: "名称",
-        prop: "name",
-        type: "el-input",
-        rules: [{ required: true, message: "请输入名称", trigger: "blur" }],
-        config: {
-            placeholder: "请输入",
-        },
-    },
-    {
-        label: "描述",
-        prop: "description",
-        type: "el-input",
-        config: {
-            type: "textarea",
-            placeholder: "请输入",
-        },
-    },
-];
 
 const onOk = () => {
     emit("ok", state.formData);
@@ -66,7 +47,7 @@ watch(
         width="500"
         :before-close="onClose"
     >
-        <lz-dynamic-form :data="state.formData" :list="list" />
+        <ui-dynamic-form :data="state.formData" :list="list" />
         <template #footer>
             <div class="footer">
                 <el-button @click="onClose">取消</el-button>

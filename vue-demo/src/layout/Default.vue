@@ -3,6 +3,8 @@ import { RouterView, useRouter } from "vue-router";
 import userComponent from "./User.vue";
 import NavTab from "./NavTab.vue";
 import Aside from "./Aside.vue";
+import globalConfig from "@/config/website";
+
 const router = useRouter();
 
 const onBackHome = () => {
@@ -14,9 +16,14 @@ const onBackHome = () => {
     <el-container class="layout">
         <el-header class="header">
             <span class="header-item">
-                <span class="logo" />
-                <span class="title" @click="onBackHome">测试中心</span>
-                <span class="ct"><lz-change-theme /></span>
+                <span
+                    :style="{ backgroundImage: `url(${globalConfig.logo})` }"
+                    class="logo"
+                />
+                <span class="title" @click="onBackHome">{{
+                    globalConfig.title
+                }}</span>
+                <span class="ct"><ui-change-theme /></span>
             </span>
             <userComponent />
         </el-header>
@@ -71,7 +78,6 @@ const onBackHome = () => {
     margin-right: 8px;
     width: 30px;
     height: 30px;
-    background-image: url("@/assets/icons/logo.svg");
     background-size: cover;
 }
 .ct {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
+import globalConfig from "@/config/website";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -18,7 +19,9 @@ const onLogout = () => {
         <div class="user-info">
             <span class="user" />
             <div class="user-name">{{ userStore.userName }}</div>
-            <el-button @click="onLogout" type="primary">退出</el-button>
+            <el-button @click="onLogout" type="primary">{{
+                globalConfig.logoutBtnText
+            }}</el-button>
         </div>
     </el-popover>
 </template>

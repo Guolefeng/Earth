@@ -6,6 +6,7 @@ import { setCookie, isURL } from "@/utils/functions";
 import useUserStore from "@/store/user";
 import { encrypt } from "@/utils/encrypt";
 import { ElMessage } from "element-plus";
+import globalConfig from "@/config/website";
 
 const formRef = ref();
 const route = useRoute();
@@ -59,7 +60,7 @@ const onLogin = () => {
 <template>
     <main v-loading="loading" class="login">
         <div class="form">
-            <div class="title">欢迎登录系统</div>
+            <div class="title">{{ globalConfig.loginTitle }}</div>
             <el-form ref="formRef" :model="form">
                 <el-form-item
                     label="账号"
@@ -84,7 +85,9 @@ const onLogin = () => {
                     />
                 </el-form-item>
             </el-form>
-            <el-button type="primary" @click="onLogin">登录</el-button>
+            <el-button type="primary" @click="onLogin">{{
+                globalConfig.loginBtnText
+            }}</el-button>
         </div>
     </main>
 </template>

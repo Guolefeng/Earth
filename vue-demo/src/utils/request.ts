@@ -98,7 +98,9 @@ export const $request = (
                     let link = document.createElement("a");
                     link.href = window.URL.createObjectURL(blob);
                     link.download = decodeURIComponent(
-                        res.headers["content-disposition"].split("utf-8''")[1]
+                        res.headers?.["content-disposition"]?.split?.(
+                            "utf-8''"
+                        )?.[1]
                     );
                     link.click();
                     link.remove();
