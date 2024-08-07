@@ -17,7 +17,6 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]
-        },
-        "types": ["vite-plugin-svg-icons/client"]
+        }
     }
 }
