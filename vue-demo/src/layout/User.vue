@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
-import globalConfig from "@/config/website";
+import { globalConfig } from "@/config";
 
 const router = useRouter();
 const userStore = useUserStore();

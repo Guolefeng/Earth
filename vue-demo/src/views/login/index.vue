@@ -6,7 +6,7 @@ import { setCookie, isURL } from "@/utils/functions";
 import useUserStore from "@/store/user";
 import { encrypt } from "@/utils/encrypt";
 import { ElMessage } from "element-plus";
-import globalConfig from "@/config/website";
+import { globalConfig } from "@/config";
 
 const formRef = ref();
 const route = useRoute();

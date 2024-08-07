@@ -1,4 +1,4 @@
-import { menu } from "./menu";
+import globalConfig from "./global";
 import { regex } from "./regex";
 
-export { menu, regex };
+export { globalConfig, regex };
