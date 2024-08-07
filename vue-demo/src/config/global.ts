@@ -92,6 +92,20 @@ export default {
             img: "./assets/screenrecording.gif",
             description:
                 "桌面端系统，支持windows与macos，具体是用Electron实现的一个暹罗猫（我家小猫）同步跟随键盘每一个按键打字，同时张嘴吐小花花，每隔5s会眨眼一次，可拖拽修改位置。点击跳转github，欢迎下载体验!",
+            download: [
+                {
+                    name: "windows 无需安装可直接运行包",
+                    url: "https://le-zi.cn/cat-win32-x64.zip",
+                },
+                {
+                    name: "windows 安装包",
+                    url: "https://le-zi.cn/cat-1.0.0-setup.zip",
+                },
+                {
+                    name: "macos 安装包",
+                    url: "https://le-zi.cn/cat-1.0.0-full.zip",
+                },
+            ],
         },
         {
             name: "peer",

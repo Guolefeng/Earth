@@ -11,6 +11,7 @@ import Tag from "./Tag/index.vue";
 import Collapse from "./Collapse/index.vue";
 import CollapseItem from "./Collapse/Item.vue";
 import Menu from "./Menu/index.vue";
+import SvgIcon from "./SvgIcon/index.vue";
 
 export {
     DynamicForm,
@@ -22,4 +23,5 @@ export {
     Collapse,
     CollapseItem,
     Menu,
+    SvgIcon,
 };

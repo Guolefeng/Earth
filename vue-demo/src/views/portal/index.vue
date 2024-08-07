@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import userComponent from "@/layout/User.vue";
 import defaultImg from "@/assets/images/defaultImg.png";
-import { isURL } from "@/utils/functions";
+import { isURL, download } from "@/utils/functions";
 import { globalConfig } from "@/config";
 
 const router = useRouter();
@@ -29,6 +29,12 @@ const onMenuClick = (item: any) => {
     } else {
         router.push({ path: "/login" });
     }
+};
+
+const onDownload = (e: Event, url: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    download("file", url);
 };
 </script>
 
@@ -64,6 +70,22 @@ const onMenuClick = (item: any) => {
                     </div>
                     <div v-if="item.description" class="appcenter-item-desc">
                         {{ item.description }}
+                    </div>
+                    <div
+                        v-if="item.download?.length"
+                        class="appcenter-item-download"
+                    >
+                        <span
+                            v-for="d in item.download"
+                            :key="d.url"
+                            @click="(e: Event) => onDownload(e, d.url)"
+                            class="appcenter-item-download-item"
+                        >
+                            <el-icon><Download /></el-icon>
+                            <span class="appcenter-item-download-name">{{
+                                d.name
+                            }}</span>
+                        </span>
                     </div>
                 </div>
                 <el-empty v-if="!globalConfig.portalApps.length" />
@@ -164,7 +186,7 @@ const onMenuClick = (item: any) => {
             color: #1a1c21;
         }
         &-desc {
-            padding: 5px 20px 20px 20px;
+            padding: 5px 20px 0 20px;
             font-family: Microsoft YaHei;
             font-size: 12px;
             font-weight: 600;
@@ -172,6 +194,26 @@ const onMenuClick = (item: any) => {
             letter-spacing: 0px;
             color: #3d4265;
             text-align: justify;
+        }
+        &-download {
+            display: flex;
+            flex-direction: column;
+            padding: 5px 20px 0;
+            font-size: 12px;
+            &-item {
+                .fvc();
+                color: #3d4265;
+                cursor: pointer;
+                border-radius: 2px;
+            }
+            &-item:hover {
+                color: @theme-color;
+                background: @border-color;
+            }
+            .el-icon {
+                margin-right: 8px;
+                top: 1px;
+            }
         }
     }
     &-item:hover {

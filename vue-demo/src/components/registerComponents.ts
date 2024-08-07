@@ -16,6 +16,7 @@ export function registerUIComponents(app: App) {
     app.component("ui-search-input", UIComponent.SearchInput);
     app.component("ui-table", UIComponent.Table);
     app.component("ui-tag", UIComponent.Tag);
+    app.component("ui-icon", UIComponent.SvgIcon);
     app.component("biz-crudpage", BizComponent.CRUDPage);
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
         app.component(key, component);
