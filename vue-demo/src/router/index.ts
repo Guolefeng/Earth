@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { globalConfig } from "@/config";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,9 +48,33 @@ const router = createRouter({
                     },
                 },
                 {
-                    path: "test1",
-                    name: "测试1",
-                    component: () => import("@/views/test1/index.vue"),
+                    path: "/canvas",
+                    name: "canvas",
+                    component: () => import("@/views/canvas/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
+                {
+                    path: "/svg",
+                    name: "svg",
+                    component: () => import("@/views/svg/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
+                {
+                    path: "/three",
+                    name: "three",
+                    component: () => import("@/views/three/index.vue"),
+                    meta: {
+                        viewtag: true,
+                    },
+                },
+                {
+                    path: "curd",
+                    name: "增删改查",
+                    component: () => import("@/views/curd/index.vue"),
                     meta: {
                         viewtag: true,
                     },
@@ -72,7 +97,7 @@ const router = createRouter({
                 },
                 {
                     path: "/",
-                    redirect: "/home",
+                    redirect: globalConfig.fistPage.path,
                 },
             ],
         },

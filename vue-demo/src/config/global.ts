@@ -3,7 +3,7 @@
  */
 export default {
     // 系统标题
-    title: "测试中心",
+    title: "Demo",
     // 系统logo
     logo: "./logo.svg",
     // 系统首页
@@ -26,8 +26,20 @@ export default {
             name: "首页",
         },
         {
+            index: "/canvas",
+            name: "canvas",
+        },
+        {
+            index: "/svg",
+            name: "svg",
+        },
+        {
+            index: "/three",
+            name: "three",
+        },
+        {
             name: "增删改查",
-            index: "/test1",
+            index: "/curd",
         },
         {
             name: "测试2",
