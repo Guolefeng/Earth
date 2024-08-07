@@ -81,7 +81,7 @@ const onDownload = (e: Event, url: string) => {
                             @click="(e: Event) => onDownload(e, d.url)"
                             class="appcenter-item-download-item"
                         >
-                            <el-icon><Download /></el-icon>
+                            <ui-icon name="download" />
                             <span class="appcenter-item-download-name">{{
                                 d.name
                             }}</span>
@@ -210,9 +210,12 @@ const onDownload = (e: Event, url: string) => {
                 color: @theme-color;
                 background: @border-color;
             }
-            .el-icon {
+            .uisvgicon {
                 margin-right: 8px;
-                top: 1px;
+                fill: #3d4265;
+            }
+            &-item:hover .uisvgicon {
+                fill: @theme-color;
             }
         }
     }

@@ -6,6 +6,7 @@ import ElementPlus from "element-plus";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import { registerUIComponents } from "./components/registerComponents";
 import notify from "./plugins/notify";
+import "virtual:svg-icons-register";
 import "./styles/base.less";
 
 const app = createApp(App);

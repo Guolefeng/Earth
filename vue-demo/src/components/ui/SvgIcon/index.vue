@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
     <svg class="uisvgicon">
-        <use :href="'#' + name"></use>
+        <use :href="'#icon-' + name"></use>
     </svg>
 </template>
 
