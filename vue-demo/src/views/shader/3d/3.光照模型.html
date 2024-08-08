@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="sketch"></div>
+    <script src="https://unpkg.com/kokomi.js@1.9.78/build/kokomi.umd.js"></script>
+    <script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
+    <script>
+        class Sketch extends kokomi.Base {
+          create() {
+            this.camera.position.set(0, 0, 5);
+            new kokomi.OrbitControls(this);
+            const geometry = new THREE.TorusKnotGeometry(1.2, 0.4, 128, 32);
+            // const geometry = new THREE.SphereGeometry(2, 64, 64);
+            // const material = new THREE.MeshBasicMaterial({
+            //     color: "#ffffff",
+            // });
+            // const geometry = new THREE.PlaneGeometry(4, 4);
+            
+            // 冯氏光照模型
+            const phongMaterial = new THREE.ShaderMaterial({
+                vertexShader: `
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+                    varying vec3 vNormal;
+                    varying vec3 vWorldPosition;
+
+                    void main() {
+                        // // mvp矩阵 三维世界的物体如何通过相机投射到二维平面的过程
+                        // // 模型
+                        // vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                        // // 视图
+                        // vec4 viewPosition = viewMatrix * modelPosition;
+                        // // 投影
+                        // vec4 projectedPosition = projectionMatrix * viewPosition;
+                        // gl_Position = projectedPosition;
+
+                        vec3 p = position;
+                        gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(p, 1.0);
+
+                        vUv = uv;
+                        vNormal = normal;
+                        vWorldPosition=vec3(modelMatrix*vec4(p,1));
+                    }
+                `,
+                fragmentShader: `
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+                    varying vec3 vNormal;
+                    varying vec3 vWorldPosition;
+
+                    void main() {
+                        vec2 uv = vUv;
+                        // 一位叫“裴祥风”的图形学学者提出了“冯氏光照模型”这一概念，后来得到了图形学界的普遍采用。
+                        // 它主要由 3 种光照组成：环境光、漫反射、镜面反射
+
+                        // 结果颜色col为黑色（因为还没有光）
+                        vec3 col=vec3(0.);
+                        // 物体的基础颜色objectColor为白色
+                        vec3 objectColor=vec3(1.);
+                        // 光照颜色lightColor为亮红色
+                        vec3 lightColor=vec3(.875,.286,.333);
+
+                        // ============ 环境光 ============
+                        // 环境光是指物体表面受到来自周围环境光源的光照，这种光照均匀地分布在物体的表面上。
+                        
+                        // 光照强度
+                        float ambIntensity=.2;
+                        // 环境光ambient是光照颜色与环境光照强度的乘积
+                        vec3 ambient = lightColor*ambIntensity;
+                        // 将环境光和物体颜色相乘，与输出颜色相加，就得到了光照影响后的物体
+                        col += ambient * objectColor;
+
+                        // ============ 漫反射 ============
+                        // 漫反射是指光源照射到物体表面后，光线被物体表面反射，反射光线会向所有方向散射的现象。
+                        // 当光线照射至物体表面时，会和法向量N（法向量就是与物体表面垂直的向量）形成一个夹角θ，这个夹角叫入射角。
+                        // 入射角越大，光线强度越小；反之，入射角越小，光线强度越大；
+                        // 当入射角为 0 时，光线和法向量方向会重叠，此时光照直射物体，强度是最大的
+
+                        // 要获得漫反射光，大致需要这几个步骤：
+
+                        // 1. 获取法向量N。       这个变量其实在顶点着色器里已经有了，叫normal，把它传递给片元着色器就要用到varying变量。
+                        vec3 normal = vNormal;
+
+                        // 2. 获取光线的方向向量。
+                        // 光线的方向向量lightDir等于光线位置lightPos与片元位置vWorldPosition的差，而且结果需要用normalize函数来归一化。
+                        vec3 lightPos = vec3(10.,10.,10.);
+                        vec3 lightDir = normalize(lightPos - vWorldPosition);
+
+                        // 3. 计算漫反射因子。
+                        // 漫反射因子，也就是漫反射的强度，跟入射角θ有关，而且它们是成反比例关系的，因此我们用入射角的余弦值来作为漫反射因子。
+                        // 在数学中，我们可以通过求 2 个向量的点积，来计算它们夹角的余弦值，GLSL有一个内置函数dot，能计算 2 个数的点积，
+                        // 我们用它来计算法向量与光线的方向向量的余弦值。
+                        float diff = dot(vNormal,lightDir);
+                        // 这里要注意的一点是：当角度大于 90 度时，余弦函数的值会变成负数，为了避免出现负数，可以用max函数来确保值不小于 0。
+                        diff = max(diff, 0.);
+
+                        // 4. 计算漫反射光。
+                        // 所有的量都齐全了，只要把光照颜色与漫反射因子相乘，就能获得漫反射光照了，将光照和物体颜色相乘，与输出颜色相加，就得到了光照影响后的物体。
+                        vec3 diffuse = lightColor * diff;
+                        col += diffuse * objectColor;
+
+                        // ============ 镜面反射 ============
+                        // 镜面反射是指光源照射到物体表面后，光线被物体表面反射，反射光线呈现出明亮的高光点的现象。
+
+                        // 跟漫反射类似，镜面反射也是跟法向量和光照方向有关系的，只不过多了个眼睛的方向。
+                        // 同时，镜面反射也取决于物体自身的属性，比如镜子，它的表面非常光滑，可以让光线同时往一个方向聚焦。
+
+                        // 要获得镜面反射光，大致需要这几个步骤：
+
+                        // 1. 获取反射光的方向向量。
+                        // GLSL中，reflect函数能算出反射光的向量，它接受 2 个参数：入射光方向向量和法向量。
+                        vec3 reflectDir = reflect(-lightDir,vNormal);
+                        // reflect函数的第一个参数要求的方向是光照指向片元，但我们之前计算的光照方向lightDir是片元指向光照，因此我们要把它的方向给反过来，符号取反就行了。
+
+                        // 2. 获取眼睛的方向向量。
+                        // 眼睛的方向向量viewDir等于眼睛位置cameraPosition减去片元的位置vWorldPosition，结果也要归一化。
+                        vec3 viewDir = normalize(cameraPosition - vWorldPosition);
+
+                        // 3. 计算镜面高光因子。
+                        // 跟之前的漫反射因子计算类似，我们要计算反射光的方向向量与眼睛的方向向量的点积，同时要确保值不能是负数。
+                        float spec = dot(viewDir, reflectDir);
+                        spec = max(spec, 0.);
+                        float shininess=32.;
+                        spec=pow(spec,shininess);
+
+                        // 4. 计算镜面反射光。
+                        // 所有的量都齐全了，只要把光照颜色与镜面高光因子相乘，就能获得镜面反射光照了，将光照和物体颜色相乘，与输出颜色相加，就得到了光照影响后的物体。
+                        vec3 specular = lightColor * spec;
+                        col += specular * objectColor;
+
+                        gl_FragColor = vec4(col, 1.0);
+                    }
+                `,
+            });
+            
+            // Blinn-Phong光照模型，是由 Jim Blinn 提出的冯氏光照模型的改进版模型
+            // 先要计算出一个半程向量halfVec，它是光照方向的向量lightDir和眼睛的方向向量viewDir相加并归一化后得到的值。
+            // 镜面高光因子的计算也变了，要算出法向量与半程向量的点积。
+            const blinnPhongMaterial = new THREE.ShaderMaterial({
+                vertexShader: `
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+                    varying vec3 vNormal;
+                    varying vec3 vWorldPosition;
+
+                    void main() {
+                        // // mvp矩阵 三维世界的物体如何通过相机投射到二维平面的过程
+                        // // 模型
+                        // vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                        // // 视图
+                        // vec4 viewPosition = viewMatrix * modelPosition;
+                        // // 投影
+                        // vec4 projectedPosition = projectionMatrix * viewPosition;
+                        // gl_Position = projectedPosition;
+
+                        vec3 p = position;
+                        gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(p, 1.0);
+
+                        vUv = uv;
+                        vNormal = normal;
+                        vWorldPosition=vec3(modelMatrix*vec4(p,1));
+                    }
+                `,
+                fragmentShader: `
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+                    varying vec3 vNormal;
+                    varying vec3 vWorldPosition;
+
+                    void main() {
+                        vec2 uv = vUv;
+
+                        // 结果颜色col为黑色（因为还没有光）
+                        vec3 col=vec3(0.);
+                        // 物体的基础颜色objectColor为白色
+                        vec3 objectColor=vec3(1.);
+                        // 光照颜色lightColor为亮红色
+                        vec3 lightColor=vec3(.875,.286,.333);
+
+                        // ============ 环境光 ============
+                        float ambIntensity=.2;
+                        vec3 ambient = lightColor*ambIntensity;
+                        col += ambient * objectColor;
+
+                        // ============ 漫反射 ============
+                        vec3 normal = vNormal;
+                        vec3 lightPos = vec3(10.,10.,10.);
+                        vec3 lightDir = normalize(lightPos - vWorldPosition);
+                        float diff = dot(vNormal,lightDir);
+                        diff = max(diff, 0.);
+                        vec3 diffuse = lightColor * diff;
+                        col += diffuse * objectColor;
+
+                        // ============ 镜面反射 ============
+                        vec3 reflectDir = reflect(-lightDir,vNormal);
+                        vec3 viewDir = normalize(cameraPosition - vWorldPosition);
+                        // float spec=dot(viewDir,reflectDir);
+                        vec3 halfVec = normalize(lightDir + viewDir);
+                        float spec = dot(vNormal, halfVec);
+
+                        spec = max(spec, 0.);
+                        float shininess = 32.;
+                        spec=pow(spec, shininess);
+                        vec3 specular = lightColor * spec;
+                        col += specular * objectColor;
+
+                        gl_FragColor = vec4(col, 1.0);
+                    }
+                `,
+            });
+
+            // IBL镜面反射是一种基于环境贴图的反射技术，其中IBL的全称是Image-Based Lighting，也就是基于图像的光照，这里的图像指的就是环境贴图。
+            const envmap = new THREE.CubeTextureLoader().load([
+                "https://s2.loli.net/2022/09/29/X8TDZROlUo6uAyG.png",
+                "https://s2.loli.net/2022/09/29/KYEJ9ylQNIe6h4R.png",
+                "https://s2.loli.net/2022/09/29/GqseLg6tWoluDzV.png",
+                "https://s2.loli.net/2022/09/29/LUk8P21MJG6AtNF.png",
+                "https://s2.loli.net/2022/09/29/4BO1JHoM3phFCb7.png",
+                "https://s2.loli.net/2022/09/29/5NvAxfCVqlKFRZU.png",
+            ]);
+            const iblMaterial = new THREE.ShaderMaterial({
+                vertexShader: `
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+                    varying vec3 vNormal;
+                    varying vec3 vWorldPosition;
+
+                    void main() {
+                        // // mvp矩阵 三维世界的物体如何通过相机投射到二维平面的过程
+                        // // 模型
+                        // vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                        // // 视图
+                        // vec4 viewPosition = viewMatrix * modelPosition;
+                        // // 投影
+                        // vec4 projectedPosition = projectionMatrix * viewPosition;
+                        // gl_Position = projectedPosition;
+
+                        vec3 p = position;
+                        gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(p, 1.0);
+
+                        vUv = uv;
+                        // vNormal = normal;
+                        // 法向量修复
+                        vNormal=(modelMatrix*vec4(normal,0.)).xyz;
+                        vWorldPosition=vec3(modelMatrix*vec4(p,1));
+                    }
+                `,
+                fragmentShader: `
+                    uniform samplerCube iChannel0;
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+                    varying vec3 vNormal;
+                    varying vec3 vWorldPosition;
+
+                    // 菲涅尔反射是指光源照射到物体表面后，光线一部分发生反射，一部分进入物体内部，发生折射或散射的现象。
+                    // 计算现实世界中的菲涅尔反射是相当复杂的，因此我们将使用一个菲涅尔近似等式来计算它，它的代码实现如下：
+                    float fresnel(float bias,float scale,float power,vec3 I,vec3 N)
+                    {
+                        return bias+scale*pow(1.-dot(I,N),power);
+                    }
+
+
+                    void main() {
+                        vec2 uv = vUv;
+                        vec3 normal = normalize(vNormal);
+
+                        // 结果颜色col为黑色（因为还没有光）
+                        vec3 col=vec3(0.);
+                        // 物体的基础颜色objectColor为白色
+                        vec3 objectColor=vec3(1.);
+                        // 光照颜色lightColor为亮红色
+                        vec3 lightColor=vec3(.875,.286,.333);
+
+                        // ============ 环境光 ============
+                        float ambIntensity=.2;
+                        vec3 ambient = lightColor*ambIntensity;
+                        col += ambient * objectColor;
+
+                        // ============ 漫反射 ============
+                        vec3 lightPos = vec3(10.,10.,10.);
+                        vec3 lightDir = normalize(lightPos - vWorldPosition);
+                        float diff = dot(normal,lightDir);
+                        diff = max(diff, 0.);
+                        vec3 diffuse = lightColor * diff;
+                        col += diffuse * objectColor;
+
+                        // ============ 镜面反射 ============
+                        vec3 reflectDir = reflect(-lightDir,normal);
+                        vec3 viewDir = normalize(cameraPosition - vWorldPosition);
+                        // float spec=dot(viewDir,reflectDir);
+                        vec3 halfVec = normalize(lightDir + viewDir);
+                        float spec = dot(normal, halfVec);
+
+                        spec = max(spec, 0.);
+                        float shininess = 32.;
+                        spec=pow(spec, shininess);
+                        vec3 specular = lightColor * spec;
+                        col += specular * objectColor;
+
+                        // IBL
+                        float iblIntensity=.2;
+                        // 先算出反射光的方向向量iblCoord，这里的入射光方向参数就用眼睛的方向向量viewDir，法向量用normal，结果要归一化
+                        vec3 iblCoord=normalize(reflect(-viewDir,normal));
+                        // 用texture函数来对环境贴图iChannel0进行采样，坐标就选反射光的方向向量iblCoord，取前三个分量赋给ibl变量。
+                        vec3 ibl=texture(iChannel0,iblCoord).xyz;
+                        // 将ibl变量与定义好的光照强度iblIntensity相乘，就得到了IBL镜面反射光iblLight。
+                        vec3 iblLight=ibl*iblIntensity;
+                        // 将IBL镜面反射光iblLight与输出颜色相加，就得到了光照影响后的物体
+                        col+=iblLight*objectColor;
+
+                        // fresnel
+                        // 定义菲涅尔光照颜色fresColor
+                        vec3 fresColor=vec3(1.);
+                        // 菲涅尔光照强度fresIntensity
+                        float fresIntensity=.6;
+                        // 用fresnel函数计算出菲涅尔因子，bias一般固定是 0，scale和power可以根据需要自由调整，I传眼睛的方向向量viewDir，N传法向量normal。
+                        float fres=fresnel(0.,1.,5.,viewDir,normal);
+                        // 将菲涅尔因子、菲涅尔光照颜色和菲涅尔光照强度三者相乘，就得到了菲涅尔光照。
+                        vec3 fresLight=fres*fresColor*fresIntensity;
+                        // 将菲涅尔光照与输出颜色相加，就得到了光照影响后的物体。
+                        col+=fresLight*objectColor;
+                        
+                        gl_FragColor = vec4(col, 1.0);
+                    }
+                `,
+                uniforms: {
+                    iChannel0: {
+                        value: envmap,
+                    }
+                }
+            });
+
+            const uj = new kokomi.UniformInjector(this);
+            phongMaterial.uniforms = {
+                ...phongMaterial.uniforms,
+                ...uj.shadertoyUniforms,
+            }
+            blinnPhongMaterial.uniforms = {
+                ...blinnPhongMaterial.uniforms,
+                ...uj.shadertoyUniforms,
+            }
+            iblMaterial.uniforms = {
+                ...iblMaterial.uniforms,
+                ...uj.shadertoyUniforms,
+            }
+
+            // const mesh = new THREE.Mesh(geometry, phongMaterial);
+            // const mesh = new THREE.Mesh(geometry, blinnPhongMaterial);
+            const mesh = new THREE.Mesh(geometry, iblMaterial);
+            
+            this.scene.add(mesh);
+
+            this.update(() => {
+                uj.injectShadertoyUniforms(phongMaterial.uniforms);
+                uj.injectShadertoyUniforms(blinnPhongMaterial.uniforms);
+                uj.injectShadertoyUniforms(iblMaterial.uniforms);
+
+                const t = this.clock.elapsedTime;
+                mesh.rotation.y = 0.2 * t;
+            });
+          }
+        }
+      
+        const sketch = new Sketch("#sketch");
+        sketch.create();
+      </script>
+      
+</body>
+</html>

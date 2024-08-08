@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="sketch"></div>
+    <script src="https://unpkg.com/kokomi.js@1.9.78/build/kokomi.umd.js"></script>
+    <script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
+    <script>
+        class Sketch extends kokomi.Base {
+          create() {
+            this.camera.position.set(0, 0, 5);
+            new kokomi.OrbitControls(this);
+            const geometry = new THREE.SphereGeometry(2, 64, 64);
+            // const material = new THREE.MeshBasicMaterial({
+            //     color: "#ffffff",
+            // });
+            // const geometry = new THREE.PlaneGeometry(4, 4);
+            const material = new THREE.ShaderMaterial({
+                vertexShader: `
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+
+
+                    void main() {
+                        // // mvp矩阵 三维世界的物体如何通过相机投射到二维平面的过程
+                        // // 模型
+                        // vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                        // // 视图
+                        // vec4 viewPosition = viewMatrix * modelPosition;
+                        // // 投影
+                        // vec4 projectedPosition = projectionMatrix * viewPosition;
+                        // gl_Position = projectedPosition;
+
+                        vec3 p = position;
+                        gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(p, 1.0);
+                        vUv = uv;
+                    }
+                `,
+                fragmentShader: `
+                    uniform float iTime;
+                    uniform vec3 iResolution;
+                    uniform vec4 iMouse;
+
+                    varying vec2 vUv;
+
+                    void main() {
+                        vec2 uv = vUv;
+                        gl_FragColor = vec4(uv, 0.0, 1.0);
+                    }
+                `,
+            });
+            const uj = new kokomi.UniformInjector(this);
+            material.uniforms = {
+                ...material.uniforms,
+                ...uj.shadertoyUniforms,
+            }
+            this.update(() => {
+                uj.injectShadertoyUniforms(material.uniforms);
+            });
+            
+            const mesh = new THREE.Mesh(geometry, material);
+            this.scene.add(mesh);
+          }
+        }
+      
+        const sketch = new Sketch("#sketch");
+        sketch.create();
+      </script>
+      
+</body>
+</html>
