@@ -1,5 +1,5 @@
-import * as kokomi from "kokomi.js";
 import * as THREE from "three";
+import * as kokomi from "@/three";
 
 import testObjectVertShader from "../shader/testObject/vert.glsl";
 import testObjectFragShader from "../shader/testObject/frag.glsl";
@@ -11,6 +11,12 @@ export default class TestObject extends kokomi.Component {
 
     constructor(base: kokomi.Base) {
         super(base);
+
+        const params = {
+            uDistort: {
+                value: 1,
+            },
+        };
 
         const geometry = new THREE.SphereGeometry(2, 64, 64);
         // const material = new THREE.MeshBasicMaterial({
@@ -27,9 +33,22 @@ export default class TestObject extends kokomi.Component {
         material.uniforms = {
             ...material.uniforms,
             ...this.uj.shadertoyUniforms,
+            ...params,
         };
 
         this.material = material;
+
+        // @ts-ignore
+        const debug = this.base.debug;
+        if (debug.active) {
+            const debugFolder = debug.ui.addFolder("testObject");
+            debugFolder
+                .add(params.uDistort, "value")
+                .min(0)
+                .max(10)
+                .step(0.01)
+                .name("distort");
+        }
     }
 
     addExisting() {
