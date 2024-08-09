@@ -7,6 +7,8 @@ declare module "*.vue" {
     export default component;
 }
 
+declare module "*.glsl";
+
 interface Window {
     Cesium: any;
     CesiumViewer: any;

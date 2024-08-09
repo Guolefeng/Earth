@@ -1,7 +1,14 @@
 import * as THREE from "three";
 import { InteractionManager } from "three.interactive";
 import type { EffectComposer } from "three-stdlib";
-import { Animator, Clock, Physics, Resizer, IMouse, Keyboard } from "../components";
+import {
+    Animator,
+    Clock,
+    Physics,
+    Resizer,
+    IMouse,
+    Keyboard,
+} from "../components";
 export interface BaseConfig {
     hello: boolean;
     gl: THREE.WebGLRendererParameters;
@@ -33,5 +40,6 @@ declare class Base {
     render(): void;
     saveScreenshot(name?: string): Promise<void>;
     destroy(): void;
+    [key: string]: any;
 }
 export { Base };
