@@ -7,6 +7,7 @@ import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import { resolve } from "path";
 import cesium from "vite-plugin-cesium";
 import path from "path";
+import glsl from "vite-plugin-glsl";
 
 // https://vitejs.dev/config/
 export default ({ mode }: any) =>
@@ -21,6 +22,7 @@ export default ({ mode }: any) =>
                 symbolId: "icon-[dir]-[name]",
                 inject: "body-first",
             }),
+            glsl(),
         ],
         base: "/",
         resolve: {
